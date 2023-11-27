@@ -6,11 +6,13 @@ import LandingPage from './pages/LandingPage';
 import BlogPage from './pages/BlogPage';
 import PhotoPage from './pages/PhotoPage';
 import MenuBar from './components/MenuBar'; // Import the new MenuBar component
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   return (
     <Router>
       <div className="App">
+      <Analytics />
         <MenuBar /> {/* Use the MenuBar component */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
