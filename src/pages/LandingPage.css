@@ -1,0 +1,73 @@
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px; /* Adjust the margin as needed */
+    transition: transform 0.3s ease-in-out; /* Add transition for smooth animation */
+}
+
+.icon-wrapper:hover {
+    transform: translateY(-10px); /* Move up on hover */
+    transition: transform 0.1s ease-in; /* Quicker transition when moving mouse off */
+}
+/* src/Pages/LandingPage.css */
+.landing-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+  }
+  /* src/Pages/LandingPage.css */
+/* src/Pages/LandingPage.css */
+.solutions-engineer-outline {
+    position: relative; /* Needed for absolute positioning of the tooltip */
+    border: 1px dotted #f5f5f5;
+    border-radius: 8px;
+    padding: 2px 6px;
+    transition: transform 0.3s ease; /* Smooth transition for moving up */
+    cursor: pointer; /* Indicates an interactive element */
+  }
+  
+  .solutions-engineer-outline:hover {
+    transform: translateY(-5px); /* Moves the text up on hover */
+  }
+  
+  /* Tooltip styling */
+  .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #f5f5f5;
+    color: #282c34;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -110px; /* Centers the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  
+  .solutions-engineer-outline:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+

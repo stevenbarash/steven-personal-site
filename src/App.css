@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+/* src/App.css */
+.mobile-menu {
+  display: flex;
+  justify-content: space-around;
+  background-color: #333;
+  padding: 10px;
+}
+
+.mobile-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Responsive menu bar */
+@media (max-width: 768px) {
+  .mobile-menu {
+    flex-direction: column;
+  }
+}
