@@ -24,7 +24,10 @@ const LandingPage = () => {
       {/* This div contains the actual content */}
       <div>
         {/* This div contains the actual content */}
-        <h1>Hey! I'm Steven Barash</h1>
+        <img src="./images/me.png" height={200} alt="me" />
+        <div className="intro-container">
+          <h1 className="intro">Hey! I'm Steven Barash</h1>
+        </div>
         <h5>
           I'm a{" "}
           <span className="solutions-engineer-outline">

@@ -1,7 +1,11 @@
 import React from 'react';
-
+import InstagramEmbed from "../components/InstagramEmbed"
 const PhotoPage = () => {
-  return <div>Photography content goes here</div>;
+  return (
+  
+
+    <InstagramEmbed url="https://www.instagram.com/steven.photography"/>
+  )
 };
 
 export default PhotoPage;

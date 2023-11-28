@@ -71,3 +71,40 @@
     opacity: 1;
   }
 
+  a:visited {
+    color: inherit; /* This will make visited links use the inherited color */
+}
+
+/* Keyframes for the typing effect */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Keyframes for the blinking cursor effect */
+@keyframes blink-cursor {
+  from, to { border-color: transparent; }
+  50% { border-color: black; }
+}
+
+/* Apply the typing animation to the .intro element */
+.intro {
+  font-family: 'Courier New', Courier, monospace; /* Gives it a console-like font */
+  overflow: hidden; /* Ensures the content is clipped */
+  white-space: nowrap; /* Keeps the text in a single line */
+  border-right: 3px solid black; /* Represents the cursor */
+  width: 100%; /* Full width to keep the text visible after animation */
+  display: inline-block; /* Allows the width to affect the element */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  animation: typing 3.5s steps(40, end) forwards, /* Animation will pause after finishing */
+             blink-cursor 0.75s step-end infinite;
+  text-align: center; /* Centers the text */
+}
+
+/* Center the .intro container */
+.intro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; Full viewport height */
+}

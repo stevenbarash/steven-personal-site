@@ -8,8 +8,10 @@
     "@testing-library/user-event": "^14.5.1",
     "@vercel/analytics": "^1.1.1",
     "contentful": "^10.6.12",
+    "i18next": "^23.7.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^13.5.0",
     "react-router-dom": "^6.20.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^3.5.0"
