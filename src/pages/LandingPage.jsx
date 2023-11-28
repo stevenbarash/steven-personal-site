@@ -18,41 +18,34 @@ const socialMediaButtons = [
   },
 ];
 
+// LandingPage component using Bulma CSS
 const LandingPage = () => {
   return (
-    <div className="landing-page-container">
-      {/* This div contains the actual content */}
-      <div>
-        {/* This div contains the actual content */}
-        <img src="./images/me.png" height={200} alt="me" />
-        <div className="intro-container">
-          <h1 className="intro">Hey! I'm Steven Barash</h1>
-        </div>
-        <h5>
-          I'm a{" "}
-          <span className="solutions-engineer-outline">
-            Solutions Engineer{" "}
-            {/* <span className="tooltip-text">
-              Read blog post: What the heck is a Solutions Engineer?
-            </span> */}
-          </span>
-          at <a href="https://www.okta.com">Okta</a> and photographer based in
-          Brooklyn, NY 🗽
-        </h5>
-        <p>Follow me here:</p>
-        <div className="icon-container">
-          {socialMediaButtons.map((button, index) => (
-            <a className="icon-wrapper" key={index} href={button.linkUrl}>
-              <img
-                className="icon"
-                src={button.iconUrl}
-                alt="Social Media Icon"
-              />
-            </a>
-          ))}
+    <section className="section has-background-dark"> {/* Use has-background-dark for a dark background */}
+      <div className="container">
+        <div className="columns is-centered">
+          <div className="column is-half has-text-centered">
+            <figure className="image is-128x128 is-inline-block">
+              <img className="is-rounded" src="./images/me.png" alt="me" />
+            </figure>
+            <h1 className="title has-text-light">Hey! I'm Steven</h1> {/* Use has-text-light for light text */}
+            <h2 className="subtitle has-text-light">
+              I'm a Solutions Engineer at <a href="https://www.okta.com" className="has-text-info">Okta</a> and photographer based in Brooklyn, NYC 🗽
+            </h2>
+            <p className="has-text-light">Follow me here:</p> {/* Use has-text-light for light text */}
+            <div className="buttons is-centered">
+              {socialMediaButtons.map((button, index) => (
+                <a key={index} className="button is-dark is-inverted" href={button.linkUrl}> {/* Use is-dark and is-inverted for legible buttons */}
+                  <span className="icon">
+                    <img src={button.iconUrl} alt="Social Media Icon" />
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

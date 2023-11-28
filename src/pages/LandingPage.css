@@ -75,6 +75,8 @@
     color: inherit; /* This will make visited links use the inherited color */
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+
 /* Keyframes for the typing effect */
 @keyframes typing {
   from { width: 0; }
@@ -89,22 +91,41 @@
 
 /* Apply the typing animation to the .intro element */
 .intro {
-  font-family: 'Courier New', Courier, monospace; /* Gives it a console-like font */
+  font-family: 'Ubuntu Mono', monospace; /* Use Ubuntu Mono font */
   overflow: hidden; /* Ensures the content is clipped */
   white-space: nowrap; /* Keeps the text in a single line */
   border-right: 3px solid black; /* Represents the cursor */
-  width: 100%; /* Full width to keep the text visible after animation */
+  width: 0; /* Start with a width of 0 */
   display: inline-block; /* Allows the width to affect the element */
-  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  /* box-sizing: border-box; Ensures padding and border are included in the width */
+  /* Adjust the step count (40) to match the number of characters in your text */
   animation: typing 3.5s steps(40, end) forwards, /* Animation will pause after finishing */
-             blink-cursor 0.75s step-end infinite;
-  text-align: center; /* Centers the text */
+             blink-cursor 0.75s step-end infinite; /* Cursor blink effect */
 }
 
 /* Center the .intro container */
 .intro-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   /* height: 100vh; Full viewport height */
+}
+
+/* Stop the cursor from blinking after the typing animation */
+.intro::after {
+  content: '|';
+  animation: blink-cursor 0.75s step-end infinite;
+  margin-left: 2px; /* Small space between the text and cursor */
+}
+
+/* After the typing animation, keep the cursor static */
+@keyframes hide-cursor {
+  to { opacity: 0; }
+}
+
+/* Add this to stop the cursor after the typing animation */
+.intro:hover::after,
+.intro::after {
+  animation: hide-cursor 0.5s forwards;
+  animation-delay: 3.5s; /* Same as the typing animation duration */
 }
