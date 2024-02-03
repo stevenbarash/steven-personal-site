@@ -30,7 +30,7 @@ const LandingPage = () => {
             </figure>
             <h1 className="title has-text-light">Hey! I'm Steven</h1> {/* Use has-text-light for light text */}
             <h2 className="subtitle has-text-light">
-              I'm a Solutions Engineer at <a href="https://www.okta.com" className="has-text-info">Okta</a> and photographer based in Brooklyn, NYC 🗽
+              I'm a Sr. Solutions Engineer at <a href="https://www.id.me" className="has-text-info">ID.me</a> and photographer based in Brooklyn, NYC 🗽
             </h2>
             <p className="has-text-light">Follow me here:</p> {/* Use has-text-light for light text */}
             <div className="buttons is-centered">
