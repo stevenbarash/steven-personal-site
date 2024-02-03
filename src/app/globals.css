@@ -88,3 +88,9 @@ body {
     flex-direction: column;
   }
 }
+
+.logo {
+  width: 75px; /* Adjust this to be twice the current size */
+  height: auto; /* This will keep the aspect ratio the same */
+  padding: 1px; /* Adjust this to be less than the current padding */
+}

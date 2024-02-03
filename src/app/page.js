@@ -1,6 +1,7 @@
 // pages/index.js
 import Head from "next/head";
 import Image from "next/image";
+import MenuBar from "../components/menubar";
 const socialMediaButtons = [
   {
     iconUrl:    
@@ -23,13 +24,14 @@ const socialMediaButtons = [
 export default function Home() {
   return (
     <>
+    <MenuBar/>
       <Head>
         <title>Steven&apos;s Homepage</title>
       </Head>
       <section className="bg-gray-900 h-screen flex items-center justify-center">
         <div className="container mx-auto">
           <div className="flex justify-center">
-            <div className="w-1/2 text-center">
+            <div className="text-center">
               <figure className="inline-block">
                 <Image
                   className="rounded-full w-32 h-32"
