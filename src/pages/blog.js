@@ -20,6 +20,8 @@
 //     );
 // }
 
+import MenuBar from "../components/menubar";
+
 // export async function getStaticProps() {
 //     const postsDirectory = path.join(process.cwd(), 'Posts');
 //     const filenames = fs.readdirSync(postsDirectory);
@@ -49,6 +51,7 @@
 // }
 
 export default function Blog() {
+    <MenuBar/>
     return (
         <div>
             <h1>Under Construction</h1>
