@@ -19,7 +19,6 @@
 //         </div>
 //     );
 // }
-
 import MenuBar from "../components/menubar";
 
 // export async function getStaticProps() {
@@ -54,7 +53,6 @@ export default function Blog() {
     <MenuBar/>
     return (
         <div>
-            <h1>Under Construction</h1>
         </div>
     );
 }

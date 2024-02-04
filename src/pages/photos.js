@@ -6,6 +6,7 @@ const Photos = () => {
     <div>
       <MenuBar/>
       <h1>Photos</h1>
+
       {/* Add your photo gallery or content here */}
     </div>
   );
