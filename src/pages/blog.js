@@ -6,15 +6,14 @@
 //     return (
 //         <div>
 //             <MenuBar/>
-//             <h1>Blog Posts</h1>
 //             <ul>
-//                 {posts.map((post) => (
+//                 {/* {posts.map((post) => (
 //                     <li key={post.slug}>
 //                         <Link href={`/posts/${post.slug}`}>
 //                             <a>{post.title}</a>
 //                         </Link>
 //                     </li>
-//                 ))}
+//                 ))} */}
 //             </ul>
 //         </div>
 //     );
@@ -50,9 +49,11 @@ import MenuBar from "../components/menubar";
 // }
 
 export default function Blog() {
-    <MenuBar/>
     return (
         <div>
+                <MenuBar/>
+
+
         </div>
     );
 }

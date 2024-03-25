@@ -28,23 +28,23 @@ export default function Home() {
       <Head>
         <title>Steven&apos;s Homepage</title>
       </Head>
-      <section className="bg-gray-900 h-screen flex items-center justify-center">
+      <section className="bg-white h-screen flex items-center justify-center">
         <div className="container mx-auto">
           <div className="flex justify-center">
             <div className="text-center">
               <figure className="inline-block">
                 <Image
                   className="rounded-full w-32 h-32"
-                  src="/images/me.png"
+                  src="/images/me.jpg"
                   alt="me"
                   width="150"
                   height="150"
                 />
               </figure>
-              <h1 className="text-white text-4xl font-bold">
+              <h1 className="text-black text-4xl font-bold">
                 Hey! I&apos;m Steven
               </h1>
-              <h2 className="text-white text-2xl">
+              <h2 className="text-black text-2xl">
                 I&apos;m a Sr. Solutions Engineer at{" "}
                 <a href="https://www.id.me" className="text-blue-500">
                   ID.me
@@ -56,7 +56,7 @@ export default function Home() {
                 {socialMediaButtons.map((button, index) => (
                   <a
                     key={index}
-                    className="bg-gray-800 text-white rounded p-2"
+                    className="bg-black-800 text-white rounded p-2"
                     href={button.linkUrl}
                   >
                     <span className="icon">
