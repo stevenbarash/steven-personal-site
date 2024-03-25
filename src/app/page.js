@@ -2,24 +2,26 @@
 import Head from "next/head";
 import Image from "next/image";
 import MenuBar from "../components/menubar";
+import { Linkedin, Github, Instagram, Threads } from 'react-bootstrap-icons';
 const socialMediaButtons = [
   {
-    iconUrl:    
-    "/images/linkedin.png",
+    Icon: Linkedin,
     linkUrl: "https://www.linkedin.com/in/stevenbarash",
   },
+  
   {
-    iconUrl:
-    "/images/x.png",
-    linkUrl: "https://twitter.com/steven_barash",
+    Icon: Github,
+    linkUrl: "https://github.com/stevenbarash",
   },
   {
-    iconUrl:
-      "/images/ig.png",
+    Icon: Instagram,
     linkUrl: "https://www.instagram.com/steven.photography",
   },
+  {
+    Icon: Threads,
+    linkUrl: "https://www.threads.net/stevenbarash",
+  },
 ];
-
 // LandingPage component using Tailwind CSS
 export default function Home() {
   return (
@@ -56,19 +58,10 @@ export default function Home() {
                 {socialMediaButtons.map((button, index) => (
                   <a
                     key={index}
-                    className="bg-black-800 text-white rounded p-2"
+                    className="bg-black-800 text-black rounded p-2"
                     href={button.linkUrl}
                   >
-                    <span className="icon">
-                      <Image
-                        className="w-6 h-6"
-                        src={button.iconUrl}
-                        alt="Social Media Icon"
-                        width="50"
-                        height="50"
-      
-                      />
-                    </span>
+                    <button.Icon size={28} />
                   </a>
                 ))}
               </div>
