@@ -3,94 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --primary: #627146;
+  --secondary: #A9B18F;
+  --accent: #D4C9A8;
+  --background: #F5F3EF;
+  --text: #2C3E50;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--text);
+  background-color: var(--background);
+}
+
+@layer base {
+  html {
+    @apply text-[var(--text)];
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .bg-primary {
+    background-color: var(--primary);
   }
-}
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .bg-secondary {
+    background-color: var(--secondary);
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .bg-accent {
+    background-color: var(--accent);
   }
-  to {
-    transform: rotate(360deg);
+  .text-primary {
+    color: var(--primary);
   }
-}
-/* src/App.css */
-.mobile-menu {
-  display: flex;
-  justify-content: space-around;
-  background-color: #333;
-  padding: 10px;
-}
-
-.mobile-menu a {
-  color: white;
-  text-decoration: none;
-}
-
-/* Responsive menu bar */
-@media (max-width: 768px) {
-  .mobile-menu {
-    flex-direction: column;
+  .text-secondary {
+    color: var(--secondary);
   }
-}
-
-.logo {
-  width: 75px; /* Adjust this to be twice the current size */
-  height: auto; /* This will keep the aspect ratio the same */
-  padding: 1px; /* Adjust this to be less than the current padding */
+  .text-accent {
+    color: var(--accent);
+  }
 }

@@ -12,7 +12,17 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+      },
+      colors: {
+        // ... (other colors)
+        offwhite: '#F5F5F5', // You can adjust this hex code to your preferred shade of off-white
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 };
