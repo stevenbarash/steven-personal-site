@@ -22,11 +22,11 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <Image
-              className="rounded-full w-48 h-48 mx-auto mb-8 shadow-lg"
+              className="rounded-full w-64 h-64 mx-auto mb-8 shadow-lg"
               src="/images/me.jpg"
               alt="Steven Barash"
-              width={192}
-              height={192}
+              width={256}
+              height={256}
             />
             <h1 className="text-primary text-4xl font-bold mb-4">
               Hey! I&apos;m Steven
