@@ -22,6 +22,9 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    'text-offwhite',
+  ],
   plugins: [
     require('@tailwindcss/aspect-ratio'),
   ],

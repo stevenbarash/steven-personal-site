@@ -48,7 +48,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button.Icon size={24} className="text-offwhite" />
+                  <button.Icon size={24} style={{ color: '#F5F5F5' }} />
                 </a>
               ))}
             </div>
