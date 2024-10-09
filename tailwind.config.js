@@ -16,10 +16,6 @@ module.exports = {
         sans: ['Inter', 'sans-serif'],
         serif: ['Merriweather', 'serif'],
       },
-      colors: {
-        // ... (other colors)
-        offwhite: '#F5F5F5', // You can adjust this hex code to your preferred shade of off-white
-      },
     },
   },
   plugins: [
