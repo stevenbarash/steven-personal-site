@@ -33,8 +33,8 @@ export default function Home() {
             </h1>
             <h2 className="text-text text-xl mb-6">
               Sr. Solutions Engineer at{" "}
-              <a href="https://www.id.me" className="text-primary hover:text-secondary underline transition-colors duration-300">
-                ID.me
+              <a href="https://www.descope.com" className="text-primary hover:text-secondary underline transition-colors duration-300">
+                Descope
               </a>{" "}
               and photographer based in Brooklyn, NYC 🗽
             </h2>
