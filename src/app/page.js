@@ -1,13 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
 import MenuBar from "../components/menubar";
-import { Linkedin, Github, Instagram, Threads } from 'react-bootstrap-icons';
+import { Linkedin, Github, Instagram, X } from 'react-bootstrap-icons';
 
 const socialMediaButtons = [
   { Icon: Linkedin, linkUrl: "https://www.linkedin.com/in/stevenbarash" },
   { Icon: Github, linkUrl: "https://github.com/stevenbarash" },
   { Icon: Instagram, linkUrl: "https://www.instagram.com/steven.photography" },
-  { Icon: Threads, linkUrl: "https://www.threads.net/stevenbarash" },
+  { Icon: X, linkUrl: "https://www.x.com/steven_barash" },
 ];
 
 export default function Home() {
