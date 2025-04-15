@@ -23,7 +23,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center">
             <Image
               className="rounded-full w-64 h-64 mx-auto mb-8 shadow-lg"
-              src="/images/me.jpg"
+              src="/images/me.png"
               alt="Steven Barash"
               width={256}
               height={256}
