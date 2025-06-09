@@ -38,7 +38,7 @@ export default function Home() {
               </a>{" "}
               and photographer based in Brooklyn, NYC 🗽
             </h2>
-            <p className="text-text mb-4">Follow me here:</p>
+            <p className="text-text mb-4">You can find me here:</p>
             <div className="flex justify-center space-x-4">
               {socialMediaButtons.map((button, index) => (
                 <a
