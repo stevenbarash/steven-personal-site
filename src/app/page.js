@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <Head>
         <title>Steven Barash - Sr. Solutions Engineer & Photographer</title>
-        <meta name="description" content="Steven Barash - Sr. Solutions Engineer at ID.me and photographer based in Brooklyn, NYC" />
+        <meta name="description" content="Steven Barash - Sr. Solutions Engineer at Descope and photographer based in Brooklyn, NYC" />
       </Head>
       {/* <MenuBar /> */}
       <main className="bg-background min-h-screen flex items-center justify-center py-12">
@@ -23,7 +23,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center">
             <Image
               className="rounded-full w-64 h-64 mx-auto mb-8 shadow-lg"
-              src="/images/me.png"
+              src="/images/me.jpg"
               alt="Steven Barash"
               width={256}
               height={256}
