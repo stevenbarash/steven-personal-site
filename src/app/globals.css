@@ -1,11 +1,63 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --primary: #627146;
-  --secondary: #A9B18F;
-  --accent: #D4C9A8;
-  --background: #F5F3EF;
+  --primary: oklch(0.205 0 0);
+  --secondary: oklch(0.97 0 0);
+  --accent: oklch(0.97 0 0);
   --text: #2C3E50;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --destructive-foreground: oklch(1.0000 0 0);
+  --font-sans: DM Sans, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: Space Mono, monospace;
+  --shadow-color: hsl(0 0% 0%);
+  --shadow-opacity: 1;
+  --shadow-blur: 0px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 4px;
+  --shadow-offset-y: 4px;
+  --letter-spacing: 0em;
+  --spacing: 0.25rem;
+  --shadow-2xs: 4px 4px 0px 0px hsl(0 0% 0% / 0.50);
+  --shadow-xs: 4px 4px 0px 0px hsl(0 0% 0% / 0.50);
+  --shadow-sm: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 1px 2px -1px hsl(0 0% 0% / 1.00);
+  --shadow: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 1px 2px -1px hsl(0 0% 0% / 1.00);
+  --shadow-md: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 2px 4px -1px hsl(0 0% 0% / 1.00);
+  --shadow-lg: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 4px 6px -1px hsl(0 0% 0% / 1.00);
+  --shadow-xl: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 8px 10px -1px hsl(0 0% 0% / 1.00);
+  --shadow-2xl: 4px 4px 0px 0px hsl(0 0% 0% / 2.50);
+  --tracking-normal: 0em;
 }
 
 body {
@@ -16,6 +68,9 @@ body {
 @layer base {
   html {
     @apply text-[var(--text)];
+  }
+  body {
+    letter-spacing: var(--tracking-normal);
   }
 }
 
@@ -37,5 +92,390 @@ body {
   }
   .text-accent {
     color: var(--accent);
+  }
+}
+
+/* Windows 95 Specific Styles */
+.win95-button {
+  background: linear-gradient(135deg, #ffffff 0%, #c0c0c0 50%, #a0a0a0 100%);
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    1px 1px 0px 0px rgba(0,0,0,1);
+  transition: all 0.1s ease;
+}
+
+.win95-button:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #d4d0c8 50%, #c0c0c0 100%);
+}
+
+.win95-button:active {
+  background: linear-gradient(135deg, #a0a0a0 0%, #808080 50%, #606060 100%);
+  box-shadow: 
+    inset 2px 2px 0px 0px rgba(0,0,0,1),
+    0px 0px 0px 0px rgba(255,255,255,1);
+  transform: translate(1px, 1px);
+}
+
+.win95-window {
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    2px 2px 0px 0px rgba(0,0,0,1);
+}
+
+.win95-title-bar {
+  background: linear-gradient(90deg, #000080 0%, #0000a0 100%);
+  border: 2px solid #000000;
+  border-bottom: 1px solid #000000;
+  box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.5);
+}
+
+.win95-menu-bar {
+  background: #c0c0c0;
+  border-bottom: 2px solid #000000;
+  box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,1);
+}
+
+.win95-menu-item {
+  background: #c0c0c0;
+  border: 1px solid transparent;
+  box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,1);
+  transition: all 0.1s ease;
+}
+
+.win95-menu-item:hover {
+  background: #000080;
+  color: white;
+  border: 1px solid #000000;
+}
+
+.win95-content {
+  background: white;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    2px 2px 0px 0px rgba(0,0,0,1);
+}
+
+.win95-taskbar {
+  background: #c0c0c0;
+  border-top: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    0px -2px 0px 0px rgba(0,0,0,1);
+}
+
+.win95-icon {
+  background: white;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    2px 2px 0px 0px rgba(0,0,0,1);
+  transition: all 0.1s ease;
+}
+
+.win95-icon:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    1px 1px 0px 0px rgba(0,0,0,1);
+}
+
+.win95-icon:active {
+  transform: translate(2px, 2px);
+  box-shadow: 
+    inset 2px 2px 0px 0px rgba(255,255,255,1),
+    0px 0px 0px 0px rgba(0,0,0,1);
+}
+
+.win95-terminal {
+  background: #000000;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    2px 2px 0px 0px rgba(0,0,0,1);
+  font-family: 'Courier New', monospace;
+}
+
+.win95-tab {
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  border-bottom: 1px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    1px 1px 0px 0px rgba(0,0,0,1);
+  transition: all 0.1s ease;
+}
+
+.win95-tab:hover {
+  background: #d4d0c8;
+}
+
+.win95-tab-active {
+  background: white;
+  border: 2px solid #000000;
+  border-bottom: 2px solid white;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    1px 1px 0px 0px rgba(0,0,0,1);
+}
+
+/* Windows 95 Scrollbar */
+.win95-scrollbar {
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    1px 1px 0px 0px rgba(0,0,0,1);
+}
+
+.win95-scrollbar-thumb {
+  background: #808080;
+  border: 1px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,0.5),
+    1px 1px 0px 0px rgba(0,0,0,0.5);
+}
+
+.win95-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* Windows 95 Focus States */
+.win95-focus {
+  outline: 2px solid #000080;
+  outline-offset: 2px;
+}
+
+/* Windows 95 Selection */
+.win95-selection {
+  background: #000080;
+  color: white;
+}
+
+/* Windows 95 Disabled State */
+.win95-disabled {
+  background: #c0c0c0;
+  color: #808080;
+  border: 2px solid #808080;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,0.5),
+    1px 1px 0px 0px rgba(0,0,0,0.5);
+}
+
+/* Windows 95 Desktop Icon */
+.win95-desktop-icon {
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.1s ease;
+}
+
+.win95-desktop-icon:hover {
+  background: #000080;
+  color: white;
+  border: 1px solid #000080;
+}
+
+.win95-desktop-icon:active {
+  background: #0000a0;
+  border: 1px solid #0000a0;
+}
+
+/* Windows 95 Dialog */
+.win95-dialog {
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(255,255,255,1),
+    4px 4px 0px 0px rgba(0,0,0,1);
+}
+
+/* Windows 95 Input */
+.win95-input {
+  background: white;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(0,0,0,0.5),
+    1px 1px 0px 0px rgba(255,255,255,1);
+  padding: 2px 4px;
+  font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+  font-size: 11px;
+}
+
+.win95-input:focus {
+  outline: 2px solid #000080;
+  outline-offset: 1px;
+}
+
+/* Windows 95 List */
+.win95-list {
+  background: white;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(0,0,0,0.5),
+    1px 1px 0px 0px rgba(255,255,255,1);
+}
+
+.win95-list-item {
+  padding: 2px 4px;
+  border-bottom: 1px solid #c0c0c0;
+  transition: background-color 0.1s ease;
+}
+
+.win95-list-item:hover {
+  background: #000080;
+  color: white;
+}
+
+.win95-list-item:active {
+  background: #0000a0;
+}
+
+/* Windows 95 Progress Bar */
+.win95-progress {
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  box-shadow: 
+    inset 1px 1px 0px 0px rgba(0,0,0,0.5),
+    1px 1px 0px 0px rgba(255,255,255,1);
+  height: 20px;
+  overflow: hidden;
+}
+
+.win95-progress-bar {
+  background: linear-gradient(90deg, #000080 0%, #0000a0 100%);
+  height: 100%;
+  transition: width 0.3s ease;
+  box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.3);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: DM Sans, sans-serif;
+  --font-mono: Space Mono, monospace;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --radius: 0px;
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+  --tracking-normal: var(--tracking-normal);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-md: var(--shadow-md);
+  --shadow: var(--shadow);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-2xs: var(--shadow-2xs);
+  --spacing: var(--spacing);
+  --letter-spacing: var(--letter-spacing);
+  --shadow-offset-y: var(--shadow-offset-y);
+  --shadow-offset-x: var(--shadow-offset-x);
+  --shadow-spread: var(--shadow-spread);
+  --shadow-blur: var(--shadow-blur);
+  --shadow-opacity: var(--shadow-opacity);
+  --color-shadow-color: var(--shadow-color);
+  --color-destructive-foreground: var(--destructive-foreground);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+  --destructive-foreground: oklch(0 0 0);
+  --radius: 0px;
+  --font-sans: DM Sans, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: Space Mono, monospace;
+  --shadow-color: hsl(0 0% 0%);
+  --shadow-opacity: 1;
+  --shadow-blur: 0px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 4px;
+  --shadow-offset-y: 4px;
+  --letter-spacing: 0em;
+  --spacing: 0.25rem;
+  --shadow-2xs: 4px 4px 0px 0px hsl(0 0% 0% / 0.50);
+  --shadow-xs: 4px 4px 0px 0px hsl(0 0% 0% / 0.50);
+  --shadow-sm: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 1px 2px -1px hsl(0 0% 0% / 1.00);
+  --shadow: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 1px 2px -1px hsl(0 0% 0% / 1.00);
+  --shadow-md: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 2px 4px -1px hsl(0 0% 0% / 1.00);
+  --shadow-lg: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 4px 6px -1px hsl(0 0% 0% / 1.00);
+  --shadow-xl: 4px 4px 0px 0px hsl(0 0% 0% / 1.00), 4px 8px 10px -1px hsl(0 0% 0% / 1.00);
+  --shadow-2xl: 4px 4px 0px 0px hsl(0 0% 0% / 2.50);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
