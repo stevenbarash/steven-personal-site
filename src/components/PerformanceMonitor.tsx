@@ -26,12 +26,13 @@ export const PerformanceMonitor = () => {
       // Track First Input Delay (FID)
       const fidObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
-          console.log('FID:', entry.processingStart - entry.startTime);
+        entries.forEach((entry: any) => {
+          const fid = entry.processingStart - entry.startTime;
+          console.log('FID:', fid);
           
           if (window.gtag) {
             window.gtag('event', 'FID', {
-              value: Math.round(entry.processingStart - entry.startTime),
+              value: Math.round(fid),
               event_category: 'Web Vitals',
             });
           }
