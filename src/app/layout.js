@@ -1,6 +1,6 @@
 import { Inter, Merriweather } from "next/font/google";
 import { ThemeProvider } from 'next-themes';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
