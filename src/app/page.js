@@ -1,45 +1,7 @@
-import Head from "next/head";
 import Image from "next/image";
-import MenuBar from "../components/menubar";
-import { Linkedin, Github, Instagram, TwitterX, Folder, FileText, Camera, Envelope, Play, Square, X, Dash } from 'react-bootstrap-icons';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Progress } from "@/components/ui/progress";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Linkedin, Github, Instagram, TwitterX, Square, X, Dash } from 'react-bootstrap-icons';
 
-const socialMediaButtons = [
-  { 
-    Icon: Linkedin, 
-    linkUrl: "https://www.linkedin.com/in/stevenbarash",
-    name: "LinkedIn",
-    description: "Connect with me professionally"
-  },
-  { 
-    Icon: Github, 
-    linkUrl: "https://github.com/stevenbarash",
-    name: "GitHub",
-    description: "Check out my code projects"
-  },
-  { 
-    Icon: Instagram, 
-    linkUrl: "https://www.instagram.com/steven.photography",
-    name: "Instagram",
-    description: "View my photography work"
-  },
-  { 
-    Icon: TwitterX, 
-    linkUrl: "https://www.x.com/steven_barash",
-    name: "Twitter/X",
-    description: "Follow my thoughts and updates"
-  },
-];
+
 
 const fileSystem = {
   "LinkedIn": {
@@ -64,22 +26,11 @@ const fileSystem = {
   }
 };
 
-const terminalCommands = [
-  { command: "whoami", output: "steven" },
-  { command: "pwd", output: "/home/steven" },
-  { command: "ls ~/projects", output: "descope-auth-demo/  photography-portfolio/  personal-site/" },
-  { command: "cat about.txt", output: "Sr. Solutions Engineer at Descope. Photography enthusiast. Brooklyn-based." },
-  { command: "echo $STATUS", output: "AVAILABLE_FOR_OPPORTUNITIES" }
-];
+
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Steven Barash - Sr. Solutions Engineer & Photographer</title>
-        <meta name="description" content="Steven Barash - Sr. Solutions Engineer at Descope and photographer based in Brooklyn, NYC" />
-      </Head>
-      
       <main className="bg-[#008080] min-h-screen p-4" style={{ 
         backgroundImage: 'url("data:image/svg+xml,%3Csvg width="20" height="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cdefs%3E%3Cpattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"%3E%3Cpath d="M 20 0 L 0 0 0 20" fill="none" stroke="%23000000" stroke-width="0.5" opacity="0.1"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%25" height="100%25" fill="url(%23grid)"/%3E%3C/svg%3E")'
       }}>

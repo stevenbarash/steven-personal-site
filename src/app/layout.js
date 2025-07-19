@@ -1,6 +1,7 @@
 import { Inter, Merriweather } from "next/font/google";
 import { ThemeProvider } from 'next-themes';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
         <body className="font-sans dark:bg-background-dark dark:text-text-dark">
           {children}
           <Analytics />
+          <SpeedInsights />
         </body>
       </ThemeProvider>
     </html>
