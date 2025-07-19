@@ -6,6 +6,10 @@ import { Windows95Layout } from '@/components/layout/Windows95Layout';
 import { ProfileSection } from '@/components/ui/win95';
 import { profileData, socialLinks, terminalCommands } from '@/data/profile';
 import { BACKGROUND_GRID } from '@/constants';
+import { SEOContent } from '@/components/SEOContent';
+import { StructuredData } from '@/components/StructuredData';
+import { SEOOptimizer } from '@/components/SEOOptimizer';
+import { GEOOptimizer } from '@/components/GEOOptimizer';
 
 // Lazy load heavy components for better performance
 const FileSystemExplorer = dynamic(() => import('@/components/ui/win95').then(mod => ({ default: mod.FileSystemExplorer })), {
@@ -25,6 +29,10 @@ const Taskbar = dynamic(() => import('@/components/ui/win95').then(mod => ({ def
 export default function Home() {
   return (
     <>
+      <SEOContent />
+      <StructuredData />
+      <SEOOptimizer />
+      <GEOOptimizer />
       <main 
         className="bg-[#008080] min-h-screen p-4" 
         style={{ 
