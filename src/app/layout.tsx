@@ -3,6 +3,7 @@ import { ThemeProvider } from 'next-themes';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const merriweather = Merriweather({ subsets: ["latin"], variable: '--font-merriweather', weight: ['300', '400', '700', '900'] });
@@ -12,7 +13,11 @@ export const metadata = {
   description: "Personal website of Steven Barash, Sr. Solutions Engineer at ID.me and photographer based in Brooklyn, NYC",
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={`${inter.variable} ${merriweather.variable}`}>
       <ThemeProvider attribute="class">
@@ -24,4 +29,4 @@ export default function RootLayout({ children }) {
       </ThemeProvider>
     </html>
   );
-}
+} 

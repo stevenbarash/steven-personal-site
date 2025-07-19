@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react"; // useState is used for managing the menu state
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from 'framer-motion'; // Added missing AnimatePresence import
+import { motion, AnimatePresence } from 'framer-motion';
 import DarkModeToggle from './DarkModeToggle';
 
 const MenuBar = () => {
-  const [isOpen, setIsOpen] = useState(false); // useState is used here
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -67,7 +67,13 @@ const MenuBar = () => {
   );
 };
 
-const NavLink = ({ href, text, mobile }) => (
+interface NavLinkProps {
+  href: string;
+  text: string;
+  mobile?: boolean;
+}
+
+const NavLink = ({ href, text, mobile }: NavLinkProps) => (
   <Link href={href}>
     <motion.a
       className={`${
@@ -83,4 +89,4 @@ const NavLink = ({ href, text, mobile }) => (
   </Link>
 );
 
-export default MenuBar;
+export default MenuBar; 

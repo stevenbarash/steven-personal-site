@@ -1,9 +1,17 @@
 import Image from "next/image";
 import { Linkedin, Github, Instagram, TwitterX, Square, X, Dash } from 'react-bootstrap-icons';
 
+interface FileSystemItem {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  content: string;
+  link: string;
+}
 
+interface FileSystem {
+  [key: string]: FileSystemItem;
+}
 
-const fileSystem = {
+const fileSystem: FileSystem = {
   "LinkedIn": {
     icon: Linkedin,
     content: "Connect with me professionally",
@@ -25,8 +33,6 @@ const fileSystem = {
     link: "https://www.x.com/steven_barash"
   }
 };
-
-
 
 export default function Home() {
   return (
@@ -121,20 +127,23 @@ export default function Home() {
                         EXPLORER - C:\STEVEN\
                       </div>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {Object.entries(fileSystem).map(([name, data], index) => (
-                          <a
-                            key={index}
-                            href={data.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="win95-icon p-3 cursor-pointer"
-                          >
-                            <div className="flex flex-col items-center space-y-2">
-                              <data.icon size={32} className="text-black" />
-                              <span className="text-xs font-mono font-bold text-black text-center">{name}</span>
-                            </div>
-                          </a>
-                        ))}
+                        {Object.entries(fileSystem).map(([name, data], index) => {
+                          const IconComponent = data.icon;
+                          return (
+                            <a
+                              key={index}
+                              href={data.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="win95-icon p-3 cursor-pointer"
+                            >
+                              <div className="flex flex-col items-center space-y-2">
+                                <IconComponent size={32} className="text-black" />
+                                <span className="text-xs font-mono font-bold text-black text-center">{name}</span>
+                              </div>
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -192,4 +201,4 @@ export default function Home() {
       </div>
     </>
   );
-}
+} 
