@@ -8,7 +8,6 @@ import { profileData, socialLinks, terminalCommands } from '@/data/profile';
 import { BACKGROUND_GRID } from '@/constants';
 import { SEOContent } from '@/components/SEOContent';
 import { StructuredData } from '@/components/StructuredData';
-import { SEOOptimizer } from '@/components/SEOOptimizer';
 import { GEOOptimizer } from '@/components/GEOOptimizer';
 
 // Lazy load heavy components for better performance
@@ -31,7 +30,6 @@ export default function Home() {
     <>
       <SEOContent />
       <StructuredData />
-      <SEOOptimizer />
       <GEOOptimizer />
       <main 
         className="bg-[#008080] min-h-screen p-4" 
