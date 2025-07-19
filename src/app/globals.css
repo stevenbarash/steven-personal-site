@@ -3,6 +3,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Critical CSS for above-the-fold content */
+@layer critical {
+  /* Ensure fonts load quickly */
+  .font-sans {
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Critical layout styles */
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
+  /* Critical Windows 95 styles for immediate rendering */
+  .win95-content {
+    background: white;
+    border: 2px solid #000000;
+    box-shadow: 
+      inset 1px 1px 0px 0px rgba(255,255,255,1),
+      2px 2px 0px 0px rgba(0,0,0,1);
+  }
+  
+  .win95-title-bar {
+    background: linear-gradient(90deg, #000080 0%, #0000a0 100%);
+    border: 2px solid #000000;
+    border-bottom: 1px solid #000000;
+    box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.5);
+  }
+}
+
 :root {
   --primary: oklch(0.205 0 0);
   --secondary: oklch(0.97 0 0);

@@ -1,7 +1,26 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import { Windows95Layout } from '@/components/layout/Windows95Layout';
-import { ProfileSection, FileSystemExplorer, Terminal, Taskbar } from '@/components/ui/win95';
+import { ProfileSection } from '@/components/ui/win95';
 import { profileData, socialLinks, terminalCommands } from '@/data/profile';
 import { BACKGROUND_GRID } from '@/constants';
+
+// Lazy load heavy components for better performance
+const FileSystemExplorer = dynamic(() => import('@/components/ui/win95').then(mod => ({ default: mod.FileSystemExplorer })), {
+  loading: () => <div className="win95-content p-4">Loading Explorer...</div>,
+  ssr: false
+});
+
+const Terminal = dynamic(() => import('@/components/ui/win95').then(mod => ({ default: mod.Terminal })), {
+  loading: () => <div className="win95-content p-4">Loading Terminal...</div>,
+  ssr: false
+});
+
+const Taskbar = dynamic(() => import('@/components/ui/win95').then(mod => ({ default: mod.Taskbar })), {
+  ssr: false
+});
 
 export default function Home() {
   return (
@@ -15,13 +34,21 @@ export default function Home() {
         <div className="container mx-auto">
           <Windows95Layout>
             <ProfileSection profile={profileData} />
-            <FileSystemExplorer socialLinks={socialLinks} />
-            <Terminal commands={terminalCommands} />
+            
+            <Suspense fallback={<div className="win95-content p-4">Loading Explorer...</div>}>
+              <FileSystemExplorer socialLinks={socialLinks} />
+            </Suspense>
+            
+            <Suspense fallback={<div className="win95-content p-4">Loading Terminal...</div>}>
+              <Terminal commands={terminalCommands} />
+            </Suspense>
           </Windows95Layout>
         </div>
       </main>
       
-      <Taskbar />
+      <Suspense fallback={null}>
+        <Taskbar />
+      </Suspense>
     </>
   );
 } 

@@ -28,4 +28,19 @@ export interface ProfileData {
 export interface TerminalCommand {
   command: string;
   output: string;
+}
+
+// Global gtag function for analytics
+declare global {
+  interface Window {
+    gtag: (
+      command: 'event',
+      eventName: string,
+      parameters: {
+        value?: number;
+        event_category?: string;
+        [key: string]: any;
+      }
+    ) => void;
+  }
 } 

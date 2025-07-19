@@ -1,5 +1,6 @@
 import { ProfileData } from '@/types';
 import { WINDOWS_95_STYLES } from '@/constants';
+import Image from 'next/image';
 
 interface ProfileSectionProps {
   profile: ProfileData;
@@ -10,15 +11,20 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
     <div className="win95-content p-4">
       <div className="flex items-center space-x-4">
         <div 
-          className="w-24 h-24 border-2 border-black bg-white p-1" 
+          className="w-24 h-24 border-2 border-black bg-white p-1 relative" 
           style={{
             boxShadow: WINDOWS_95_STYLES.contentShadow
           }}
         >
-          <img 
+          <Image 
             src={profile.imageUrl} 
             alt={profile.name} 
-            className="w-full h-full object-cover" 
+            fill
+            sizes="96px"
+            className="object-cover"
+            priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
         </div>
         <div className="flex-1">
