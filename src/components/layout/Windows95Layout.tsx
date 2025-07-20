@@ -8,6 +8,7 @@ interface Windows95LayoutProps {
   onMinimize?: () => void;
   onMaximize?: () => void;
   onClose?: () => void;
+  className?: string;
 }
 
 export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
@@ -15,10 +16,11 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
   title = APP_CONFIG.title,
   onMinimize,
   onMaximize,
-  onClose
+  onClose,
+  className = ""
 }) => {
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className={`max-w-6xl mx-auto ${className}`}>
       <WindowTitleBar
         title={title}
         onMinimize={onMinimize}
@@ -29,7 +31,7 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
       <div className="win95-window">
         <MenuBar />
         
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-6">
           {children}
         </div>
       </div>

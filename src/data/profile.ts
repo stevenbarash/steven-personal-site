@@ -41,7 +41,7 @@ export const socialLinks: SocialLink[] = [
 export const terminalCommands = [
   { command: "whoami", output: "steven" },
   { command: "pwd", output: "/home/steven" },
-  { command: "cat about.txt", output: profileData.description }
+  { command: "cat about.txt", output: "Sr. Solutions Engineer at Descope. Photography, tech, and languages (the human spoken kind) enthusiast. Brooklyn-based." }
 ];
 
 export const projects: Project[] = [
