@@ -3,11 +3,10 @@ import { Windows95Layout } from '@/components/layout/Windows95Layout';
 import { ProfileSection, ProjectsSection, FileSystemExplorer, Terminal, Taskbar } from '@/components/ui/win95';
 import { profileData, socialLinks, terminalCommands, projects } from '@/data/profile';
 import { BACKGROUND_GRID } from '@/constants';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default function Home() {
   return (
-    <ErrorBoundary>
+    <>
       <main 
         className="bg-[#008080] min-h-screen p-4 pb-20" 
         style={{ 
@@ -32,6 +31,6 @@ export default function Home() {
       </main>
       
       <Taskbar />
-    </ErrorBoundary>
+    </>
   );
 } 
