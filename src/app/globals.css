@@ -69,7 +69,7 @@
   --destructive-foreground: oklch(1.0000 0 0);
   --font-sans: DM Sans, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: Space Mono, monospace;
+  --font-mono: var(--font-space-mono), monospace;
   --shadow-color: hsl(0 0% 0%);
   --shadow-opacity: 1;
   --shadow-blur: 0px;

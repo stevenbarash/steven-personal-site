@@ -1,4 +1,4 @@
-import { Inter, Merriweather } from "next/font/google";
+import { Inter, Merriweather, Space_Mono } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -16,6 +16,14 @@ const merriweather = Merriweather({
   subsets: ["latin"], 
   variable: '--font-merriweather', 
   weight: ['300', '400', '700', '900'],
+  display: 'swap',
+  preload: true,
+});
+
+const spaceMono = Space_Mono({ 
+  subsets: ["latin"], 
+  variable: '--font-space-mono',
+  weight: ['400', '700'],
   display: 'swap',
   preload: true,
 });
@@ -157,7 +165,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweather.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${merriweather.variable} ${spaceMono.variable}`} suppressHydrationWarning>
       <head>
         {/* Preconnect to external domains for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
