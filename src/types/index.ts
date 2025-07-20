@@ -30,6 +30,16 @@ export interface TerminalCommand {
   output: string;
 }
 
+export interface Project {
+  name: string;
+  description: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  link: string;
+  category: 'web' | 'mobile' | 'photography' | 'other';
+  technologies?: string[];
+  featured?: boolean;
+}
+
 // Global gtag function for analytics
 declare global {
   interface Window {

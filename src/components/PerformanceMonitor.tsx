@@ -1,11 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const PerformanceMonitor = () => {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    // Track Core Web Vitals
+    setMounted(true);
+    
+    // Only run on client side after hydration
     if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
+      // Track Core Web Vitals
       // Track Largest Contentful Paint (LCP)
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
@@ -91,6 +96,11 @@ export const PerformanceMonitor = () => {
       };
     }
   }, []);
+
+  // Don't render anything during SSR or before hydration
+  if (!mounted) {
+    return null;
+  }
 
   return null; // This component doesn't render anything
 }; 
