@@ -3,7 +3,6 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { ReactNode } from "react";
-import { PerformanceMonitor } from '@/components/PerformanceMonitor';
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -198,7 +197,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {children}
         <Analytics />
         <SpeedInsights />
-        <PerformanceMonitor />
       </body>
     </html>
   );
