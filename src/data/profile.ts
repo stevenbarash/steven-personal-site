@@ -34,7 +34,7 @@ export const socialLinks: SocialLink[] = [
     name: "Twitter",
     icon: TwitterX,
     content: "Follow my thoughts and updates",
-    link: "https://www.x.com/steven_barash"
+    link: "https://www.x.com/stevenbarash"
   }
 ];
 
