@@ -35,7 +35,7 @@ export interface Project {
   description: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
   link: string;
-  category: 'web' | 'mobile' | 'photography' | 'other';
+  category: 'web' | 'mobile' | 'photography' | 'cli' | 'other' ;
   technologies?: string[];
   featured?: boolean;
 }
