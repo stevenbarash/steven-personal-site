@@ -1,4 +1,4 @@
-import { Linkedin, Github, Instagram, TwitterX, Globe, Camera, Code } from 'react-bootstrap-icons';
+import { Linkedin, Github, Instagram, TwitterX, Globe, Camera, Code, Bicycle } from 'react-bootstrap-icons';
 import { ProfileData, SocialLink, Project } from '@/types';
 
 export const profileData: ProfileData = {
@@ -61,6 +61,15 @@ export const projects: Project[] = [
     link: "https://github.com/stevenbarash/steven-personal-site",
     category: "web",
     technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+    featured: true
+  },
+  {
+    name: "bike-cli",
+    description: "Cycling utility CLI for weather guidance, Strava integration, training recommendations, and maintenance tracking",
+    icon: Bicycle,
+    link: "https://github.com/stevenbarash/bike-cli",
+    category: "cli",
+    technologies: ["Node.js", "JavaScript", "Strava API"],
     featured: true
   },
   {
