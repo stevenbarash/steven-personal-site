@@ -1,12 +1,4 @@
-export interface FileSystemItem {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
-  content: string;
-  link: string;
-}
-
-export interface FileSystem {
-  [key: string]: FileSystemItem;
-}
+export type WindowState = 'normal' | 'minimized' | 'maximized' | 'closed';
 
 export interface SocialLink {
   name: string;
@@ -35,22 +27,40 @@ export interface Project {
   description: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
   link: string;
-  category: 'web' | 'mobile' | 'photography' | 'cli' | 'other' ;
+  category: 'web' | 'mobile' | 'photography' | 'cli' | 'other';
   technologies?: string[];
   featured?: boolean;
 }
 
-// Global gtag function for analytics
-declare global {
-  interface Window {
-    gtag: (
-      command: 'event',
-      eventName: string,
-      parameters: {
-        value?: number;
-        event_category?: string;
-        [key: string]: any;
-      }
-    ) => void;
-  }
-} 
+export interface ResumeExperience {
+  company: string;
+  roles: {
+    title: string;
+    startDate: string;
+    endDate: string;
+    location: string;
+  }[];
+  bullets: string[];
+  companyUrl?: string;
+}
+
+export interface ResumeEducation {
+  institution: string;
+  degree: string;
+  field: string;
+  dates: string;
+}
+
+export interface ResumeData {
+  summary: string;
+  experience: ResumeExperience[];
+  education: ResumeEducation[];
+  skills: string[];
+  languages: { name: string; proficiency: string }[];
+  honors: string[];
+  contact: {
+    email: string;
+    linkedin: string;
+    website: string;
+  };
+}

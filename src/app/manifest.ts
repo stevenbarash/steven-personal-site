@@ -42,29 +42,7 @@ export default function manifest(): MetadataRoute.Manifest {
         label: 'Steven Barash Portfolio',
       },
     ],
-    shortcuts: [
-      {
-        name: 'About',
-        short_name: 'About',
-        description: 'Learn more about Steven Barash',
-        url: '/about',
-        icons: [{ src: '/images/sb-logo.svg', sizes: '96x96' }],
-      },
-      {
-        name: 'Portfolio',
-        short_name: 'Portfolio',
-        description: 'View photography portfolio',
-        url: '/portfolio',
-        icons: [{ src: '/images/sb-logo.svg', sizes: '96x96' }],
-      },
-      {
-        name: 'Contact',
-        short_name: 'Contact',
-        description: 'Get in touch with Steven',
-        url: '/contact',
-        icons: [{ src: '/images/sb-logo.svg', sizes: '96x96' }],
-      },
-    ],
+    shortcuts: [],
     related_applications: [
       {
         platform: 'webapp',

@@ -101,9 +101,7 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'your-google-verification-code',
-  },
+  verification: {},
   category: 'technology',
   classification: 'personal website',
   other: {
@@ -111,6 +109,8 @@ export const metadata = {
     'geo.placename': 'Brooklyn, New York',
     'geo.position': '40.7128;-74.0060',
     'ICBM': '40.7128, -74.0060',
+    'copyright': 'Steven Barash',
+    'language': 'English',
   },
 };
 
@@ -178,20 +178,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-          async
         />
-        
-        {/* Additional meta tags for better SEO */}
-        <meta name="author" content="Steven Barash" />
-        <meta name="copyright" content="Steven Barash" />
-        <meta name="language" content="English" />
-        <meta name="theme-color" content="#008080" />
-        
-        {/* Geo tags */}
-        <meta name="geo.region" content="US-NY" />
-        <meta name="geo.placename" content="Brooklyn, New York" />
-        <meta name="geo.position" content="40.7128;-74.0060" />
-        <meta name="ICBM" content="40.7128, -74.0060" />
       </head>
       <body className="font-sans" suppressHydrationWarning>
         {children}

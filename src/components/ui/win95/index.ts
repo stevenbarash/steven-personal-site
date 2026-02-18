@@ -4,4 +4,5 @@ export { ProfileSection } from './ProfileSection';
 export { FileSystemExplorer } from './FileSystemExplorer';
 export { ProjectsSection } from './ProjectsSection';
 export { Terminal } from './Terminal';
-export { Taskbar } from './Taskbar'; 
+export { Taskbar } from './Taskbar';
+export { StartMenu } from './StartMenu';

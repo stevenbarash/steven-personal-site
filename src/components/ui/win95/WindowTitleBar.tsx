@@ -1,55 +1,71 @@
-import { Dash, Square, X } from 'react-bootstrap-icons';
-import { WINDOWS_95_STYLES } from '@/constants';
-
 interface WindowTitleBarProps {
   title: string;
   onMinimize?: () => void;
   onMaximize?: () => void;
   onClose?: () => void;
+  isMaximized?: boolean;
 }
 
 export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
   title,
   onMinimize,
   onMaximize,
-  onClose
+  onClose,
+  isMaximized = false
 }) => {
   return (
-    <div className="win95-title-bar text-white px-2 py-1 flex items-center justify-between">
-      <div className="flex items-center space-x-2">
-        <div 
-          className="w-4 h-4 bg-white border border-black flex items-center justify-center" 
-          style={{
-            boxShadow: WINDOWS_95_STYLES.titleBarShadow
-          }}
-        >
-          <div className="w-2 h-2 bg-[#000080]"></div>
-        </div>
-        <span className="font-mono font-bold text-sm">{title}</span>
+    <div className="win95-title-bar" onDoubleClick={onMaximize}>
+      <div className="flex items-center gap-[4px]">
+        <img
+          src="/images/me.jpg"
+          alt=""
+          className="w-[16px] h-[16px] object-cover"
+        />
+        <span>{title}</span>
       </div>
-      <div className="flex space-x-1">
-        <button 
-          className="win95-button w-6 h-6 flex items-center justify-center"
+      <div
+        className="flex gap-[2px]"
+        onDoubleClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="win95-title-btn"
           onClick={onMinimize}
           aria-label="Minimize window"
         >
-          <Dash size={12} className="text-black" />
+          <svg width="8" height="7" viewBox="0 0 8 7" fill="none">
+            <rect x="0" y="5" width="6" height="2" fill="black" />
+          </svg>
         </button>
-        <button 
-          className="win95-button w-6 h-6 flex items-center justify-center"
+        <button
+          className="win95-title-btn"
           onClick={onMaximize}
-          aria-label="Maximize window"
+          aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
         >
-          <Square size={12} className="text-black" />
+          {isMaximized ? (
+            <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+              <rect x="2" y="0" width="7" height="7" fill="black" />
+              <rect x="3" y="2" width="5" height="4" fill="#c0c0c0" />
+              <rect x="0" y="2" width="7" height="7" fill="black" />
+              <rect x="1" y="4" width="5" height="4" fill="#c0c0c0" />
+            </svg>
+          ) : (
+            <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+              <rect x="0" y="0" width="9" height="9" fill="black" />
+              <rect x="1" y="2" width="7" height="6" fill="#c0c0c0" />
+            </svg>
+          )}
         </button>
-        <button 
-          className="win95-button w-6 h-6 flex items-center justify-center"
+        <button
+          className="win95-title-btn"
           onClick={onClose}
           aria-label="Close window"
         >
-          <X size={12} className="text-black" />
+          <svg width="8" height="7" viewBox="0 0 8 7" fill="none">
+            <line x1="0" y1="0" x2="8" y2="7" stroke="black" strokeWidth="1.5" />
+            <line x1="8" y1="0" x2="0" y2="7" stroke="black" strokeWidth="1.5" />
+          </svg>
         </button>
       </div>
     </div>
   );
-}; 
+};
