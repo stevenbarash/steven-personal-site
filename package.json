@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit --watch"
+    "type-check:watch": "tsc --noEmit --watch",
+    "import:instagram": "node scripts/import-instagram.mjs --username steven.photography --limit 36"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",

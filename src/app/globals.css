@@ -237,6 +237,7 @@ body {
   font-size: 11px;
   color: #000000;
   cursor: default;
+  background: transparent;
   border: 1px solid transparent;
   user-select: none;
 }
@@ -256,6 +257,11 @@ body {
     inset 1px 1px var(--win95-dark),
     inset -2px -2px var(--win95-light),
     inset 2px 2px var(--win95-shadow);
+}
+
+.win95-menu-item:focus-visible {
+  outline: 1px dotted #000000;
+  outline-offset: -3px;
 }
 
 /* Sunken content well (white background, for list views / explorers) */
@@ -643,7 +649,19 @@ body {
   color: #ffffff;
 }
 
+.win95-start-menu-item.is-focused,
+.win95-start-menu-item:focus-visible {
+  background: var(--win95-navy);
+  color: #ffffff;
+  outline: none;
+}
+
 .win95-start-menu-item:hover .win95-start-menu-icon {
+  color: #ffffff;
+}
+
+.win95-start-menu-item.is-focused .win95-start-menu-icon,
+.win95-start-menu-item:focus-visible .win95-start-menu-icon {
   color: #ffffff;
 }
 

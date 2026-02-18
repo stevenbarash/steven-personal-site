@@ -6,3 +6,4 @@ export { ProjectsSection } from './ProjectsSection';
 export { Terminal } from './Terminal';
 export { Taskbar } from './Taskbar';
 export { StartMenu } from './StartMenu';
+export { PhotographySection } from './PhotographySection';

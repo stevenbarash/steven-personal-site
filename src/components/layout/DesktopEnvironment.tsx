@@ -1,16 +1,39 @@
 'use client';
 
 import { useState, useCallback, ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { Windows95Layout } from '@/components/layout/Windows95Layout';
 import { Taskbar } from '@/components/ui/win95/Taskbar';
+import { APP_CONFIG } from '@/constants';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 import type { WindowState } from '@/types';
 
 interface DesktopEnvironmentProps {
   children: ReactNode;
+  title?: string;
+  activeProgram?: string;
+  defaultStatusText?: string;
+  statusPaneLabel?: string;
 }
 
-export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({ children }) => {
+const SECTION_STATUS_LABELS: Record<string, string> = {
+  'section-profile': 'Viewing profile details',
+  'section-projects': 'Viewing project portfolio',
+  'section-explorer': 'Browsing links explorer',
+  'section-terminal': 'Command prompt ready',
+};
+
+export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
+  children,
+  title = APP_CONFIG.title,
+  activeProgram = APP_CONFIG.activeProgram,
+  defaultStatusText = 'Ready',
+  statusPaneLabel = 'My Computer',
+}) => {
   const [windowState, setWindowState] = useState<WindowState>('normal');
+  const [statusText, setStatusText] = useState(defaultStatusText);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleMinimize = useCallback(() => {
     setWindowState('minimized');
@@ -65,18 +88,34 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({ children
       if (prev === 'minimized' || prev === 'closed') return 'normal';
       return prev;
     });
+    setStatusText(SECTION_STATUS_LABELS[sectionId] ?? defaultStatusText);
     setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 150);
-  }, []);
+  }, [defaultStatusText]);
 
+  const handleRouteNavigate = useCallback((path: string, sectionId?: string) => {
+    if (pathname !== path) {
+      const hash = sectionId ? `#${sectionId}` : '';
+      router.push(`${path}${hash}`);
+      return;
+    }
+
+    if (sectionId) {
+      handleNavigate(sectionId);
+    } else {
+      setStatusText(defaultStatusText);
+    }
+  }, [defaultStatusText, handleNavigate, pathname, router]);
+
+  const isDesktop = useIsDesktop();
   const isWindowVisible = windowState === 'normal' || windowState === 'maximized';
 
   return (
     <>
       <main
-        className={`min-h-screen pb-[40px] ${
+        className={`min-h-screen pb-[40px] relative ${
           windowState === 'maximized' ? 'p-0' : 'p-[8px]'
         }`}
         style={{ background: '#008080' }}
@@ -106,10 +145,17 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({ children
 
         {isWindowVisible && (
           <Windows95Layout
+            title={title}
             onMinimize={handleMinimize}
             onMaximize={handleMaximize}
             onClose={handleClose}
             isMaximized={windowState === 'maximized'}
+            isDesktop={isDesktop}
+            onNavigate={handleNavigate}
+            onRouteNavigate={handleRouteNavigate}
+            currentPath={pathname}
+            statusText={statusText}
+            statusPaneLabel={statusPaneLabel}
           >
             {children}
           </Windows95Layout>
@@ -121,6 +167,8 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({ children
         onTaskbarClick={handleTaskbarClick}
         onShutDown={handleShutDown}
         onNavigate={handleNavigate}
+        onRouteNavigate={handleRouteNavigate}
+        activeProgram={activeProgram}
       />
     </>
   );

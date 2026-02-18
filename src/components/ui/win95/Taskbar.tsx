@@ -11,6 +11,7 @@ interface TaskbarProps {
   onTaskbarClick?: () => void;
   onShutDown?: () => void;
   onNavigate?: (sectionId: string) => void;
+  onRouteNavigate?: (path: string, sectionId?: string) => void;
 }
 
 export const Taskbar: React.FC<TaskbarProps> = ({ 
@@ -19,6 +20,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   onTaskbarClick,
   onShutDown,
   onNavigate,
+  onRouteNavigate,
 }) => {
   const [time, setTime] = useState('');
   const [startMenuOpen, setStartMenuOpen] = useState(false);
@@ -55,6 +57,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
         onClose={handleStartMenuClose}
         onShutDown={onShutDown}
         onNavigate={onNavigate}
+        onRouteNavigate={onRouteNavigate}
       />
 
       <div className="flex items-center gap-[4px] h-[28px]">
@@ -97,7 +100,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 
         <div className="flex-1" />
 
-        <div className="win95-tray h-[20px]">
+        <div className="win95-tray h-[20px] hidden sm:flex">
           <span className="text-[11px] text-black">{time}</span>
         </div>
       </div>

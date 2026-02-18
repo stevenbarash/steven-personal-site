@@ -4,6 +4,7 @@ interface WindowTitleBarProps {
   onMaximize?: () => void;
   onClose?: () => void;
   isMaximized?: boolean;
+  onTitleBarDragStart?: (e: React.MouseEvent) => void;
 }
 
 export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
@@ -11,11 +12,15 @@ export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
   onMinimize,
   onMaximize,
   onClose,
-  isMaximized = false
+  isMaximized = false,
+  onTitleBarDragStart,
 }) => {
   return (
     <div className="win95-title-bar" onDoubleClick={onMaximize}>
-      <div className="flex items-center gap-[4px]">
+      <div
+        className={`flex items-center gap-[4px] flex-1 min-w-0 ${onTitleBarDragStart ? 'cursor-move' : 'cursor-default'}`}
+        onMouseDown={onTitleBarDragStart}
+      >
         <img
           src="/images/me.jpg"
           alt=""

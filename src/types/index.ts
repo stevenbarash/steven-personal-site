@@ -64,3 +64,16 @@ export interface ResumeData {
     website: string;
   };
 }
+
+export interface PhotoItem {
+  id: string;
+  title: string;
+  src: string;
+  alt: string;
+  album: string;
+  takenAt: string;
+  location: string;
+  camera: string;
+  width: number;
+  height: number;
+}
