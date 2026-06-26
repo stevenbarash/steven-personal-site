@@ -1,5 +1,15 @@
-import { Linkedin, Github, Instagram, TwitterX, Globe, Camera, Code, Bicycle } from 'react-bootstrap-icons';
-import { ProfileData, SocialLink, Project } from '@/types';
+import {
+  Linkedin,
+  Github,
+  Instagram,
+  TwitterX,
+  Globe,
+  Camera,
+  Code,
+  Bicycle,
+  Tv,
+} from "react-bootstrap-icons";
+import { ProfileData, SocialLink, Project } from "@/types";
 
 export const profileData: ProfileData = {
   name: "STEVEN BARASH",
@@ -7,8 +17,9 @@ export const profileData: ProfileData = {
   company: "DESCOPE",
   companyUrl: "https://www.descope.com",
   location: "Photographer • Brooklyn, NYC 🗽",
-  description: "Sr. Solutions Engineer at Descope. Photography, tech, and languages (the human spoken kind) enthusiast. Brooklyn-based.",
-  imageUrl: "/images/me.jpg"
+  description:
+    "Sr. Solutions Engineer at Descope. Photography, tech, and languages (the human spoken kind) enthusiast. Brooklyn-based.",
+  imageUrl: "/images/me.jpg",
 };
 
 export const socialLinks: SocialLink[] = [
@@ -16,69 +27,94 @@ export const socialLinks: SocialLink[] = [
     name: "LinkedIn",
     icon: Linkedin,
     content: "Connect with me professionally",
-    link: "https://www.linkedin.com/in/stevenbarash"
+    link: "https://www.linkedin.com/in/stevenbarash",
   },
   {
     name: "GitHub",
     icon: Github,
     content: "Check out my code projects",
-    link: "https://github.com/stevenbarash"
+    link: "https://github.com/stevenbarash",
   },
   {
     name: "Instagram",
     icon: Instagram,
     content: "View my photography work",
-    link: "https://www.instagram.com/steven.photography"
+    link: "https://www.instagram.com/steven.photography",
   },
   {
     name: "Twitter",
     icon: TwitterX,
     content: "Follow my thoughts and updates",
-    link: "https://www.x.com/stevenbarash"
-  }
+    link: "https://www.x.com/stevenbarash",
+  },
 ];
 
 export const terminalCommands = [
   { command: "whoami", output: "steven" },
   { command: "pwd", output: "/home/steven" },
-  { command: "cat about.txt", output: "Sr. Solutions Engineer at Descope. Photography, tech, and languages (the human spoken kind) enthusiast. Brooklyn-based." }
+  {
+    command: "cat about.txt",
+    output:
+      "Sr. Solutions Engineer at Descope. Photography, tech, and languages (the human spoken kind) enthusiast. Brooklyn-based.",
+  },
 ];
 
 export const projects: Project[] = [
   {
     name: "DialectFlow",
-    description: "LLM-powered tool that translates text into regional dialects and slang variations",
+    description:
+      "LLM-powered tool that translates text into regional dialects and slang variations",
     icon: Globe,
     link: "https://dialectflow.com",
     category: "web",
-    technologies: ["AI", "Next.js", "TypeScript", "Node.js", "React", "Descope"],
-    featured: true
+    technologies: [
+      "AI",
+      "Next.js",
+      "TypeScript",
+      "Node.js",
+      "React",
+      "Descope",
+    ],
+    featured: true,
   },
   {
     name: "Personal Website",
-    description: "This Windows 95-themed portfolio built with Next.js and TypeScript",
+    description:
+      "This Windows 95-themed portfolio built with Next.js and TypeScript",
     icon: Code,
     link: "https://github.com/stevenbarash/steven-personal-site",
     category: "web",
     technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
-    featured: true
+    featured: true,
+  },
+  {
+    name: "Pult",
+    description:
+      "Swift Google TV remote app built after losing the physical remote and getting tired of ad-heavy or paid alternatives. Pult (пульт) is 'remote' in Russian",
+    icon: Tv,
+    link: "https://github.com/stevenbarash/pult",
+    category: "mobile",
+    technologies: ["Swift"],
+    featured: true,
   },
   {
     name: "bike-cli",
-    description: "Cycling utility CLI for weather guidance, Strava integration, training recommendations, and maintenance tracking",
+    description:
+      "Cycling utility CLI for weather guidance, Strava integration, training recommendations, and maintenance tracking",
     icon: Bicycle,
     link: "https://github.com/stevenbarash/bike-cli",
     category: "cli",
     technologies: ["Node.js", "JavaScript", "Strava API"],
-    featured: true
+    featured: true,
   },
   {
     name: "Photography Portfolio",
-    description: "Collection of street photography and urban landscapes from NYC",
+    description:
+      "Collection of street photography and urban landscapes from NYC",
     icon: Camera,
     link: "https://www.instagram.com/steven.photography",
     category: "photography",
-    featured: false
+    featured: false,
   },
   {
     name: "Open Source Contributions",
@@ -87,6 +123,6 @@ export const projects: Project[] = [
     link: "https://github.com/stevenbarash",
     category: "other",
     technologies: ["JavaScript", "Python", "React"],
-    featured: false
-  }
-]; 
+    featured: false,
+  },
+];
