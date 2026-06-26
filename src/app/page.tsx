@@ -1,5 +1,8 @@
 import { DesktopEnvironment } from '@/components/layout/DesktopEnvironment';
-import { ProfileSection, ProjectsSection, FileSystemExplorer, Terminal } from '@/components/ui/win95';
+import { FileSystemExplorer } from '@/components/ui/win95/FileSystemExplorer';
+import { ProfileSection } from '@/components/ui/win95/ProfileSection';
+import { ProjectsSection } from '@/components/ui/win95/ProjectsSection';
+import { Terminal } from '@/components/ui/win95/Terminal';
 import { profileData, socialLinks, terminalCommands } from '@/data/profile';
 
 export default function Home() {

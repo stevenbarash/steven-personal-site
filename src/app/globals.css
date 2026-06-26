@@ -133,6 +133,26 @@ body {
 }
 
 /* Window outer frame - slightly different from regular raised */
+.win95-window-frame {
+  width: 100%;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.win95-window-frame--maximized {
+  max-width: none;
+  margin-inline: 0;
+}
+
+@media (min-width: 768px) {
+  .win95-window-frame--floating {
+    position: absolute;
+    left: var(--win95-window-left, 8px);
+    top: var(--win95-window-top, 8px);
+    margin-inline: 0;
+  }
+}
+
 .win95-window {
   background: var(--win95-bg);
   border: none;

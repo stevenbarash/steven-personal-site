@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { DesktopEnvironment } from '@/components/layout/DesktopEnvironment';
-import { PhotographySection } from '@/components/ui/win95';
+import { PhotographySection } from '@/components/ui/win95/PhotographySection';
 import { photoLibrary } from '@/data/photos';
 
 /** Set to true to render the photography page; when false, /photos redirects to home */

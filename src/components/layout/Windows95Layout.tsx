@@ -1,7 +1,9 @@
 'use client';
 
-import { ReactNode, useRef, useState, useCallback, useEffect } from 'react';
-import { WindowTitleBar, MenuBar } from '@/components/ui/win95';
+import type { CSSProperties, ReactNode } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
+import { MenuBar } from '@/components/ui/win95/MenuBar';
+import { WindowTitleBar } from '@/components/ui/win95/WindowTitleBar';
 import { APP_CONFIG } from '@/constants';
 
 const TASKBAR_HEIGHT = 40;
@@ -85,21 +87,19 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
     };
   }, [canDrag]);
 
-  const wrapperStyle =
-    canDrag
-      ? {
-          position: 'absolute' as const,
-          left: position.x,
-          top: position.y,
-          width: '100%',
-          maxWidth: '56rem',
-        }
-      : undefined;
+  const wrapperStyle = !isMaximized
+    ? ({
+        '--win95-window-left': `${position.x}px`,
+        '--win95-window-top': `${position.y}px`,
+      } as CSSProperties)
+    : undefined;
 
   return (
     <div
       ref={windowRef}
-      className={`${isMaximized ? 'w-full' : 'max-w-4xl'} ${canDrag ? '' : 'mx-auto'} ${className}`}
+      className={`win95-window-frame ${
+        isMaximized ? 'win95-window-frame--maximized' : 'win95-window-frame--floating'
+      } ${className}`}
       style={wrapperStyle}
     >
       <div
