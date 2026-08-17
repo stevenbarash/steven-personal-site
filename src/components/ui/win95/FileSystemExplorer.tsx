@@ -1,5 +1,6 @@
 import { SocialLink } from '@/types';
 import { APP_CONFIG } from '@/constants';
+import { Win95Icon } from './Win95Icon';
 
 interface FileSystemExplorerProps {
   socialLinks: SocialLink[];
@@ -15,7 +16,6 @@ export const FileSystemExplorer: React.FC<FileSystemExplorerProps> = ({
         <div className="win95-well p-[8px]">
           <div className="flex flex-wrap gap-[16px] justify-start">
             {socialLinks.map((social) => {
-              const IconComponent = social.icon;
               return (
                 <a
                   key={social.name}
@@ -25,7 +25,7 @@ export const FileSystemExplorer: React.FC<FileSystemExplorerProps> = ({
                   className="win95-desktop-icon"
                   aria-label={`Open ${social.name}`}
                 >
-                  <IconComponent size={32} className="text-black" />
+                  <Win95Icon name={social.icon} size={32} />
                   <span className="win95-icon-label text-black">{social.name}</span>
                 </a>
               );

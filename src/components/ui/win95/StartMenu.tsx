@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { PersonFill, FolderFill, Folder2Open, WindowDesktop, QuestionCircleFill, Power, FileEarmarkTextFill, HouseFill, CameraFill } from 'react-bootstrap-icons';
+import type { Win95IconName } from '@/types';
+import { Win95Icon } from './Win95Icon';
 
 interface StartMenuItem {
   label: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon?: Win95IconName;
   sectionId?: string;
   path?: string;
   separator?: boolean;
@@ -14,27 +15,24 @@ interface StartMenuItem {
 
 interface StartMenuProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (restoreStartFocus?: boolean) => void;
   onShutDown?: () => void;
   onNavigate?: (sectionId: string) => void;
   onRouteNavigate?: (path: string, sectionId?: string) => void;
 }
 
-/** Set to true to show Photography in the start menu and allow navigation to /photos */
-const PHOTOS_PAGE_ENABLED = false;
-
 const menuItems: StartMenuItem[] = [
-  { label: 'Home', icon: HouseFill, path: '/' },
-  { label: 'About Me', icon: PersonFill, sectionId: 'section-profile' },
-  { label: 'My Projects', icon: FolderFill, sectionId: 'section-projects' },
-  { label: 'Explorer', icon: Folder2Open, sectionId: 'section-explorer' },
-  ...(PHOTOS_PAGE_ENABLED ? [{ label: 'Photography', icon: CameraFill, path: '/photos' as const }] : []),
-  { label: 'Command Prompt', icon: WindowDesktop, sectionId: 'section-terminal' },
-  { label: 'My Resume', icon: FileEarmarkTextFill, sectionId: 'section-projects' },
-  { label: '', icon: PersonFill, separator: true },
-  { label: 'Help', icon: QuestionCircleFill, sectionId: 'section-profile' },
-  { label: '', icon: PersonFill, separator: true },
-  { label: 'Shut Down...', icon: Power },
+  { label: 'Home', icon: 'computer', path: '/' },
+  { label: 'About Me', icon: 'user', sectionId: 'section-profile' },
+  { label: 'My Projects', icon: 'folder', sectionId: 'section-projects' },
+  { label: 'Explorer', icon: 'explorer', sectionId: 'section-explorer' },
+  { label: 'Photography', icon: 'camera', path: '/photos' },
+  { label: 'Command Prompt', icon: 'msDos', sectionId: 'section-terminal' },
+  { label: 'My Resume', icon: 'notepad', sectionId: 'section-resume' },
+  { label: '', separator: true },
+  { label: 'Help', icon: 'help', sectionId: 'section-help' },
+  { label: '', separator: true },
+  { label: 'Shut Down...', icon: 'powerOff' },
 ];
 
 export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDown, onNavigate, onRouteNavigate }) => {
@@ -61,7 +59,7 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
     };
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onClose(true);
     };
 
     if (isOpen) {
@@ -149,7 +147,7 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
   if (!isOpen) return null;
 
   return (
-    <div ref={menuRef} className="win95-start-menu" role="menu" onKeyDown={handleMenuKeyDown}>
+    <div ref={menuRef} className="win95-start-menu" role="menu" aria-label="Start" onKeyDown={handleMenuKeyDown}>
       <div className="win95-start-menu-sidebar">
         <span className="win95-start-menu-sidebar-text">
           <strong>Steven</strong>98
@@ -161,7 +159,6 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
           if (item.separator) {
             return <div key={`sep-${index}`} className="win95-start-menu-separator" />;
           }
-          const IconComponent = item.icon;
           return (
             <button
               key={item.label}
@@ -176,7 +173,9 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
               onMouseEnter={() => setHighlightedIndex(index)}
               onFocus={() => setHighlightedIndex(index)}
             >
-              <IconComponent size={20} className="win95-start-menu-icon" />
+              {item.icon && (
+                <Win95Icon name={item.icon} size={32} className="win95-start-menu-icon" />
+              )}
               <span className="win95-start-menu-label">{item.label}</span>
             </button>
           );

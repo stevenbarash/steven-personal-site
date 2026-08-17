@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-10T19:33:46Z",
+  "title": "Design System: Steven Barash Personal Site",
+  "extensions": {
+    "colorMeta": {
+      "desktop-teal": {
+        "role": "primary",
+        "displayName": "Desktop Teal",
+        "canonical": "#008080",
+        "tonalRamp": [
+          "oklch(15% 0.0927 194.8)",
+          "oklch(26% 0.0927 194.8)",
+          "oklch(37% 0.0927 194.8)",
+          "oklch(48% 0.0927 194.8)",
+          "oklch(59% 0.0927 194.8)",
+          "oklch(70% 0.0927 194.8)",
+          "oklch(82% 0.0927 194.8)",
+          "oklch(94% 0.0927 194.8)"
+        ]
+      },
+      "system-silver": {
+        "role": "primary",
+        "displayName": "System Silver",
+        "canonical": "#c0c0c0",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "active-navy": {
+        "role": "secondary",
+        "displayName": "Active Navy",
+        "canonical": "#000080",
+        "tonalRamp": [
+          "oklch(15% 0.1879 264.1)",
+          "oklch(26% 0.1879 264.1)",
+          "oklch(37% 0.1879 264.1)",
+          "oklch(48% 0.1879 264.1)",
+          "oklch(59% 0.1879 264.1)",
+          "oklch(70% 0.1879 264.1)",
+          "oklch(82% 0.1879 264.1)",
+          "oklch(94% 0.1879 264.1)"
+        ]
+      },
+      "title-bar-blue": {
+        "role": "secondary",
+        "displayName": "Title-Bar Blue",
+        "canonical": "#1084d0",
+        "tonalRamp": [
+          "oklch(15% 0.1477 245.8)",
+          "oklch(26% 0.1477 245.8)",
+          "oklch(37% 0.1477 245.8)",
+          "oklch(48% 0.1477 245.8)",
+          "oklch(59% 0.1477 245.8)",
+          "oklch(70% 0.1477 245.8)",
+          "oklch(82% 0.1477 245.8)",
+          "oklch(94% 0.1477 245.8)"
+        ]
+      },
+      "window-white": {
+        "role": "neutral",
+        "displayName": "Window White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "highlight": {
+        "role": "neutral",
+        "displayName": "Highlight",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "light-edge": {
+        "role": "neutral",
+        "displayName": "Light Edge",
+        "canonical": "#dfdfdf",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "shadow": {
+        "role": "neutral",
+        "displayName": "Shadow",
+        "canonical": "#808080",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "dark-edge": {
+        "role": "neutral",
+        "displayName": "Dark Edge",
+        "canonical": "#0a0a0a",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "system-black": {
+        "role": "neutral",
+        "displayName": "System Black",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(94% 0 0)"
+        ]
+      },
+      "hyperlink-blue": {
+        "role": "tertiary",
+        "displayName": "Hyperlink Blue",
+        "canonical": "#0000ff",
+        "tonalRamp": [
+          "oklch(15% 0.3132 264.1)",
+          "oklch(26% 0.3132 264.1)",
+          "oklch(37% 0.3132 264.1)",
+          "oklch(48% 0.3132 264.1)",
+          "oklch(59% 0.3132 264.1)",
+          "oklch(70% 0.3132 264.1)",
+          "oklch(82% 0.3132 264.1)",
+          "oklch(94% 0.3132 264.1)"
+        ]
+      },
+      "visited-purple": {
+        "role": "tertiary",
+        "displayName": "Visited Purple",
+        "canonical": "#800080",
+        "tonalRamp": [
+          "oklch(15% 0.1935 328.4)",
+          "oklch(26% 0.1935 328.4)",
+          "oklch(37% 0.1935 328.4)",
+          "oklch(48% 0.1935 328.4)",
+          "oklch(59% 0.1935 328.4)",
+          "oklch(70% 0.1935 328.4)",
+          "oklch(82% 0.1935 328.4)",
+          "oklch(94% 0.1935 328.4)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Identity Headline",
+        "purpose": "Steven's name and the rare highest-level identity heading."
+      },
+      "title": {
+        "displayName": "System Title",
+        "purpose": "Window titles, active tabs, taskbar programs, and group labels."
+      },
+      "body": {
+        "displayName": "System Body",
+        "purpose": "Descriptions, resume content, project details, and interface prose."
+      },
+      "label": {
+        "displayName": "Control Label",
+        "purpose": "Menus, badges, metadata, icon labels, and status fields."
+      },
+      "terminal": {
+        "displayName": "Terminal",
+        "purpose": "Command prompt content only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "raised-control",
+        "value": "inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf",
+        "purpose": "Buttons, window frames, task buttons, scrollbar controls, and the Start menu."
+      },
+      {
+        "name": "pressed-control",
+        "value": "inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080",
+        "purpose": "Active buttons, depressed taskbar programs, and pointer-down states."
+      },
+      {
+        "name": "sunken-content",
+        "value": "inset -1px -1px #dfdfdf, inset 1px 1px #808080, inset -2px -2px #ffffff, inset 2px 2px #0a0a0a",
+        "purpose": "Content wells, the terminal, and recessed fields."
+      },
+      {
+        "name": "shallow-inset",
+        "value": "inset -1px -1px #dfdfdf, inset 1px 1px #808080",
+        "purpose": "Status fields, badges, and the taskbar clock tray."
+      },
+      {
+        "name": "groove-divider",
+        "value": "inset 0 1px #808080, inset 0 -1px #ffffff",
+        "purpose": "Menu separators and horizontal grooves."
+      }
+    ],
+    "motion": [
+      {
+        "name": "direct-state-change",
+        "value": "0ms",
+        "purpose": "Pressed, focused, selected, minimized, maximized, and closed interface states."
+      },
+      {
+        "name": "section-navigation",
+        "value": "scrollIntoView smooth",
+        "purpose": "In-window navigation between portfolio sections."
+      },
+      {
+        "name": "terminal-cursor-pulse",
+        "value": "2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "purpose": "The command prompt cursor when the terminal presents itself as active."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "small",
+        "value": "640px"
+      },
+      {
+        "name": "desktop-windowing",
+        "value": "768px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Raised Button",
+      "kind": "button",
+      "refersTo": "raised-button",
+      "description": "The default available system action.",
+      "html": "<button class=\"ds-btn-raised\">Open</button>",
+      "css": ".ds-btn-raised { background: var(--win95-bg, #c0c0c0); color: #000; min-height: 23px; padding: 1px 6px; border: 0; border-radius: 0; font: 400 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf; } .ds-btn-raised:hover { box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf; } .ds-btn-raised:focus-visible { outline: 1px dotted #000; outline-offset: -4px; } .ds-btn-raised:active { padding: 2px 5px 0 7px; box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080; }"
+    },
+    {
+      "name": "Pressed Button",
+      "kind": "button",
+      "refersTo": "pressed-button",
+      "description": "The persistent active or depressed system action.",
+      "html": "<button class=\"ds-btn-pressed\" aria-pressed=\"true\">Active</button>",
+      "css": ".ds-btn-pressed { background: var(--win95-bg, #c0c0c0); color: #000; min-height: 23px; padding: 2px 5px 0 7px; border: 0; border-radius: 0; font: 700 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080; } .ds-btn-pressed:hover { background: var(--win95-bg, #c0c0c0); } .ds-btn-pressed:focus-visible { outline: 1px dotted #000; outline-offset: -4px; }"
+    },
+    {
+      "name": "Menu Bar Navigation",
+      "kind": "nav",
+      "refersTo": "menu-bar",
+      "description": "Compact application commands arranged in a silver strip.",
+      "html": "<nav class=\"ds-menu-bar\" aria-label=\"Application menu\"><button>File</button><button>Edit</button><button>View</button><button>Help</button></nav>",
+      "css": ".ds-menu-bar { display: flex; align-items: stretch; padding: 0; background: var(--win95-bg, #c0c0c0); border-bottom: 1px solid #808080; box-shadow: inset 0 1px #fff; font: 400 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; } .ds-menu-bar button { padding: 2px 8px; color: #000; background: transparent; border: 1px solid transparent; border-radius: 0; font: inherit; } .ds-menu-bar button:hover { box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf; } .ds-menu-bar button:focus-visible { outline: 1px dotted #000; outline-offset: -3px; } .ds-menu-bar button:active { box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080; }"
+    },
+    {
+      "name": "Start Menu Selection",
+      "kind": "nav",
+      "refersTo": "selected-menu-item",
+      "description": "A full-row navy state for the current Start-menu destination.",
+      "html": "<button class=\"ds-start-item\">My Projects</button>",
+      "css": ".ds-start-item { display: flex; align-items: center; width: 180px; min-height: 32px; padding: 6px 24px 6px 4px; color: #000; background: var(--win95-bg, #c0c0c0); border: 0; border-radius: 0; font: 400 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; text-align: left; } .ds-start-item:hover, .ds-start-item:focus-visible { color: #fff; background: var(--win95-navy, #000080); outline: 0; } .ds-start-item:active { color: #fff; background: var(--win95-navy, #000080); }"
+    },
+    {
+      "name": "Content Well",
+      "kind": "card",
+      "refersTo": "content-well",
+      "description": "A recessed white explorer or document surface, never a generic card.",
+      "html": "<div class=\"ds-content-well\"><strong>Project</strong><br>Concrete project details live here.</div>",
+      "css": ".ds-content-well { background: var(--win95-window-bg, #fff); color: #000; padding: 8px; border: 0; border-radius: 0; font: 400 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #808080, inset -2px -2px #fff, inset 2px 2px #0a0a0a; } .ds-content-well:focus-within { outline: 1px dotted #000; outline-offset: -4px; }"
+    },
+    {
+      "name": "Active Tab",
+      "kind": "nav",
+      "refersTo": "active-tab",
+      "description": "A raised top-edge tab visually joined to its content panel.",
+      "html": "<button class=\"ds-tab-active\" aria-selected=\"true\">Projects</button>",
+      "css": ".ds-tab-active { position: relative; z-index: 2; margin-top: 0; padding: 2px 12px 4px; color: #000; background: var(--win95-bg, #c0c0c0); border: 0; border-radius: 2px 2px 0 0; font: 700 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; box-shadow: inset 0 1px #fff, inset 1px 0 #fff, inset -1px 0 #0a0a0a, inset 0 2px #dfdfdf, inset 2px 0 #dfdfdf, inset -2px 0 #808080; } .ds-tab-active:hover { color: #000; } .ds-tab-active:focus-visible { outline: 1px dotted #000; outline-offset: -4px; } .ds-tab-active:active { padding-top: 3px; padding-bottom: 3px; }"
+    },
+    {
+      "name": "System Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "A square shallow-inset metadata label.",
+      "html": "<span class=\"ds-badge\">TypeScript</span>",
+      "css": ".ds-badge { display: inline-block; padding: 0 4px; color: #000; background: var(--win95-bg, #c0c0c0); border-radius: 0; font: 400 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; box-shadow: inset -1px -1px #fff, inset 1px 1px #808080; } .ds-badge:hover { background: #dfdfdf; } .ds-badge:focus-visible { outline: 1px dotted #000; outline-offset: 1px; }"
+    },
+    {
+      "name": "Window Shell",
+      "kind": "custom",
+      "refersTo": "window-shell",
+      "description": "The primary application frame for every major content surface.",
+      "html": "<section class=\"ds-window-shell\"><header>STEVEN.EXE - Personal Site</header><div class=\"ds-window-body\">Window content</div></section>",
+      "css": ".ds-window-shell { width: min(480px, 100%); padding: 2px; color: #000; background: var(--win95-bg, #c0c0c0); border-radius: 0; font: 400 11px/1.5 Tahoma, 'Segoe UI', Arial, sans-serif; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px #808080, inset 2px 2px #fff; } .ds-window-shell > header { min-height: 18px; padding: 2px 3px; color: #fff; background: linear-gradient(90deg, var(--win95-navy, #000080), var(--win95-navy-light, #1084d0)); font-weight: 700; user-select: none; } .ds-window-body { margin-top: 2px; padding: 8px; background: var(--win95-bg, #c0c0c0); } .ds-window-shell:focus-within > header { background: linear-gradient(90deg, var(--win95-navy, #000080), var(--win95-navy-light, #1084d0)); }"
+    },
+    {
+      "name": "Desktop Icon",
+      "kind": "custom",
+      "refersTo": "desktop-icon",
+      "description": "A selectable file-system object that opens a focused window containing only its named application or content.",
+      "html": "<button class=\"ds-desktop-icon\"><img src=\"/images/win95-icons/Folder_32x32_4.png\" width=\"32\" height=\"32\" alt=\"\"><span>My Projects</span></button>",
+      "css": ".ds-desktop-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 76px; min-height: 64px; padding: 4px; color: #fff; background: transparent; border: 1px dotted transparent; border-radius: 0; font: 400 11px/1.2 Tahoma, 'Segoe UI', Arial, sans-serif; text-align: center; text-shadow: 1px 1px #000; } .ds-desktop-icon img { display: block; image-rendering: pixelated; image-rendering: crisp-edges; } .ds-desktop-icon span { max-width: 70px; padding: 0 2px; overflow-wrap: anywhere; } .ds-desktop-icon:hover, .ds-desktop-icon:focus-visible { border-color: #000; outline: 0; } .ds-desktop-icon:hover span, .ds-desktop-icon:focus-visible span { color: #fff; background: var(--win95-navy, #000080); } .ds-desktop-icon:active { transform: translate(1px, 1px); }"
+    },
+    {
+      "name": "Terminal Panel",
+      "kind": "custom",
+      "refersTo": "terminal-panel",
+      "description": "A recessed command-line surface for genuinely command-like content.",
+      "html": "<div class=\"ds-terminal\"><span>C:\\STEVEN&gt;</span><strong>whoami</strong><br><span>steven</span></div>",
+      "css": ".ds-terminal { padding: 4px; color: var(--win95-bg, #c0c0c0); background: #000; border-radius: 0; font: 400 12px/1.4 'Courier New', 'Lucida Console', monospace; box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #808080, inset -2px -2px #fff, inset 2px 2px #0a0a0a; } .ds-terminal strong { color: #fff; font-weight: 400; } .ds-terminal:hover { color: #dfdfdf; } .ds-terminal:focus-visible { outline: 1px dotted #fff; outline-offset: -4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Working Desktop",
+    "overview": "This system should feel like a real personal computer that happens to contain Steven's professional life. The Windows 95 language is not a nostalgic wrapper around a conventional portfolio; windows, desktop icons, menus, tabs, taskbar buttons, status fields, and file-like objects must organize the experience and communicate state.\n\nThe composition is compact, mechanical, familiar, and purposeful. A teal desktop establishes the environment; silver application chrome creates the working layer; white sunken wells hold readable content; navy selection states indicate what is active. Density comes from a four-pixel rhythm, tightly grouped controls, and literal spatial relationships rather than from generic cards.\n\nMotion is restrained and state-driven. Dragging is direct, pressed controls invert their bevel immediately, section navigation may scroll smoothly, and the terminal cursor may pulse. New motion must never delay access to content. At widths below the desktop breakpoint, the window becomes a full-width document, dragging is disabled, and any desktop-only double-click interaction must gain a direct one-tap equivalent.",
+    "keyCharacteristics": [
+      "Functional Windows 95 interaction grammar rather than decorative retro styling.",
+      "Compact 11px system typography with a restrained 16px headline ceiling.",
+      "Zero-radius surfaces, except the two-pixel top corners that distinguish tabs.",
+      "Hard inset and outset edges instead of ambient shadows.",
+      "Desktop Teal, System Silver, and Active Navy as the dominant color structure.",
+      "Content organized as windows, wells, lists, tabs, status fields, and desktop objects."
+    ],
+    "rules": [
+      {
+        "name": "The Working-State Rule",
+        "body": "Every visual state must explain an interaction: raised means available, pressed means active, sunken means content or status, and navy means selected. Ornament without state meaning is prohibited.",
+        "section": "overview"
+      },
+      {
+        "name": "The Device Rule",
+        "body": "Preserve the desktop metaphor on large screens; preserve directness on small screens. Mobile must never require double-clicking, precision dragging, or desktop-sized hit targets.",
+        "section": "overview"
+      },
+      {
+        "name": "The System-Palette Rule",
+        "body": "New interface colors are forbidden unless they express a content-specific asset or a state the existing palette cannot communicate.",
+        "section": "colors"
+      },
+      {
+        "name": "The Navy-State Rule",
+        "body": "Active Navy always carries selection or active-window meaning. Never use it as arbitrary decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Four-Edge Rule",
+        "body": "Highlight, Light Edge, Shadow, and Dark Edge work as a set. Removing one edge or softening the set into a blur destroys the material language.",
+        "section": "colors"
+      },
+      {
+        "name": "The Interface-Voice Rule",
+        "body": "Tahoma-style system type owns the interface. Do not introduce a display face to make the portfolio feel more contemporary.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hierarchy-by-Weight Rule",
+        "body": "Use weight, grouping, and surface state before increasing type size. Oversized portfolio typography is outside this system.",
+        "section": "typography"
+      },
+      {
+        "name": "The Monospace-Containment Rule",
+        "body": "Monospace belongs inside the terminal and command-like strings. It must not become a lazy shorthand for technical credibility across the rest of the site.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hard-Edge Rule",
+        "body": "Blur is forbidden. If an edge cannot be described at one or two pixels, it does not belong in this system.",
+        "section": "elevation"
+      },
+      {
+        "name": "The State-Inversion Rule",
+        "body": "Pressed controls invert the light and dark edge directions and shift their padding by one pixel. A color-only pressed state is incomplete.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use desktop objects, windows, menus, tabs, wells, and status fields to organize information and communicate state.",
+      "Do preserve the exact Desktop Teal, System Silver, Active Navy, and four-edge neutral relationships defined in the frontmatter.",
+      "Do use period-correct Windows 95 raster assets for system, navigation, project, and desktop icons.",
+      "Do keep professional content concrete: show what Steven built, why it matters, and where the visitor can inspect it.",
+      "Do make mobile interactions one-tap, touch friendly, and free of precision dragging.",
+      "Do give every blinking cursor, menu label, title-bar control, and desktop icon the behavior it visibly promises."
+    ],
+    "donts": [
+      "Don't use generic personal-site templates that could belong to anyone.",
+      "Don't turn the site into a sterile SaaS dashboard or polished corporate marketing page that erases Steven's personality.",
+      "Don't introduce contemporary glass, gradient, oversized-radius, or card-grid styling that breaks the Windows 95 visual language. The active title-bar gradient is the single system-authentic exception.",
+      "Don't ship decorative nostalgia whose controls, labels, and interaction promises do not actually work.",
+      "Don't force retro behavior that makes the mobile experience frustrating.",
+      "Don't use blurred shadows, translucent glass, floating rounded cards, gradient text, or side-stripe accents.",
+      "Don't use identical icon-heading-text card grids when a file list, explorer, tab panel, or desktop object is the correct Windows 95 structure.",
+      "Don't treat 11px desktop copy or 16×14px title-bar controls as acceptable touch targets without a mobile-specific adaptation."
+    ]
+  }
+}

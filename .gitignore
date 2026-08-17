@@ -38,7 +38,10 @@ jspm_packages
 
 # Next.js
 .next
+.next-playwright
+next-env.d.ts
 .vercel
+test-results/
 
 # Environment variables
 .env
@@ -62,4 +65,5 @@ Thumbs.db
 # Build artifacts
 dist/
 build/
+*.tsbuildinfo
 TAILWIND_V4_MIGRATION.md
