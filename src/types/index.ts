@@ -1,8 +1,25 @@
 export type WindowState = 'normal' | 'minimized' | 'maximized' | 'closed';
 
+export type Win95IconName =
+  | 'computer'
+  | 'user'
+  | 'folder'
+  | 'folderOpen'
+  | 'explorer'
+  | 'camera'
+  | 'msDos'
+  | 'notepad'
+  | 'help'
+  | 'powerOff'
+  | 'globe'
+  | 'network'
+  | 'mail'
+  | 'url'
+  | 'mediaPlayer';
+
 export interface SocialLink {
   name: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: Win95IconName;
   content: string;
   link: string;
 }
@@ -25,7 +42,7 @@ export interface TerminalCommand {
 export interface Project {
   name: string;
   description: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: Win95IconName;
   link: string;
   category: 'web' | 'mobile' | 'photography' | 'cli' | 'other';
   technologies?: string[];

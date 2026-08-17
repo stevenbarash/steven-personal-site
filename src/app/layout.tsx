@@ -1,33 +1,10 @@
-import { Inter, Merriweather, Space_Mono } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from 'next';
 import "./globals.css";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-const inter = Inter({ 
-  subsets: ["latin"], 
-  variable: '--font-inter',
-  display: 'swap',
-  preload: true,
-});
-
-const merriweather = Merriweather({ 
-  subsets: ["latin"], 
-  variable: '--font-merriweather', 
-  weight: ['300', '400', '700', '900'],
-  display: 'swap',
-  preload: true,
-});
-
-const spaceMono = Space_Mono({ 
-  subsets: ["latin"], 
-  variable: '--font-space-mono',
-  weight: ['400', '700'],
-  display: 'swap',
-  preload: true,
-});
-
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: "Steven Barash - Sr. Solutions Engineer & Professional Photographer | Brooklyn, NYC",
     template: "%s | Steven Barash - Solutions Engineer & Photographer"
@@ -72,21 +49,11 @@ export const metadata = {
     title: 'Steven Barash - Sr. Solutions Engineer & Professional Photographer',
     description: 'Senior Solutions Engineer at Descope specializing in identity authentication. Professional photographer in Brooklyn, NYC. View portfolio and technical expertise.',
     siteName: 'Steven Barash - Solutions Engineer & Photographer',
-    images: [
-      {
-        url: '/images/me.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Steven Barash - Senior Solutions Engineer and Professional Photographer',
-        type: 'image/jpeg',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Steven Barash - Sr. Solutions Engineer & Professional Photographer',
     description: 'Senior Solutions Engineer at Descope specializing in identity authentication. Professional photographer in Brooklyn, NYC.',
-    images: ['/images/me.jpg'],
     creator: '@steven_barash',
     site: '@steven_barash',
   },
@@ -107,8 +74,6 @@ export const metadata = {
   other: {
     'geo.region': 'US-NY',
     'geo.placename': 'Brooklyn, New York',
-    'geo.position': '40.7128;-74.0060',
-    'ICBM': '40.7128, -74.0060',
     'copyright': 'Steven Barash',
     'language': 'English',
   },
@@ -130,8 +95,8 @@ const structuredData = {
   "image": {
     "@type": "ImageObject",
     "url": "https://stevenbarash.com/images/me.jpg",
-    "width": 400,
-    "height": 400
+    "width": 250,
+    "height": 250
   },
   "sameAs": [
     "https://linkedin.com/in/stevenbarash",
@@ -164,11 +129,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweather.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external domains for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://vercel.live" />
         
         {/* DNS prefetch for analytics */}
@@ -187,4 +149,4 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </body>
     </html>
   );
-} 
+}

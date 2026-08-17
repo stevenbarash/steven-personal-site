@@ -10,8 +10,6 @@ export default function robots(): MetadataRoute.Robots {
           '/private/',
           '/admin/',
           '/api/',
-          '/_next/',
-          '/static/',
         ],
       },
       {
@@ -38,4 +36,4 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: 'https://stevenbarash.com/sitemap.xml',
     host: 'https://stevenbarash.com',
   }
-} 
+}

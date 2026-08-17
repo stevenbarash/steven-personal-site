@@ -9,7 +9,6 @@ export default function manifest(): MetadataRoute.Manifest {
     display: 'standalone',
     background_color: '#008080',
     theme_color: '#008080',
-    orientation: 'portrait-primary',
     scope: '/',
     lang: 'en-US',
     categories: ['business', 'productivity', 'photography'],
@@ -19,27 +18,6 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: 'any',
         type: 'image/svg+xml',
         purpose: 'maskable',
-      },
-      {
-        src: '/images/me.jpg',
-        sizes: '192x192',
-        type: 'image/jpeg',
-        purpose: 'any',
-      },
-      {
-        src: '/images/me.jpg',
-        sizes: '512x512',
-        type: 'image/jpeg',
-        purpose: 'any',
-      },
-    ],
-    screenshots: [
-      {
-        src: '/images/me.jpg',
-        sizes: '1280x720',
-        type: 'image/jpeg',
-        form_factor: 'wide',
-        label: 'Steven Barash Portfolio',
       },
     ],
     shortcuts: [],
@@ -51,4 +29,4 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     prefer_related_applications: false,
   }
-} 
+}

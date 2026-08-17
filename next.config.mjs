@@ -1,5 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: process.env.NEXT_TEST_DIST_DIR || '.next',
+  typescript: {
+    tsconfigPath: process.env.NEXT_TEST_DIST_DIR
+      ? 'tsconfig.playwright.json'
+      : 'tsconfig.json',
+  },
+  // API-based integrations still require the compatibility compiler.
+  experimental: {
+    useTypeScriptCli: false,
+  },
+
   // Enable image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -24,19 +35,6 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-        ],
-      },
-      {
-        source: '/images/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

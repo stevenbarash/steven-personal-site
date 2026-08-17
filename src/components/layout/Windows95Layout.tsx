@@ -7,7 +7,7 @@ import { WindowTitleBar } from '@/components/ui/win95/WindowTitleBar';
 import { APP_CONFIG } from '@/constants';
 
 const TASKBAR_HEIGHT = 40;
-const INITIAL_WINDOW_OFFSET = 8;
+const INITIAL_WINDOW_POSITION = { x: 96, y: 8 };
 
 interface Windows95LayoutProps {
   children: ReactNode;
@@ -18,9 +18,8 @@ interface Windows95LayoutProps {
   isMaximized?: boolean;
   isDesktop?: boolean;
   className?: string;
-  onNavigate?: (sectionId: string) => void;
   onRouteNavigate?: (path: string, sectionId?: string) => void;
-  currentPath?: string;
+  onShutDown?: () => void;
   statusText?: string;
   statusPaneLabel?: string;
 }
@@ -34,14 +33,13 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
   isMaximized = false,
   isDesktop = false,
   className = "",
-  onNavigate,
   onRouteNavigate,
-  currentPath = '/',
+  onShutDown,
   statusText = 'Ready',
   statusPaneLabel = 'My Computer',
 }) => {
   const windowRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: INITIAL_WINDOW_OFFSET, y: INITIAL_WINDOW_OFFSET });
+  const [position, setPosition] = useState(INITIAL_WINDOW_POSITION);
   const dragRef = useRef<{ startX: number; startY: number; startLeft: number; startTop: number } | null>(null);
 
   const canDrag = isDesktop && !isMaximized;
@@ -117,9 +115,9 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
         />
 
         <MenuBar
-          onNavigate={onNavigate}
           onRouteNavigate={onRouteNavigate}
-          currentPath={currentPath}
+          onCloseWindow={onClose}
+          onShutDown={onShutDown}
         />
 
         <div className="p-[6px] flex flex-col gap-[6px] flex-1 min-h-0 overflow-auto">

@@ -7,3 +7,5 @@ export { Terminal } from './Terminal';
 export { Taskbar } from './Taskbar';
 export { StartMenu } from './StartMenu';
 export { PhotographySection } from './PhotographySection';
+export { DesktopShortcuts } from './DesktopShortcuts';
+export { Win95Icon } from './Win95Icon';

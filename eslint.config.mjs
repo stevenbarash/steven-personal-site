@@ -6,7 +6,7 @@ import nextTs from "eslint-config-next/typescript";
 export default defineConfig([
   ...fixupConfigRules(nextVitals),
   ...fixupConfigRules(nextTs),
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", ".next-playwright/**", "out/**", "build/**", "next-env.d.ts"]),
   {
     rules: {
       "react/no-unescaped-entities": "off",
