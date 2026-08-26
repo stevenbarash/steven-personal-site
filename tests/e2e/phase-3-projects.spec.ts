@@ -169,9 +169,44 @@ test('Pult places an accessible pairing and control flow immediately after its h
   await expect(flow.getByRole('listitem').nth(1)).toContainText('Pairing: port 6467');
   await expect(flow.getByRole('listitem').nth(1)).toContainText('Commands: port 6466');
   await expect(flow.getByRole('listitem').nth(2)).toHaveText('Google TV');
-  await expect(page.locator('.minimal-project-header + .pult-protocol-flow')).toHaveCount(1);
+  await expect(page.locator('.minimal-project-header + [data-project-artifact] .pult-protocol-flow')).toHaveCount(1);
   expect(await flow.evaluate((node) => getComputedStyle(node).backgroundImage)).toBe('none');
   expect(await flow.evaluate((node) => getComputedStyle(node).borderRadius)).toBe('0px');
+});
+
+const artifactExpectations = [
+  ['pult', 'Pairing and control path'],
+  ['uptick', 'Extension and analysis path'],
+  ['bike-cli', 'One command, three output formats'],
+  ['personal-site', 'One content system, two public surfaces'],
+] as const;
+
+test('every published project has one truthful signature artifact after its header', async ({ page }) => {
+  for (const [slug, caption] of artifactExpectations) {
+    await page.goto(`/projects/${slug}`);
+    const artifact = page.locator(`[data-project-artifact="${slug}"][data-project-artifact-variant="detail"]`);
+    await expect(artifact).toHaveCount(1);
+    await expect(artifact.getByRole('figure', { name: caption })).toHaveCount(1);
+    await expect(page.locator('.minimal-project-header + [data-project-artifact]')).toHaveCount(1);
+  }
+});
+
+test('project artifacts expose only verified technical claims', async ({ page }) => {
+  await page.goto('/projects/uptick');
+  await expect(page.getByText('Thin Zed extension', { exact: true })).toBeVisible();
+  await expect(page.getByText('Rust language server', { exact: true })).toBeVisible();
+  await expect(page.getByText('Registry data + OSV', { exact: true })).toBeVisible();
+  await expect(page.getByText('Hints, diagnostics, links, and update actions through LSP', { exact: true })).toBeVisible();
+
+  await page.goto('/projects/bike-cli');
+  for (const command of ['bike now', 'bike now --format json', 'bike wear --format csv']) {
+    await expect(page.getByText(command, { exact: true })).toBeVisible();
+  }
+
+  await page.goto('/projects/personal-site');
+  for (const label of ['Typed content', 'Public routes', 'Optional /desktop', 'Legacy query + hash links']) {
+    await expect(page.getByText(label, { exact: true })).toBeVisible();
+  }
 });
 
 test('corrected project copy has no duplicate Pult caveat, training notes, or public evidence IDs', async ({ page }) => {

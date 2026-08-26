@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ProjectCaseStudy } from '@/content/projects';
-import { PultProtocolArtifact } from '@/components/projects/PultProtocolArtifact';
+import { ProjectArtifact } from '@/components/projects/artifacts/ProjectArtifact';
 
 const formatStatus = (status: string) => `${status.charAt(0).toUpperCase()}${status.slice(1)}`;
 
@@ -40,7 +40,7 @@ export function MinimalProjectDetail({ project }: { project: ProjectCaseStudy })
           </div>
         </header>
 
-        {project.slug === 'pult' && <PultProtocolArtifact className="pult-protocol-flow" />}
+        <ProjectArtifact slug={project.slug} variant="detail" />
 
         <div className="minimal-project-prose">
           <section>

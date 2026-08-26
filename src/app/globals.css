@@ -2595,19 +2595,90 @@ a,
   font-weight: 650;
 }
 
-.pult-protocol-flow {
-  margin: 0;
-  padding-block: 28px;
+[data-project-artifact] {
+  padding-block: 32px;
   border-bottom: 1px solid #e5e8ec;
-  border-radius: 0;
-  background: transparent;
 }
 
-.pult-protocol-flow figcaption {
+[data-project-artifact] figure {
+  margin: 0;
+}
+
+[data-project-artifact] figcaption {
   margin-bottom: 18px;
   color: #2b2b2b;
   font-size: 14px;
   font-weight: 650;
+}
+
+.pult-protocol-flow {
+  border-radius: 0;
+  background: transparent;
+}
+
+.uptick-flow ol,
+.bike-cli-specimen dl,
+.site-route-map ul {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.uptick-flow ol {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.bike-cli-specimen dl {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.site-route-map ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.uptick-flow li,
+.bike-cli-specimen dl > div,
+.site-route-map li {
+  padding: 16px;
+  border-block: 1px solid #aeb5bf;
+}
+
+.uptick-flow p,
+.site-route-map-source {
+  margin: 18px 0 0;
+  color: #2b2b2b;
+}
+
+.bike-cli-specimen dt,
+.site-route-map strong {
+  font-weight: 650;
+}
+
+.bike-cli-specimen dd {
+  margin: 8px 0 0;
+}
+
+.bike-cli-specimen code {
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 13px;
+}
+
+.site-route-map-source {
+  margin-bottom: 16px;
+  font-weight: 650;
+}
+
+.site-route-map li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site-route-map li span {
+  color: #2b2b2b;
+  font-size: 14px;
 }
 
 .pult-protocol-flow ol {
@@ -3530,6 +3601,12 @@ a,
   .pult-protocol-flow ol {
     grid-template-columns: 1fr;
     gap: 34px;
+  }
+
+  .uptick-flow ol,
+  .bike-cli-specimen dl,
+  .site-route-map ul {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .pult-protocol-flow li:not(:last-child)::after {
