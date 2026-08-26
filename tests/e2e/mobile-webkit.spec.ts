@@ -60,8 +60,7 @@ test('mobile WebKit keeps Phase 3 documents linear, focused, and within 390 pixe
   }
 
   await page.goto('/photos');
-  const columns = await page.locator('.minimal-photo-gallery').evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(' ').length);
-  expect(columns).toBe(1);
+  await expect(page.locator('[data-photo-archive]')).toHaveCSS('column-count', '1');
 });
 
 test('Phase 3 pages disable nonessential motion for reduced-motion users', async ({ page }) => {
