@@ -238,7 +238,12 @@ test('photography renders every verified local photo with dimensions, honest alt
   await expect(page.getByAltText('Two soldiers watch a woman in a red skirt and a man in a cowboy hat perform on a city sidewalk.')).toBeVisible();
   await expect(page.getByAltText('A food-service worker prepares food behind a restaurant window.')).toBeVisible();
   await expect(page.getByAltText('A white bulldog lies on the ground wearing a gray rhinoceros costume.')).toBeVisible();
-  await expect(page.locator('head link[rel="preload"][as="image"]')).toHaveCount(1);
+  const preload = page.locator('head link[rel="preload"][as="image"]');
+  await expect(preload).toHaveCount(1);
+  const firstFeaturedImage = page.locator('[data-photo-featured] img').first();
+  await expect(preload).toHaveAttribute('imagesrcset', await firstFeaturedImage.getAttribute('srcset') as string);
+  await expect(preload).toHaveAttribute('imagesizes', await firstFeaturedImage.getAttribute('sizes') as string);
+  expect(await preload.getAttribute('imagesrcset')).toContain(encodeURIComponent(featuredPhotos[0].src));
 
   await page.setViewportSize({ width: 1280, height: 720 });
   await expect(page.locator('[data-photo-archive]')).toHaveCSS('column-count', '2');
@@ -269,12 +274,45 @@ test('featured photography varies scale on desktop and keeps one reading column 
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/photos');
   const figures = page.locator('[data-photo-featured] figure');
-  expect((await figures.nth(0).boundingBox())!.width).toBeGreaterThan((await figures.nth(1).boundingBox())!.width);
+  const desktopBoxes = await figures.evaluateAll((nodes) => nodes.map((node) => {
+    const box = node.getBoundingClientRect();
+    return { x: box.x, y: box.y, width: box.width, right: box.right, bottom: box.bottom };
+  }));
+  expect(desktopBoxes.map(({ width }) => Math.round(width))).toEqual([791, 379, 482, 585, 688]);
+  expect(Math.abs(desktopBoxes[0].x - desktopBoxes[4].x)).toBeLessThan(2);
+  expect(Math.abs(desktopBoxes[0].bottom - desktopBoxes[1].bottom)).toBeLessThan(2);
+  expect(Math.abs(desktopBoxes[1].right - desktopBoxes[3].right)).toBeLessThan(2);
+  expect(desktopBoxes[2].x).toBeGreaterThan(desktopBoxes[0].x);
+  expect(desktopBoxes[3].x).toBeGreaterThan(desktopBoxes[2].x);
+  expect(desktopBoxes[2].y).toBeGreaterThan(desktopBoxes[0].bottom);
+  expect(desktopBoxes[3].y).toBeGreaterThan(desktopBoxes[2].bottom);
+  expect(desktopBoxes[4].y).toBeGreaterThan(desktopBoxes[3].bottom);
 
   await page.setViewportSize({ width: 390, height: 844 });
   const boxes = await figures.evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
   expect(Math.max(...boxes) - Math.min(...boxes)).toBeLessThan(2);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+});
+
+test('photography image candidates match every featured span and the archive columns', async ({ page }) => {
+  await page.goto('/photos');
+  const expectedFeaturedSizes = [
+    '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(66.6667vw - 62px), 995.33px',
+    '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(33.3333vw - 48px), 480.67px',
+    '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(41.6667vw - 51.5px), 609.33px',
+    '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(50vw - 55px), 738px',
+    '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(58.3333vw - 58.5px), 866.67px',
+  ];
+  const featuredImages = page.locator('[data-photo-featured] img');
+  for (let index = 0; index < expectedFeaturedSizes.length; index += 1) {
+    await expect(featuredImages.nth(index)).toHaveAttribute('sizes', expectedFeaturedSizes[index]);
+  }
+  for (const image of await page.locator('[data-photo-archive] img').all()) {
+    await expect(image).toHaveAttribute(
+      'sizes',
+      '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(50vw - 55px), 738px',
+    );
+  }
 });
 
 test('photo catalog intrinsic dimensions match every verified local JPEG', async () => {

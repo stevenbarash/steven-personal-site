@@ -7,6 +7,14 @@ import type { PhotoItem } from '@/types';
 
 const description = 'Photography by Steven Barash, with street, travel, and everyday scenes.';
 const socialTitle = 'Photography | Steven Barash';
+const featuredPhotoSizes = [
+  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(66.6667vw - 62px), 995.33px',
+  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(33.3333vw - 48px), 480.67px',
+  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(41.6667vw - 51.5px), 609.33px',
+  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(50vw - 55px), 738px',
+  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(58.3333vw - 58.5px), 866.67px',
+] as const;
+const archivePhotoSizes = '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(50vw - 55px), 738px';
 
 export const metadata: Metadata = {
   title: 'Photography',
@@ -16,7 +24,7 @@ export const metadata: Metadata = {
   twitter: createTwitterMetadata(socialTitle, description),
 };
 
-function PhotoFigure({ photo, eager = false }: { photo: PhotoItem; eager?: boolean }) {
+function PhotoFigure({ photo, sizes, eager = false }: { photo: PhotoItem; sizes: string; eager?: boolean }) {
   return (
     <figure>
       <Image
@@ -24,7 +32,7 @@ function PhotoFigure({ photo, eager = false }: { photo: PhotoItem; eager?: boole
         alt={photo.alt}
         width={photo.width}
         height={photo.height}
-        sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1510px) 66vw, 944px"
+        sizes={sizes}
         loading={eager ? undefined : 'lazy'}
         preload={eager}
       />
@@ -48,13 +56,13 @@ export default function PhotosPage() {
 
         <section className="minimal-photo-featured" data-photo-featured aria-label="Featured photographs">
           {featuredPhotos.map((photo, index) => (
-            <PhotoFigure key={photo.id} photo={photo} eager={index === 0} />
+            <PhotoFigure key={photo.id} photo={photo} sizes={featuredPhotoSizes[index]} eager={index === 0} />
           ))}
         </section>
 
         <section className="minimal-photo-archive" data-photo-archive aria-label="Photography archive">
           {archivePhotos.map((photo) => (
-            <PhotoFigure key={photo.id} photo={photo} />
+            <PhotoFigure key={photo.id} photo={photo} sizes={archivePhotoSizes} />
           ))}
         </section>
       </div>
