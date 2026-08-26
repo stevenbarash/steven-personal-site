@@ -52,7 +52,7 @@ test('home has semantic navigation, sections, exact copy, and working internal d
     expect((await request.get(href)).ok(), href).toBe(true);
   }
 
-  await expect(page.getByRole('link', { name: 'See the work', exact: true })).toHaveAttribute('href', '#selected-work');
+  await expect(page.getByRole('link', { name: 'See the work', exact: true })).toHaveAttribute('href', '#work');
   await expect(page.getByRole('link', { name: 'Contact', exact: true }).last()).toHaveAttribute('href', '/contact');
   await expect(page.getByRole('link', { name: 'Start, open the Windows 95 version', exact: true })).toHaveAttribute('href', '/desktop');
 
@@ -208,6 +208,38 @@ test('home presents Pult as a protocol artifact before the selected project list
     return selectedWork !== null && Boolean(node.compareDocumentPosition(selectedWork) & Node.DOCUMENT_POSITION_FOLLOWING);
   });
   expect(appearsBeforeSelectedWork).toBe(true);
+});
+
+test('the work anchor starts with Pult before the broader project list', async ({ page }) => {
+  await page.goto('/');
+  const work = page.locator('#work[data-pult-workbench]');
+  await expect(work).toHaveCount(1);
+  expect(await work.evaluate((node) => {
+    const selected = document.querySelector('[data-quiet-studio-work]');
+    return selected !== null && Boolean(
+      node.compareDocumentPosition(selected) & Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  })).toBe(true);
+});
+
+test('mobile reaches the documentary image sooner without moving it ahead of the thesis', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const statement = await page.locator('.quiet-studio-statement').boundingBox();
+  const image = await page.locator('.quiet-studio-hero-photo').boundingBox();
+  expect(statement).not.toBeNull();
+  expect(image).not.toBeNull();
+  expect(statement!.height).toBeLessThanOrEqual(500);
+  expect(image!.y).toBeGreaterThanOrEqual(statement!.y + statement!.height - 1);
+});
+
+test('the Start face stays authentic inside a more deliberate footer close', async ({ page }) => {
+  await page.goto('/');
+  const footer = page.locator('.minimal-footer-inner');
+  const face = page.locator('[data-desktop-start-face]');
+  expect((await footer.boundingBox())!.height).toBeGreaterThanOrEqual(136);
+  await expect(face).toHaveCSS('font-size', '11px');
+  await expect(face).toHaveCSS('background-color', 'rgb(192, 192, 192)');
 });
 
 test('quiet studio hero uses the verified taxi photograph while selected work stays typographic', async ({ page }) => {

@@ -45,7 +45,7 @@ export default function Home() {
             <h1 id="home-headline">{headline}</h1>
             <p>{supportLine}</p>
             <div className="quiet-studio-actions" aria-label="Primary actions">
-              <a className="quiet-studio-action-primary" href="#selected-work">See the work</a>
+              <a className="quiet-studio-action-primary" href="#work">See the work</a>
               <Link className="quiet-studio-action-secondary" href="/contact">Contact</Link>
             </div>
           </div>
@@ -63,6 +63,7 @@ export default function Home() {
         </section>
 
         <section
+          id="work"
           className="quiet-studio-bench"
           aria-labelledby="pult-workbench-heading"
           data-pult-workbench
