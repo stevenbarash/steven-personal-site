@@ -1,17 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Win95IconName } from '@/types';
+import { getAppById, getNavigationTarget, START_MENU_ITEMS, type StartMenuItem } from '@/features/desktop/navigation';
 import { Win95Icon } from './Win95Icon';
-
-interface StartMenuItem {
-  label: string;
-  icon?: Win95IconName;
-  sectionId?: string;
-  path?: string;
-  separator?: boolean;
-  action?: () => void;
-}
 
 interface StartMenuProps {
   isOpen: boolean;
@@ -21,26 +12,18 @@ interface StartMenuProps {
   onRouteNavigate?: (path: string, sectionId?: string) => void;
 }
 
-const menuItems: StartMenuItem[] = [
-  { label: 'Home', icon: 'computer', path: '/' },
-  { label: 'About Me', icon: 'user', sectionId: 'section-profile' },
-  { label: 'My Projects', icon: 'folder', sectionId: 'section-projects' },
-  { label: 'Explorer', icon: 'explorer', sectionId: 'section-explorer' },
-  { label: 'Photography', icon: 'camera', path: '/photos' },
-  { label: 'Command Prompt', icon: 'msDos', sectionId: 'section-terminal' },
-  { label: 'My Resume', icon: 'notepad', sectionId: 'section-resume' },
-  { label: '', separator: true },
-  { label: 'Help', icon: 'help', sectionId: 'section-help' },
-  { label: '', separator: true },
-  { label: 'Shut Down...', icon: 'powerOff' },
-];
+const getItemLabel = (item: StartMenuItem) => {
+  if (item.type === 'shutdown') return 'Shut Down...';
+  if (item.type === 'app') return getAppById(item.appId)?.placements.start?.label ?? '';
+  return '';
+};
 
 export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDown, onNavigate, onRouteNavigate }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const actionableIndexes = useMemo(
-    () => menuItems.map((item, index) => (item.separator ? -1 : index)).filter(index => index >= 0),
+    () => START_MENU_ITEMS.map((item, index) => (item.type === 'separator' ? -1 : index)).filter(index => index >= 0),
     []
   );
 
@@ -78,32 +61,26 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
   }, [actionableIndexes, isOpen, onClose]);
 
   const handleItemClick = (item: StartMenuItem) => {
-    if (item.separator) return;
+    if (item.type === 'separator') return;
 
-    if (item.label === 'Shut Down...') {
+    if (item.type === 'shutdown') {
       onShutDown?.();
       onClose();
       return;
     }
 
-    if (item.path) {
-      onRouteNavigate?.(item.path);
-      onClose();
-      return;
-    }
+    const app = getAppById(item.appId);
+    if (!app) return;
+    const target = getNavigationTarget(app);
 
-    if (item.sectionId) {
-      if (onRouteNavigate) {
-        onRouteNavigate('/', item.sectionId);
-      } else if (onNavigate) {
-        onNavigate(item.sectionId);
-      } else {
-        const el = document.getElementById(item.sectionId);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    if (onRouteNavigate) {
+      onRouteNavigate(target.path, target.sectionId);
+    } else if (target.sectionId && onNavigate) {
+      onNavigate(target.sectionId);
+    } else if (target.sectionId) {
+      const el = document.getElementById(target.sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    if (item.action) item.action();
     onClose();
   };
 
@@ -140,7 +117,7 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
 
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (highlightedIndex >= 0) handleItemClick(menuItems[highlightedIndex]);
+      if (highlightedIndex >= 0) handleItemClick(START_MENU_ITEMS[highlightedIndex]);
     }
   };
 
@@ -155,13 +132,15 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
       </div>
 
       <div className="win95-start-menu-items">
-        {menuItems.map((item, index) => {
-          if (item.separator) {
+        {START_MENU_ITEMS.map((item, index) => {
+          if (item.type === 'separator') {
             return <div key={`sep-${index}`} className="win95-start-menu-separator" />;
           }
+          const app = item.type === 'app' ? getAppById(item.appId) : undefined;
+          const label = getItemLabel(item);
           return (
             <button
-              key={item.label}
+              key={item.type === 'app' ? item.appId : item.type}
               ref={(el) => {
                 itemRefs.current[index] = el;
               }}
@@ -173,10 +152,9 @@ export const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onShutDow
               onMouseEnter={() => setHighlightedIndex(index)}
               onFocus={() => setHighlightedIndex(index)}
             >
-              {item.icon && (
-                <Win95Icon name={item.icon} size={32} className="win95-start-menu-icon" />
-              )}
-              <span className="win95-start-menu-label">{item.label}</span>
+              {app && <Win95Icon name={app.icon} size={32} className="win95-start-menu-icon" />}
+              {item.type === 'shutdown' && <Win95Icon name="powerOff" size={32} className="win95-start-menu-icon" />}
+              <span className="win95-start-menu-label">{label}</span>
             </button>
           );
         })}

@@ -7,13 +7,15 @@
   },
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "npm run type-check && next build --webpack",
+    "build": "npm run type-check && next build --webpack && node scripts/check-built-output.mjs",
     "start": "next start",
     "test": "playwright test",
+    "lighthouse": "node scripts/lighthouse-local.mjs",
     "lint": "eslint .",
     "type-check": "next typegen && node node_modules/@typescript/native/lib/tsc.js --noEmit",
     "type-check:watch": "next typegen && node node_modules/@typescript/native/lib/tsc.js --noEmit --watch",
-    "import:instagram": "node scripts/import-instagram.mjs --username steven.photography --limit 36"
+    "import:instagram": "node scripts/import-instagram.mjs --username steven.photography --limit 36",
+    "check:evidence-reachability": "node scripts/check-evidence-reachability.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.3",
@@ -33,6 +35,7 @@
     "autoprefixer": "^10.5.4",
     "eslint": "^10.8.1",
     "eslint-config-next": "^16.3.1",
+    "lighthouse": "13.4.1",
     "postcss": "^8.5.26",
     "tailwindcss": "^4.3.3",
     "typescript": "npm:@typescript/typescript6@^6.0.2"

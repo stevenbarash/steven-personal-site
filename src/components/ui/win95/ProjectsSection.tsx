@@ -121,8 +121,7 @@ const ProjectsContent: React.FC<{ projects: Project[] }> = ({ projects }) => {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-start gap-[8px] p-[6px] cursor-pointer hover:bg-[#000080] hover:text-white group"
-              aria-label={`View ${project.name}`}
+              className="win95-project-row flex items-start gap-[8px] p-[6px] cursor-pointer hover:bg-[#000080] hover:text-white group"
               style={{
                 borderBottom: index < featuredProjects.length - 1 ? '1px solid #c0c0c0' : 'none',
               }}
@@ -134,7 +133,7 @@ const ProjectsContent: React.FC<{ projects: Project[] }> = ({ projects }) => {
                 <div className="text-[11px] font-bold text-black group-hover:text-white">
                   {project.name}
                 </div>
-                <div className="text-[11px] text-black group-hover:text-white mt-px">
+                <div className="win95-reading-copy text-black group-hover:text-white mt-px">
                   {project.description}
                 </div>
                 {project.technologies && (
@@ -142,7 +141,7 @@ const ProjectsContent: React.FC<{ projects: Project[] }> = ({ projects }) => {
                     {project.technologies.map((technology) => (
                       <span
                         key={technology}
-                        className="win95-badge text-[10px] text-black group-hover:text-white"
+                        className="win95-badge win95-interface-label text-black group-hover:text-white"
                       >
                         {technology}
                       </span>
@@ -167,7 +166,6 @@ const ProjectsContent: React.FC<{ projects: Project[] }> = ({ projects }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="win95-desktop-icon"
-                  aria-label={`View ${project.name}`}
                 >
                   <Win95Icon name={project.icon} size={32} />
                   <span className="win95-icon-label text-black">{project.name}</span>

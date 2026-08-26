@@ -2,74 +2,73 @@
 
 ## Overview
 
-This is a Next.js 16 App Router application written in TypeScript. The server-rendered app shell owns metadata and route-file conventions; the interactive Windows 95 desktop runs in client components. The product is a focused desktop portfolio, not a set of independently routed content pages.
+This is a Next.js 16 App Router application written in TypeScript. The primary site is a set of server-rendered minimal routes. A functional Windows 95 client experience remains available at `/desktop` as a noindex easter egg.
 
-## Application structure
+## Route structure
 
 ```text
-src/
-├── app/
-│   ├── layout.tsx              # Root metadata, structured data, analytics shell
-│   ├── page.tsx                # Desktop application registry and page entry
-│   ├── globals.css             # Windows 95 palette, bevels, typography, touch targets
-│   ├── manifest.ts             # PWA manifest route
-│   ├── robots.ts               # Crawler policy route
-│   ├── sitemap.ts              # Stable sitemap route
-│   └── opengraph-image.tsx     # Generated 1200×630 social preview image
-├── components/
-│   ├── layout/
-│   │   ├── DesktopEnvironment.tsx # URL-driven focused-window controller
-│   │   └── Windows95Layout.tsx    # Shared window chrome
-│   └── ui/win95/               # Desktop, menu, taskbar, explorer, and section UI
-├── data/                       # Profile, résumé, projects, and photo content
-├── types/                      # Shared TypeScript models
-└── lib/                        # Small reusable utilities
-
-tests/e2e/
-├── desktop-navigation.spec.ts  # Production-browser navigation and target-size coverage
-├── menu-navigation.spec.ts     # Menu semantics, routing, keyboard, and touch coverage
-├── resume-tabs.spec.ts         # Canonical Resume and accessible-tab coverage
-└── task-4-remediation.spec.ts  # Final accessibility, motion, and metadata regressions
+src/app/
+├── layout.tsx                  # Global metadata and one Person JSON-LD entity
+├── page.tsx                    # Minimal homepage
+├── resume/page.tsx            # Minimal resume
+├── projects/page.tsx          # Four-project index
+├── projects/[slug]/page.tsx   # Published project details and project JSON-LD
+├── photos/page.tsx             # Minimal photography route
+├── contact/page.tsx            # Minimal contact route
+├── desktop/page.tsx            # Interactive Windows 95 easter egg
+├── manifest.ts                 # Public PWA metadata
+├── robots.ts                   # Crawler policy
+├── sitemap.ts                  # Exact indexable route set
+└── opengraph-image.tsx         # Minimal 1200 by 630 share image
 ```
 
-## Focused window and URL state
+`src/components/layout/MinimalSiteLayout.tsx` owns public navigation and document chrome. `DesktopEnvironment.tsx` and `src/components/ui/win95/` own desktop state and retro interaction. Shared facts live in `src/content` and `src/data`.
 
-`DesktopEnvironment` treats the query parameter `app` as the single canonical focused-window state. An absent `app` value means My Computer. Known IDs render only their corresponding application; unknown IDs are normalized to My Computer. Launching an application pushes the canonical query state, and clearing `app` leaves unrelated parameters intact. Browser history therefore reconstructs the focused window on Back, Forward, refresh, and cold load.
+## Canonical and metadata model
 
-Recognized legacy `#section-*` fragments are input compatibility only. On cold load the client maps them to `?app=<id>` with a history replacement, retaining unrelated query parameters. This avoids duplicate canonical states.
+`src/constants/site.ts` is the only code source for the canonical origin, `https://barash.me`, plus Steven's visible email and social identities. Root metadata supplies the exact default title, defensible keywords, global share defaults, and the canonical Person JSON-LD entity. Stable pages replace title, description, canonical, Open Graph, and Twitter values with route-specific metadata.
 
-`MenuBar` is a command surface over that same state model. File owns window/session actions, View owns application launchers, and Help owns help/site-information launchers. Cross-route commands use the section-to-application mapping in `DesktopEnvironment`, so a command chosen from `/photos` retains its intended `?app=<id>` target when it returns to the desktop.
+JSON-LD is serialized with `<` escaped before insertion. Project pages emit `SoftwareSourceCode` entities that reference the one global Person by `@id`; they do not create duplicate Person entities.
 
-## Rendering boundary
+The sitemap contains only the homepage, Resume, Projects, four published project details, Photos, and Contact. Robots points to `https://barash.me/sitemap.xml`. `/desktop` remains canonical to itself with `noindex, follow` and is absent from the sitemap.
 
-The root layout, metadata routes, sitemap, robots file, manifest, and generated social image are App Router server-side concerns. The desktop controller and interactive controls are client components because they respond to browser history, keyboard, pointer, and touch events. Static content is held in `src/data` and is rendered by focused application components.
+## Project route and clean 404 behavior
 
-## Design constraints
+`generateStaticParams()` returns only the four published project slugs. `dynamicParams = true` is intentional in Next 16: unmatched and draft slugs reach the catalog guard, which calls `notFound()` and returns a clean 404 instead of producing an internal `NoFallbackError` log. Published routes still prerender.
 
-`DESIGN.md` defines the accepted visual contract: the Windows 95 palette, Tahoma/system interface typography, Courier terminal typography, raised and sunken bevels, pixel imagery, desktop double-click behavior, keyboard Enter/Space behavior, and one-tap mobile access. Coarse-pointer interactive targets are at least 44 by 44 CSS pixels while the visible artwork retains its original density.
+## Legacy redirects
 
-## Metadata and static routes
+`src/proxy.ts` handles only known legacy inputs. Old `?app=projects` and `?app=explorer` links redirect to `/projects` and `/contact`. Embedded desktop apps redirect to `/desktop?app=<id>`. Recognized old hash routes are normalized by the desktop controller. Redirect targets come from fixed mappings, so arbitrary external redirects are not accepted.
 
-`layout.tsx` supplies canonical, Open Graph, Twitter, structured-data, and Brooklyn locality metadata. The actual portrait is 250×250 and the structured data declares those dimensions. `opengraph-image.tsx` emits the 1200×630 Windows 95 image used by the metadata image route. The manifest retains only the valid SVG icon entry; it does not assert unavailable raster icon or screenshot dimensions. The sitemap deliberately omits a build-time `lastModified` value so it does not pretend that every build changed site content.
+The code-side canonical cutover does not change DNS, Vercel settings, external redirects, or deployment configuration.
+
+## Design boundaries
+
+The public site uses white, near-black, restrained blue, system sans typography, square geometry, and plain document or row layouts. `/desktop` retains teal, silver, navy, bevels, compact interface typography, Windows icons, and the terminal. The generated share image and manifest always follow the public system.
 
 ## Build and test workflow
 
-Development and production builds use Webpack:
-
 ```bash
 npm run dev
-npm run build
-```
-
-`npm run build` first runs the project type check. `npm test` invokes Playwright against an isolated Webpack production build in `.next-playwright` on port 3101 and never reuses another server. The suite covers deep links, canonicalization, browser history, desktop/keyboard/touch launching, command-menu semantics, cross-route targets, coarse-pointer target sizes, canonical Resume tabs, shutdown-dialog modality, reduced motion, and generated-image text guards. It does not download a browser.
-
-Linting and type checking are separate commands:
-
-```bash
+npm test
 npm run lint
 npm run type-check
+npm run build
+npm run lighthouse
+npm audit --omit=dev --audit-level=high
 ```
 
-## Icon provenance decision
+Development uses Webpack. `npm test` builds into `.next-playwright` and serves an isolated production server at `127.0.0.1:3101`. Lighthouse builds into `.next-lighthouse`, serves production at `127.0.0.1:3102`, writes `.lighthouse/local-production.report.json`, and removes its server and build directory after the run.
 
-The icons in `public/images/win95-icons/` are native 16×16 and 32×32 raster variants extracted from `@react95/icons` 2.5.3. React95's source notice says its MIT license does not cover the Windows-associated images, which remain Microsoft property. The user has explicitly accepted that unresolved licensing risk and directed that the actual raster assets be retained. Do not replace, redraw, rename, or delete them during ordinary implementation work. The source record is in [`public/images/win95-icons/SOURCE.md`](public/images/win95-icons/SOURCE.md).
+## Browser matrix
+
+| Project | Browser profile | Main coverage |
+| --- | --- | --- |
+| `chromium` | Desktop Chrome | Stable routes, metadata, redirects, keyboard, desktop behavior, production output |
+| `mobile-webkit` | iPhone 13 WebKit | Mobile layout, touch targets, overflow, desktop touch behavior |
+
+Manual final screenshots cover Home, Projects, and Photos at desktop and mobile sizes. Port checks confirm that test and Lighthouse servers do not remain after verification.
+
+## Icon provenance
+
+The raster icons in `public/images/win95-icons/` were extracted from `@react95/icons` 2.5.3. Their licensing risk is documented in `public/images/win95-icons/SOURCE.md`. They remain part of the optional desktop experience and should not be substituted during routine public-site work.

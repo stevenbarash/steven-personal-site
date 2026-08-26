@@ -8,8 +8,12 @@ interface TerminalProps {
 export const Terminal: React.FC<TerminalProps> = ({ commands }) => {
   return (
     <div className="win95-group-box">
-      <span className="win95-group-box-label">Command Prompt</span>
-      <div className="win95-terminal">
+      <span className="win95-group-box-label">Command Prompt: Read-only transcript</span>
+      <div
+        className="win95-terminal"
+        role="region"
+        aria-label="Command Prompt transcript (read-only)"
+      >
         <div className="space-y-[2px]">
           <div className="h-[8px]" />
           {commands.map((cmd) => (
@@ -22,10 +26,6 @@ export const Terminal: React.FC<TerminalProps> = ({ commands }) => {
               <div className="h-[2px]" />
             </div>
           ))}
-          <div>
-            <span className="text-[#c0c0c0]">{APP_CONFIG.terminalPrompt}</span>
-            <span className="inline-block w-[7px] h-[12px] bg-[#c0c0c0] animate-pulse" />
-          </div>
         </div>
       </div>
     </div>

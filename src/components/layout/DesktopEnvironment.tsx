@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef, ReactNode } from 'react';
+import { useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Windows95Layout } from '@/components/layout/Windows95Layout';
 import { Taskbar } from '@/components/ui/win95/Taskbar';
 import { DesktopShortcuts } from '@/components/ui/win95/DesktopShortcuts';
+import { getAppById, getAppByLegacyAppId, getAppByLegacySectionId, getAppByPathname } from '@/features/desktop/navigation';
+import type { DesktopAppDefinition, DesktopAppId } from '@/features/desktop/types';
 import { APP_CONFIG } from '@/constants';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 import type { WindowState } from '@/types';
@@ -15,37 +17,15 @@ interface DesktopEnvironmentProps {
   activeProgram?: string;
   defaultStatusText?: string;
   statusPaneLabel?: string;
-  desktopApps?: DesktopAppDefinition[];
+  desktopApps?: DesktopAppContentDefinition[];
 }
 
-export interface DesktopAppDefinition {
-  id: string;
-  sectionId: string;
-  title: string;
-  activeProgram: string;
-  defaultStatusText: string;
-  statusPaneLabel: string;
+export interface DesktopAppContentDefinition {
+  id: DesktopAppId;
   content: ReactNode;
 }
 
-const EMPTY_DESKTOP_APPS: DesktopAppDefinition[] = [];
-
-const SECTION_STATUS_LABELS: Record<string, string> = {
-  'section-profile': 'Viewing profile details',
-  'section-projects': 'Viewing project portfolio',
-  'section-explorer': 'Browsing links explorer',
-  'section-terminal': 'Command prompt ready',
-};
-
-const SECTION_APP_IDS: Record<string, string> = {
-  'section-profile': 'profile',
-  'section-projects': 'projects',
-  'section-explorer': 'explorer',
-  'section-terminal': 'terminal',
-  'section-resume': 'resume',
-  'section-help': 'help',
-  'section-about-site': 'about-site',
-};
+const EMPTY_DESKTOP_APPS: DesktopAppContentDefinition[] = [];
 
 export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
   children,
@@ -59,18 +39,46 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
   const [activeAppId, setActiveAppId] = useState<string | null>(null);
   const [statusText, setStatusText] = useState(defaultStatusText);
   const [isShutdown, setIsShutdown] = useState(false);
+  const [shouldFocusWindow, setShouldFocusWindow] = useState(false);
   const restartButtonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const pathname = usePathname();
 
-  const getAppForSection = useCallback((sectionId: string) => (
-    desktopApps.find(app => app.sectionId === sectionId)
-  ), [desktopApps]);
+  useEffect(() => {
+    const focusTimer = sessionStorage.getItem('win95.pendingRouteWindowFocus') === '1'
+      ? window.setTimeout(() => setShouldFocusWindow(true), 0)
+      : undefined;
+    if (focusTimer !== undefined) sessionStorage.removeItem('win95.pendingRouteWindowFocus');
+
+    const rememberInternalNavigation = (event: MouseEvent) => {
+      const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href]');
+      if (!anchor || anchor.classList.contains('win95-skip-link')) return;
+      const destination = new URL(anchor.href, window.location.href);
+      if (destination.origin === window.location.origin && destination.pathname !== window.location.pathname) {
+        sessionStorage.setItem('win95.pendingRouteWindowFocus', '1');
+      }
+    };
+    document.addEventListener('click', rememberInternalNavigation, true);
+    return () => {
+      if (focusTimer !== undefined) window.clearTimeout(focusTimer);
+      document.removeEventListener('click', rememberInternalNavigation, true);
+    };
+  }, []);
+
+  const getAppForSection = useCallback((sectionId: string) => {
+    const catalogApp = getAppByLegacySectionId(sectionId);
+    return catalogApp && desktopApps.some((app) => app.id === catalogApp.id)
+      ? catalogApp
+      : undefined;
+  }, [desktopApps]);
 
   const applyLocationApp = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
     const requestedAppId = params.get('app');
-    const requestedApp = desktopApps.find(app => app.id === requestedAppId);
+    const catalogApp = getAppByLegacyAppId(requestedAppId);
+    const requestedApp = catalogApp && desktopApps.some((app) => app.id === catalogApp.id)
+      ? catalogApp
+      : undefined;
 
     if (requestedAppId && !requestedApp) {
       params.delete('app');
@@ -80,18 +88,32 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
 
     setActiveAppId(requestedApp?.id ?? null);
     setWindowState('normal');
-    setStatusText(requestedApp?.defaultStatusText ?? defaultStatusText);
+    setStatusText(requestedApp?.chrome.statusText ?? defaultStatusText);
   }, [defaultStatusText, desktopApps]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const legacySectionId = window.location.hash.slice(1);
-    const legacyApp = !params.has('app') && legacySectionId
-      ? getAppForSection(legacySectionId)
+    const catalogLegacyApp = !params.has('app') && legacySectionId
+      ? getAppByLegacySectionId(legacySectionId)
       : undefined;
+    const legacyApp = catalogLegacyApp && new URL(catalogLegacyApp.href, window.location.origin).pathname !== '/'
+      ? catalogLegacyApp
+      : !params.has('app') && legacySectionId ? getAppForSection(legacySectionId) : undefined;
 
-    if (legacyApp) {
-      params.set('app', legacyApp.id);
+    if (legacyApp && new URL(legacyApp.href, window.location.origin).pathname !== '/') {
+      params.delete('app');
+      const destination = new URL(legacyApp.href, window.location.origin);
+      if (destination.pathname === '/desktop' && legacyApp.legacyAppId) {
+        params.set('app', legacyApp.legacyAppId);
+      }
+      destination.search = params.toString();
+      window.location.replace(`${destination.pathname}${destination.search}`);
+      return;
+    }
+
+    if (legacyApp?.legacyAppId) {
+      params.set('app', legacyApp.legacyAppId);
       window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
     }
 
@@ -103,16 +125,30 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
     };
   }, [applyLocationApp, getAppForSection]);
 
+  useEffect(() => {
+    if (pathname !== '/desktop' || new URLSearchParams(window.location.search).has('app')) return;
+    const launcherId = sessionStorage.getItem('win95.pendingLauncherFocus');
+    if (!launcherId) return;
+
+    const focusLauncher = window.setTimeout(() => {
+      const launcher = document.querySelector<HTMLElement>(`[data-launcher-for="${CSS.escape(launcherId)}"]`);
+      if (!launcher) return;
+      launcher.focus();
+      sessionStorage.removeItem('win95.pendingLauncherFocus');
+    }, 0);
+    return () => window.clearTimeout(focusLauncher);
+  }, [activeAppId, pathname]);
+
   const openApp = useCallback((app: DesktopAppDefinition) => {
     const url = new URL(window.location.href);
-    if (url.searchParams.get('app') !== app.id) {
-      url.searchParams.set('app', app.id);
+    if (app.legacyAppId && url.searchParams.get('app') !== app.legacyAppId) {
+      url.searchParams.set('app', app.legacyAppId);
       url.hash = '';
       window.history.pushState(null, '', `${url.pathname}${url.search}`);
     }
     setActiveAppId(app.id);
     setWindowState('normal');
-    setStatusText(app.defaultStatusText);
+    setStatusText(app.chrome.statusText);
   }, []);
 
   const openMyComputer = useCallback(() => {
@@ -135,8 +171,32 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
   }, []);
 
   const handleClose = useCallback(() => {
-    setWindowState('closed');
-  }, []);
+    const params = new URLSearchParams(window.location.search);
+    const closingApp = getAppByLegacyAppId(params.get('app'))
+      ?? (activeAppId ? getAppById(activeAppId) : getAppByPathname(pathname));
+    if (!closingApp || closingApp.id === 'home') {
+      setWindowState('closed');
+      return;
+    }
+
+    sessionStorage.setItem('win95.pendingLauncherFocus', closingApp.id);
+    params.delete('app');
+    const query = params.toString();
+    const homeTarget = `/desktop${query ? `?${query}` : ''}`;
+    if (pathname !== '/desktop') {
+      router.push(homeTarget);
+      return;
+    }
+
+    window.history.pushState(null, '', homeTarget);
+    setActiveAppId(null);
+    setWindowState('normal');
+    setStatusText(defaultStatusText);
+    window.setTimeout(() => {
+      document.querySelector<HTMLElement>(`[data-launcher-for="${CSS.escape(closingApp.id)}"]`)?.focus();
+      sessionStorage.removeItem('win95.pendingLauncherFocus');
+    }, 0);
+  }, [activeAppId, defaultStatusText, pathname, router]);
 
   const handleTaskbarClick = useCallback(() => {
     setWindowState(prev => {
@@ -196,7 +256,7 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
     }
 
     setWindowState(prev => prev === 'minimized' || prev === 'closed' ? 'normal' : prev);
-    setStatusText(SECTION_STATUS_LABELS[sectionId] ?? defaultStatusText);
+    setStatusText(defaultStatusText);
     setTimeout(() => {
       scrollToSection(sectionId);
     }, 150);
@@ -204,9 +264,15 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
 
   const handleRouteNavigate = useCallback((path: string, sectionId?: string) => {
     if (pathname !== path) {
-      const targetApp = sectionId ? getAppForSection(sectionId) : undefined;
-      const targetAppId = targetApp?.id ?? (sectionId ? SECTION_APP_IDS[sectionId] : undefined);
-      router.push(`${path}${targetAppId ? `?app=${targetAppId}` : ''}`);
+      sessionStorage.setItem('win95.pendingRouteWindowFocus', '1');
+      const params = new URLSearchParams(window.location.search);
+      params.delete('app');
+      const targetAppId = sectionId
+        ? getAppByLegacySectionId(sectionId)?.legacyAppId
+        : undefined;
+      if (targetAppId) params.set('app', targetAppId);
+      const query = params.toString();
+      router.push(`${path}${query ? `?${query}` : ''}`);
       return;
     }
 
@@ -215,25 +281,29 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
     } else {
       openMyComputer();
     }
-  }, [getAppForSection, handleNavigate, openMyComputer, pathname, router]);
+  }, [handleNavigate, openMyComputer, pathname, router]);
 
   const isDesktop = useIsDesktop();
   const isWindowVisible = windowState === 'normal' || windowState === 'maximized';
-  const activeApp = desktopApps.find(app => app.id === activeAppId);
-  const resolvedTitle = activeApp?.title ?? title;
-  const resolvedProgram = activeApp?.activeProgram ?? activeProgram;
-  const resolvedStatusPaneLabel = activeApp?.statusPaneLabel ?? statusPaneLabel;
-  const activeContent = activeApp?.content ?? children;
+  const activeApp = getAppById(activeAppId);
+  const activeAppContent = desktopApps.find((app) => app.id === activeAppId);
+  const resolvedTitle = activeApp?.chrome.title ?? title;
+  const resolvedProgram = activeApp?.chrome.programLabel ?? activeProgram;
+  const resolvedStatusPaneLabel = activeApp?.chrome.pathLabel ?? statusPaneLabel;
+  const activeContent = activeAppContent?.content ?? children;
 
   return (
     <>
       <main
+        id="main-content"
+        tabIndex={-1}
         inert={isShutdown || undefined}
-        className={`min-h-screen pb-[40px] relative ${
+        className={`win95-desktop-main min-h-screen relative ${
           windowState === 'maximized' ? 'p-0' : 'p-[8px]'
         }`}
         style={{ background: '#008080' }}
       >
+        <a className="win95-skip-link" href="#main-content">Skip to main content</a>
         <DesktopShortcuts onRouteNavigate={handleRouteNavigate} />
 
         {isWindowVisible && (
@@ -249,6 +319,7 @@ export const DesktopEnvironment: React.FC<DesktopEnvironmentProps> = ({
             onShutDown={handleShutDown}
             statusText={statusText}
             statusPaneLabel={resolvedStatusPaneLabel}
+            focusOnMount={Boolean(activeApp) || shouldFocusWindow}
           >
             {activeContent}
           </Windows95Layout>

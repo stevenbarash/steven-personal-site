@@ -8,6 +8,9 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
+import { getAppsForPlacement } from '@/features/desktop/app-catalog';
+import { getAppById, getNavigationTarget, HELP_MENU_APP_IDS } from '@/features/desktop/navigation';
+import type { DesktopAppId } from '@/features/desktop/types';
 
 interface MenuBarProps {
   onRouteNavigate?: (path: string, sectionId?: string) => void;
@@ -47,8 +50,11 @@ export const MenuBar: React.FC<MenuBarProps> = ({
   const triggerRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const commandRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-  const navigateToSection = useCallback((sectionId: string) => {
-    onRouteNavigate?.('/', sectionId);
+  const navigateToApp = useCallback((appId: DesktopAppId) => {
+    const app = getAppById(appId);
+    if (!app) return;
+    const target = getNavigationTarget(app);
+    onRouteNavigate?.(target.path, target.sectionId);
   }, [onRouteNavigate]);
 
   const menus: TopLevelMenu[] = useMemo(() => [
@@ -56,7 +62,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({
       label: 'File',
       mnemonic: 'f',
       items: [
-        { type: 'command', label: 'Home', onSelect: () => onRouteNavigate?.('/') },
+        { type: 'command', label: 'Home', onSelect: () => navigateToApp('home') },
         { type: 'command', label: 'Close Window', onSelect: () => onCloseWindow?.() },
         { type: 'separator' },
         { type: 'command', label: 'Shut Down...', onSelect: () => onShutDown?.() },
@@ -65,24 +71,25 @@ export const MenuBar: React.FC<MenuBarProps> = ({
     {
       label: 'View',
       mnemonic: 'v',
-      items: [
-        { type: 'command', label: 'My Computer', onSelect: () => onRouteNavigate?.('/') },
-        { type: 'command', label: 'Projects', onSelect: () => navigateToSection('section-projects') },
-        { type: 'command', label: 'Resume', onSelect: () => navigateToSection('section-resume') },
-        { type: 'command', label: 'Photography', onSelect: () => onRouteNavigate?.('/photos') },
-        { type: 'command', label: 'Internet', onSelect: () => navigateToSection('section-explorer') },
-        { type: 'command', label: 'MS-DOS Prompt', onSelect: () => navigateToSection('section-terminal') },
-      ],
+      items: getAppsForPlacement('view-menu').map((app) => ({
+        type: 'command' as const,
+        label: app.placement.label,
+        onSelect: () => navigateToApp(app.id),
+      })),
     },
     {
       label: 'Help',
       mnemonic: 'h',
-      items: [
-        { type: 'command', label: 'Help Topics', onSelect: () => navigateToSection('section-help') },
-        { type: 'command', label: 'About This Site', onSelect: () => navigateToSection('section-about-site') },
-      ],
+      items: HELP_MENU_APP_IDS.map((appId) => {
+        const app = getAppById(appId)!;
+        return {
+          type: 'command' as const,
+          label: app.placements['help-menu']!.label,
+          onSelect: () => navigateToApp(app.id),
+        };
+      }),
     },
-  ], [navigateToSection, onCloseWindow, onRouteNavigate, onShutDown]);
+  ], [navigateToApp, onCloseWindow, onShutDown]);
 
   const getCommandIndexes = useCallback((menuIndex: number) => (
     menus[menuIndex].items

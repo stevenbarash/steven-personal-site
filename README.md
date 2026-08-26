@@ -1,55 +1,84 @@
 # Steven Barash personal site
 
-A Windows 95 desktop-style portfolio built with Next.js 16, React, and TypeScript. The site presents profile, projects, résumé, photography, and links as focused desktop applications rather than as a conventional scrolling landing page.
+A minimal public portfolio for Steven Barash, Senior Solutions Engineer at Descope. The primary routes cover his resume, software projects, photography, and contact details. A functional Windows 95 version remains available at `/desktop` as a noindex easter egg.
+
+The code-side canonical origin is `https://barash.me`. DNS, Vercel project settings, redirects, and deployment are managed separately and are not changed by this repository phase.
 
 ## Requirements
 
-- Node.js 20.9.0 or newer and npm
-- Playwright's matching Chromium build, installed once with `npx playwright install chromium`. `npm test` does not download browsers.
+- Node.js 20.9.0 or newer
+- npm
+- Playwright Chromium and WebKit builds, installed once with `npx playwright install chromium webkit`
+- Chrome or Chromium for Lighthouse
 
-## Development
+## Local development
 
 ```bash
+npm install
 npm run dev
 ```
 
-The development server uses Webpack. Open [http://localhost:3000](http://localhost:3000).
+Open `http://localhost:3000`.
 
-## Scripts
+## Verification commands
 
 ```bash
-npm run dev              # Start the Webpack development server
-npm run build            # Type-check and create a Webpack production build
-npm run start            # Serve the production build
-npm test                 # Build and test an isolated production server on port 3101
-npm run lint             # Run ESLint
-npm run type-check       # Generate Next route types and run TypeScript checks
-npm run type-check:watch # Watch TypeScript checks
-npm run import:instagram # Import the configured Instagram photo feed
+npm test
+npm run lint
+npm run type-check
+npm run build
+npm audit --omit=dev --audit-level=high
+npm run lighthouse
 ```
 
-`npm test` uses `.next-playwright`, starts its own production server on port 3101, and never reuses an existing server. This keeps browser regression tests separate from a local development server.
+`npm test` builds and tests an isolated production server on port 3101. `npm run lighthouse` builds and audits an isolated production server on port 3102. Both workflows own their build directories and clean up their servers.
 
-## Navigation model
+## Public routes
 
-The desktop has one focused window. The canonical state is `?app=<id>`:
+- `/`
+- `/resume`
+- `/projects`
+- `/projects/pult`
+- `/projects/uptick`
+- `/projects/bike-cli`
+- `/projects/personal-site`
+- `/photos`
+- `/contact`
 
-- No `app` parameter opens **My Computer**.
-- A recognized ID opens only that application window.
-- Invalid values fall back to My Computer.
-- Launches push browser history, so Back and Forward restore the visible focused window.
-- Recognized legacy `#section-*` URLs are accepted on cold load and canonicalized to `?app=<id>` while preserving unrelated query parameters.
+The sitemap contains exactly those routes. `/desktop` is canonical to `/desktop`, uses `noindex, follow`, and is not listed in the sitemap.
 
-Desktop shortcuts support mouse double-click and keyboard activation. On touch devices, shortcuts and Start-menu paths remain one-tap accessible; controls expose expanded coarse-pointer hit targets without scaling the period-authentic icon artwork.
+## Route split and compatibility
 
-The window menu bar uses commands rather than disguised shortcuts: **File** controls the current window and session, **View** opens portfolio applications, and **Help** opens dedicated Help Topics or About This Site windows. **About Me** remains the biography entry in Start. Menus support pointer and touch input, Alt mnemonics, arrow-key movement, Enter/Space activation, and Escape dismissal.
+Minimal server-rendered documents are the primary public experience. The Windows 95 desktop and its focused application windows live only at `/desktop`.
 
-## Visual system and icons
+Legacy links remain supported through fixed redirects and client normalization:
 
-The interface intentionally uses Windows 95 palette, bevels, Tahoma-style system typography, and Courier-style terminal text. It does not load external display fonts.
+- `/?app=projects` redirects to `/projects`.
+- `/?app=explorer` redirects to `/contact`.
+- Known embedded applications move to `/desktop?app=<id>`.
+- Recognized `#section-*` links resolve to their current stable destination.
 
-The raster icons under `public/images/win95-icons/` are the retained Windows icon variants extracted from `@react95/icons` 2.5.3. The React95 source states that Windows and associated images remain Microsoft property and are not covered by React95's MIT license. The site intentionally keeps those actual raster assets under the user's explicit accepted licensing-risk decision; they must not be replaced, redrawn, renamed, or deleted as part of routine work. See [`public/images/win95-icons/SOURCE.md`](public/images/win95-icons/SOURCE.md) for the source record.
+Unknown project slugs return a clean 404. The dynamic project route keeps `dynamicParams = true` so Next 16 can reach `notFound()` without an internal `NoFallbackError` log.
 
-## Metadata and SEO
+## Design systems
 
-The App Router generates the manifest, robots file, sitemap, and a 1200×630 Windows 95-style Open Graph image. The social preview route is generated by `src/app/opengraph-image.tsx`; it uses no external font dependency.
+The public site uses a white background, near-black text, one restrained blue accent, square geometry, and a system sans stack. It does not use cards, glass, decorative gradients, or terminal styling.
+
+The `/desktop` route retains teal, silver, navy, hard bevels, Windows 95 raster icons, compact system type, menus, windows, and a taskbar. See `DESIGN.md` for tokens and `ARCHITECTURE.md` for rendering boundaries.
+
+## Browser test matrix
+
+| Playwright project | Browser | Coverage |
+| --- | --- | --- |
+| `chromium` | Desktop Chromium | Public routes, metadata, redirects, keyboard, desktop interaction |
+| `mobile-webkit` | iPhone 13 WebKit | Mobile layout, touch behavior, overflow, responsive desktop interaction |
+
+Final visual review uses fresh desktop and mobile screenshots for Home, Projects, and Photos.
+
+## Metadata and source centralization
+
+`src/constants/site.ts` is the code source of truth for the canonical origin, visible email, and social identities. Route metadata, robots, sitemap, manifest, Person JSON-LD, profile content, and resume links derive from it. The root share image is generated at 1200 by 630 pixels from `src/app/opengraph-image.tsx`.
+
+## Windows icon provenance
+
+The raster assets in `public/images/win95-icons/` come from `@react95/icons` 2.5.3. Their licensing note is recorded in `public/images/win95-icons/SOURCE.md`. They remain limited to the optional desktop experience.

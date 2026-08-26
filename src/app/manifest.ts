@@ -1,14 +1,15 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
+import { siteConfig } from '@/constants/site';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Steven Barash - Senior Solutions Engineer & Professional Photographer',
-    short_name: 'Steven Barash',
-    description: 'Senior Solutions Engineer at Descope specializing in identity authentication. Professional photographer in Brooklyn, NYC.',
+    name: `${siteConfig.siteName} | Products, Demos, and Technical Systems`,
+    short_name: siteConfig.siteName,
+    description: 'Complex technical systems turned into working products, demos, and decisions.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#008080',
-    theme_color: '#008080',
+    background_color: '#f8f8f6',
+    theme_color: '#034cfc',
     scope: '/',
     lang: 'en-US',
     categories: ['business', 'productivity', 'photography'],
@@ -21,12 +22,5 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     shortcuts: [],
-    related_applications: [
-      {
-        platform: 'webapp',
-        url: 'https://stevenbarash.com',
-      },
-    ],
-    prefer_related_applications: false,
-  }
+  };
 }

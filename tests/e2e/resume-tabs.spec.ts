@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { siteConfig } from '../../src/constants/site';
 
 const resumeTabs = ['Experience', 'Education', 'Skills', 'Honors'];
 
@@ -55,32 +56,10 @@ const expectResumeTabKeyboardNavigation = async (page: Page, tablist: Locator) =
   await expect(experience).toHaveAttribute('aria-selected', 'true');
 };
 
-test('My Computer portfolio and its canonical resume view expose linked, roving tabs', async ({ page }) => {
-  await page.goto('/');
-
-  const portfolioTabs = page.getByRole('tablist', { name: 'Portfolio content' });
-  await expectTabRelationships(page, portfolioTabs, ['Projects', 'Resume']);
-
-  const projects = portfolioTabs.getByRole('tab', { name: 'Projects' });
-  const resume = portfolioTabs.getByRole('tab', { name: 'Resume' });
-  await projects.focus();
-  await page.keyboard.press('ArrowLeft');
-  await expect(resume).toBeFocused();
-  await expect(resume).toHaveAttribute('aria-selected', 'true');
-
-  await page.keyboard.press('ArrowRight');
-  await expect(projects).toBeFocused();
-  await expect(projects).toHaveAttribute('aria-selected', 'true');
-
-  await page.keyboard.press('End');
-  await expect(resume).toBeFocused();
-  await expect(resume).toHaveAttribute('aria-selected', 'true');
-
-  await page.keyboard.press('Home');
-  await expect(projects).toBeFocused();
-  await expect(projects).toHaveAttribute('aria-selected', 'true');
-
-  await resume.click();
+test('My Computer opens the focused Resume app with linked, roving tabs', async ({ page }) => {
+  await page.goto('/desktop');
+  await page.getByRole('link', { name: 'Open Resume', exact: true }).click();
+  await expect(page).toHaveURL('/desktop?app=resume');
   const embeddedResumeTabs = page.getByRole('tablist', { name: 'Resume sections' });
   await expectTabRelationships(page, embeddedResumeTabs, resumeTabs);
   await expectResumeTabKeyboardNavigation(page, embeddedResumeTabs);
@@ -89,13 +68,22 @@ test('My Computer portfolio and its canonical resume view expose linked, roving 
 });
 
 test('focused Resume app exposes the same linked, roving resume tabs', async ({ page }) => {
-  await page.goto('/?app=resume');
+  await page.goto('/desktop?app=resume');
 
   const focusedResumeTabs = page.getByRole('tablist', { name: 'Resume sections' });
   await expectTabRelationships(page, focusedResumeTabs, resumeTabs);
   await expectResumeTabKeyboardNavigation(page, focusedResumeTabs);
   await expect(page.locator('img[src="/images/logos/descope.png"]')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Descope', exact: true })).toHaveAttribute('href', 'https://www.descope.com');
+});
+
+test('resume website link displays the canonical destination hostname', async ({ page }) => {
+  await page.goto('/desktop?app=resume');
+
+  const expectedHostname = new URL(siteConfig.canonicalOrigin).hostname;
+  const websiteLink = page.getByRole('link', { name: expectedHostname, exact: true });
+  await expect(websiteLink).toBeVisible();
+  await expect(websiteLink).toHaveAttribute('href', siteConfig.canonicalOrigin);
 });
 
 test('ProjectsSection delegates resume panels to ResumeSection', async () => {

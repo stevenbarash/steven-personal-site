@@ -1,15 +1,26 @@
+import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 
-const projectsTitle = 'PROJECTS - Windows Explorer';
+const projectsTitle = 'PROJECTS - Project Explorer';
 const computerTitle = 'STEVEN.EXE - Personal Site';
 
-const expandedHitRegion = async (locator: import('@playwright/test').Locator) => locator.evaluate((element) => {
-  const box = element.getBoundingClientRect();
-  const pseudo = window.getComputedStyle(element, '::before');
-  const width = Number.parseFloat(pseudo.width);
-  const height = Number.parseFloat(pseudo.height);
-  return { x: box.left + (box.width - width) / 2, y: box.top + (box.height - height) / 2, width, height };
-});
+const expandedHitRegion = async (locator: import('@playwright/test').Locator) => {
+  let region: { x: number; y: number; width: number; height: number } | undefined;
+  await expect.poll(async () => {
+    region = await locator.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      const pseudo = window.getComputedStyle(element, '::before');
+      const width = Number.parseFloat(pseudo.width);
+      const height = Number.parseFloat(pseudo.height);
+      return { x: box.left + (box.width - width) / 2, y: box.top + (box.height - height) / 2, width, height };
+    });
+    return Object.values(region).every(Number.isFinite) && region.width > 0 && region.height > 0;
+  }, {
+    message: `expected ${await locator.toString()} to expose finite expanded hit-region geometry`,
+    timeout: 2_000,
+  }).toBe(true);
+  return region!;
+};
 
 const intersects = (first: { x: number; y: number; width: number; height: number }, second: { x: number; y: number; width: number; height: number }) => (
   first.x < second.x + second.width
@@ -18,74 +29,108 @@ const intersects = (first: { x: number; y: number; width: number; height: number
   && first.y + first.height > second.y
 );
 
-test('cold app query opens only the requested Projects window', async ({ page }) => {
-  await page.goto('/?app=projects');
+test('expanded hit-region helper waits for finite pseudo-element geometry', async ({ page }) => {
+  await page.setContent(`
+    <style>
+      #target::before { content: ''; width: auto; height: auto; }
+      #target.ready::before { width: 44px; height: 44px; }
+    </style>
+    <button id="target">Target</button>
+    <script>setTimeout(() => document.querySelector('#target').classList.add('ready'), 250)</script>
+  `);
 
+  const region = await expandedHitRegion(page.locator('#target'));
+  expect(Number.isFinite(region.x)).toBe(true);
+  expect(Number.isFinite(region.y)).toBe(true);
+  expect(region.width).toBe(44);
+  expect(region.height).toBe(44);
+});
+
+test('all pseudo-element hit-region assertions use the finite polling helper', () => {
+  const source = readFileSync('tests/e2e/desktop-navigation.spec.ts', 'utf8');
+  expect(source.match(/getComputedStyle\(element, '::before'\)/g)).toHaveLength(1);
+});
+
+test('cold app query opens only the requested Projects window', async ({ page }) => {
+  await page.goto('/desktop?app=projects');
+
+  await expect(page).toHaveURL('/desktop?app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
   await expect(page.getByText(computerTitle, { exact: true })).not.toBeVisible();
-  await expect(page.getByText('My Projects', { exact: true })).toBeVisible();
+  await expect(page.getByText('Projects', { exact: true })).toBeVisible();
 });
 
 test('a recognized legacy section hash opens the app and canonicalizes the URL', async ({ page }) => {
-  await page.goto('/?source=legacy#section-projects');
+  await page.goto('/desktop?source=legacy#section-projects');
 
-  await expect(page).toHaveURL('/?source=legacy&app=projects');
+  await expect(page).toHaveURL('/desktop?source=legacy&app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
 });
 
 test('launching an app writes its canonical query while preserving unrelated parameters', async ({ page }) => {
-  await page.goto('/?source=regression');
+  await page.goto('/desktop?source=regression');
 
-  await page.getByLabel('Open My Projects').dblclick();
+  await page.getByLabel('Open Projects').dblclick();
 
-  await expect(page).toHaveURL('/?source=regression&app=projects');
+  await expect(page).toHaveURL('/desktop?source=regression&app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
 });
 
 test('Home clears only the app query parameter', async ({ page }) => {
-  await page.goto('/?source=regression&app=projects');
+  await page.goto('/desktop?source=regression&app=projects');
 
   await page.getByLabel('Start menu').click();
-  await page.getByRole('menuitem', { name: 'Home' }).click();
+  await page.getByRole('menuitem', { name: 'My Computer' }).click();
 
-  await expect(page).toHaveURL('/?source=regression');
+  await expect(page).toHaveURL('/desktop?source=regression');
   await expect(page.getByText(computerTitle, { exact: true })).toBeVisible();
 });
 
 test('browser history restores My Computer and the focused app', async ({ page }) => {
-  await page.goto('/');
-  await page.getByLabel('Open My Projects').dblclick();
-  await expect(page).toHaveURL('/?app=projects');
+  await page.goto('/desktop');
+  await page.getByLabel('Open Projects').dblclick();
+  await expect(page).toHaveURL('/desktop?app=projects');
 
   await page.goBack();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL('/desktop');
   await expect(page.getByText(computerTitle, { exact: true })).toBeVisible();
 
   await page.goForward();
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
 });
 
 test('an unknown app query falls back to My Computer', async ({ page }) => {
-  await page.goto('/?source=regression&app=not-a-real-program');
+  await page.goto('/desktop?source=regression&app=not-a-real-program');
 
-  await expect(page).toHaveURL('/?source=regression');
+  await expect(page).toHaveURL('/desktop?source=regression');
   await expect(page.getByText(computerTitle, { exact: true })).toBeVisible();
   await expect(page.getByText(projectsTitle, { exact: true })).not.toBeVisible();
 });
 
 test('desktop double-click and Enter open the intended isolated app', async ({ page }) => {
-  await page.goto('/');
-  const projectsShortcut = page.getByLabel('Open My Projects');
+  await page.goto('/desktop');
+  const projectsShortcut = page.getByLabel('Open Projects');
 
   await projectsShortcut.dblclick();
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
 
   await page.goBack();
   await projectsShortcut.focus();
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
+  await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
+});
+
+test('Space activates the focused desktop launcher', async ({ page }) => {
+  await page.goto('/desktop');
+  const projectsShortcut = page.getByLabel('Open Projects');
+
+  await projectsShortcut.focus();
+  await page.keyboard.press('Space');
+
+  await expect(page).toHaveURL('/desktop?app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
 });
 
@@ -97,16 +142,16 @@ test('a real mobile tap opens Start once and creates exactly one application-his
   });
   const page = await context.newPage();
 
-  await page.goto('/');
+  await page.goto('/desktop');
   const historyBeforeStart = await page.evaluate(() => window.history.length);
   await page.getByLabel('Start menu').tap();
   await expect(page.getByLabel('Start menu')).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByRole('menuitem', { name: 'My Projects' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Projects' })).toBeVisible();
   expect(await page.evaluate(() => window.history.length)).toBe(historyBeforeStart);
 
-  await page.getByRole('menuitem', { name: 'My Projects' }).tap();
+  await page.getByRole('menuitem', { name: 'Projects' }).tap();
 
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
   await expect(page.getByText(projectsTitle, { exact: true })).toBeVisible();
   expect(await page.evaluate(() => window.history.length)).toBe(historyBeforeStart + 1);
   await context.close();
@@ -119,7 +164,7 @@ test('coarse-pointer adjacent controls have disjoint expanded hit regions', asyn
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('/');
+  await page.goto('/desktop');
 
   for (const controls of [
     page.getByRole('button', { name: /window$/ }),
@@ -138,10 +183,14 @@ test('coarse-pointer adjacent controls have disjoint expanded hit regions', asyn
 test('coarse-pointer menu and tab faces remain content-sized inside 44px targets', async ({ browser }) => {
   const desktopContext = await browser.newContext({ viewport: { width: 1280, height: 720 } });
   const desktopPage = await desktopContext.newPage();
-  await desktopPage.goto('/');
-  const [nativeFileBox, nativeResumeBox] = await Promise.all([
-    desktopPage.getByRole('menuitem', { name: 'File' }).boundingBox(),
-    desktopPage.getByRole('tab', { name: 'Resume', exact: true }).boundingBox(),
+  await desktopPage.goto('/desktop?app=resume');
+  const nativeFile = desktopPage.getByRole('menuitem', { name: 'File' });
+  const nativeExperience = desktopPage.getByRole('tab', { name: 'Experience', exact: true });
+  await expect(nativeFile).toBeVisible();
+  await expect(nativeExperience).toBeVisible();
+  const [nativeFileBox, nativeExperienceBox] = await Promise.all([
+    nativeFile.boundingBox(),
+    nativeExperience.boundingBox(),
   ]);
 
   const context = await browser.newContext({
@@ -150,23 +199,25 @@ test('coarse-pointer menu and tab faces remain content-sized inside 44px targets
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('/');
+  await page.goto('/desktop?app=resume');
 
   const fileTarget = page.getByRole('menuitem', { name: 'File' });
   const fileFace = page.locator('.win95-menu-item-face').filter({ hasText: 'File' });
+  await expect(fileTarget).toBeVisible();
   await expect(fileFace).toHaveCount(1);
   const [fileTargetBox, fileFaceBox] = await Promise.all([fileTarget.boundingBox(), fileFace.boundingBox()]);
   expect(fileTargetBox!.width).toBeGreaterThanOrEqual(44);
   expect(fileFaceBox!.width).toBeLessThan(44);
   expect(fileFaceBox!.width).toBeCloseTo(nativeFileBox!.width, 1);
 
-  const resumeTarget = page.getByRole('tab', { name: 'Resume', exact: true });
-  const resumeFace = page.locator('.win95-tab-face').filter({ hasText: 'Resume' });
-  await expect(resumeFace).toHaveCount(1);
-  const [resumeTargetBox, resumeFaceBox] = await Promise.all([resumeTarget.boundingBox(), resumeFace.boundingBox()]);
-  expect(resumeTargetBox!.width).toBeGreaterThanOrEqual(44);
-  expect(resumeFaceBox!.width).toBeCloseTo(nativeResumeBox!.width, 1);
-  expect(resumeFaceBox!.width).toBeLessThanOrEqual(resumeTargetBox!.width);
+  const experienceTarget = page.getByRole('tab', { name: 'Experience', exact: true });
+  const experienceFace = experienceTarget.locator('.win95-tab-face');
+  await expect(experienceTarget).toBeVisible();
+  await expect(experienceFace).toHaveCount(1);
+  const [experienceTargetBox, experienceFaceBox] = await Promise.all([experienceTarget.boundingBox(), experienceFace.boundingBox()]);
+  expect(experienceTargetBox!.width).toBeGreaterThanOrEqual(44);
+  expect(experienceFaceBox!.width).toBeCloseTo(nativeExperienceBox!.width, 1);
+  expect(experienceFaceBox!.width).toBeLessThanOrEqual(experienceTargetBox!.width);
 
   await desktopContext.close();
   await context.close();
@@ -175,8 +226,7 @@ test('coarse-pointer menu and tab faces remain content-sized inside 44px targets
 test('embedded Resume tabs retain independent coarse targets and edge ownership', async ({ browser }) => {
   const desktopContext = await browser.newContext({ viewport: { width: 1280, height: 720 } });
   const desktopPage = await desktopContext.newPage();
-  await desktopPage.goto('/');
-  await desktopPage.getByRole('tab', { name: 'Resume', exact: true }).click();
+  await desktopPage.goto('/desktop?app=resume');
   const nativeExperienceBox = await desktopPage
     .getByRole('tablist', { name: 'Resume sections' })
     .getByRole('tab', { name: 'Experience', exact: true })
@@ -188,8 +238,7 @@ test('embedded Resume tabs retain independent coarse targets and edge ownership'
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('/');
-  await page.getByRole('tab', { name: 'Resume', exact: true }).click();
+  await page.goto('/desktop?app=resume');
 
   const embeddedTabs = page
     .getByRole('tablist', { name: 'Resume sections' })
@@ -240,22 +289,23 @@ test('coarse-pointer expanded edges activate their adjacent title, menu, and tab
   });
   const page = await context.newPage();
 
-  await page.goto('/');
+  await page.goto('/desktop');
   const minimizeRegion = await expandedHitRegion(page.getByRole('button', { name: 'Minimize window' }));
   await page.mouse.click(minimizeRegion.x + 2, minimizeRegion.y + minimizeRegion.height / 2);
   await expect(page.getByRole('button', { name: 'Minimize window' })).not.toBeVisible();
 
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
   const fileTrigger = page.getByRole('menubar').getByRole('menuitem', { name: 'File' });
   const fileRegion = await expandedHitRegion(fileTrigger);
   await page.mouse.click(fileRegion.x + 2, fileRegion.y + fileRegion.height / 2);
   await expect(fileTrigger).toHaveAttribute('aria-expanded', 'true');
   await page.getByRole('menu', { name: 'File' }).getByRole('menuitem', { name: 'Home' }).click();
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL('/desktop');
 
-  const resumeTabRegion = await expandedHitRegion(page.getByRole('tab', { name: 'Resume', exact: true }));
+  await page.goto('/desktop?app=resume');
+  const resumeTabRegion = await expandedHitRegion(page.getByRole('tab', { name: 'Experience', exact: true }));
   await page.mouse.click(resumeTabRegion.x + resumeTabRegion.width - 2, resumeTabRegion.y + resumeTabRegion.height / 2);
-  await expect(page.getByRole('tab', { name: 'Resume', exact: true })).toHaveClass(/active/);
+  await expect(page.getByRole('tab', { name: 'Experience', exact: true })).toHaveClass(/active/);
 
   await context.close();
 });
@@ -268,7 +318,7 @@ test('coarse-pointer controls expose 44px hit areas while preserving Win95 chrom
   });
   const page = await context.newPage();
 
-  await page.goto('/');
+  await page.goto('/desktop');
   const computerControls = [
     page.locator('#start-button'),
     page.locator('.win95-task-btn'),
@@ -281,29 +331,25 @@ test('coarse-pointer controls expose 44px hit areas while preserving Win95 chrom
 
   for (const controls of computerControls) {
     for (const control of await controls.all()) {
-      const hitArea = await control.evaluate((element) => {
-        const pseudo = window.getComputedStyle(element, '::before');
-        return { width: Number.parseFloat(pseudo.width), height: Number.parseFloat(pseudo.height) };
-      });
+      const hitArea = await expandedHitRegion(control);
       expect(hitArea.width).toBeGreaterThanOrEqual(44);
       expect(hitArea.height).toBeGreaterThanOrEqual(44);
     }
   }
 
-  await page.goto('/?app=resume');
+  await page.goto('/desktop?app=resume');
   for (const resumeTab of await page.locator('.win95-tab').all()) {
-    const hitArea = await resumeTab.evaluate((element) => {
-      const pseudo = window.getComputedStyle(element, '::before');
-      return { width: Number.parseFloat(pseudo.width), height: Number.parseFloat(pseudo.height) };
-    });
+    const hitArea = await expandedHitRegion(resumeTab);
     expect(hitArea.width).toBeGreaterThanOrEqual(44);
     expect(hitArea.height).toBeGreaterThanOrEqual(44);
   }
 
+  const titleFace = page.locator('.win95-title-btn-face').first();
+  await expect(titleFace).toBeVisible();
   const [startBox, taskBox, titleFaceBox, menuFaceBox, tabFaceBox] = await Promise.all([
     page.locator('#start-button').boundingBox(),
     page.locator('.win95-task-btn').boundingBox(),
-    page.locator('.win95-title-btn-face').first().boundingBox(),
+    titleFace.boundingBox(),
     page.locator('.win95-menu-item-face').filter({ hasText: 'File' }).boundingBox(),
     page.locator('.win95-tab-face').first().boundingBox(),
   ]);
@@ -318,7 +364,9 @@ test('coarse-pointer controls expose 44px hit areas while preserving Win95 chrom
   await expect(page.getByLabel('Start menu')).toHaveAttribute('aria-expanded', 'true');
 
   const icon = page.locator('#start-button img');
+  await expect(icon).toHaveAttribute('width', '16');
+  await expect(icon).toHaveAttribute('height', '14');
   await expect(icon).toHaveCSS('width', '16px');
-  await expect(icon).toHaveCSS('height', '16px');
+  await expect(icon).toHaveCSS('height', '14px');
   await context.close();
 });

@@ -25,7 +25,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
           <h1 className="text-[16px] font-bold text-black leading-tight">
             {profile.name}
           </h1>
-          <p className="text-[11px] text-black mt-[2px]">
+          <p className="win95-metadata text-black mt-[2px]">
             {profile.title} at{' '}
             <a 
               href={profile.companyUrl} 
@@ -36,7 +36,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
               {profile.company}
             </a>
           </p>
-          <p className="text-[11px] text-black mt-[2px]">
+          <p className="win95-metadata text-black mt-[2px]">
             {profile.location}
           </p>
         </div>

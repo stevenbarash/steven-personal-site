@@ -51,6 +51,7 @@ export interface Project {
 
 export interface ResumeExperience {
   company: string;
+  logoSrc: string;
   roles: {
     title: string;
     startDate: string;

@@ -1,18 +1,58 @@
 import { ResumeData } from '@/types';
+import { siteConfig } from '@/constants/site';
+
+export const resumeSkillGroups = [
+  {
+    name: 'Identity',
+    skills: [
+      'Identity & Access Management (IAM)',
+      'OAuth 2.0',
+      'OIDC',
+      'SAML',
+      'WebAuthn / Passkeys',
+      'SCIM',
+      'Identity Federation',
+      'B2B Authorization',
+      'Role-Based Access Control (RBAC)',
+    ],
+  },
+  {
+    name: 'Technical strategy',
+    skills: [
+      'Technical Sales',
+      'Solutions Architecture',
+      'Artificial Intelligence (AI)',
+    ],
+  },
+  {
+    name: 'Building',
+    skills: [
+      'React',
+      'TypeScript',
+      'Next.js',
+      'Node.js',
+      'Java',
+      'C#',
+      'SQL',
+      'HTML / CSS',
+    ],
+  },
+] as const;
 
 export const resumeData: ResumeData = {
   summary:
-    'Senior Solutions Engineer with 5+ years of experience in identity and access management, helping organizations modernize authentication workflows from startups to the largest global enterprises and U.S. government agencies. Deep expertise in OAuth 2.0, OIDC, SAML, WebAuthn/passkeys, SCIM, and identity federation.',
+    'I turn complex authentication and authorization requirements into architectures, demos, workshops, and practical implementation plans.',
 
   contact: {
-    email: 'steven(at)barash(dot)me',
-    linkedin: 'https://www.linkedin.com/in/stevenbarash',
-    website: 'https://barash.me',
+    email: siteConfig.emailDisplay,
+    linkedin: siteConfig.linkedinUrl,
+    website: siteConfig.canonicalOrigin,
   },
 
   experience: [
     {
       company: 'Descope',
+      logoSrc: '/images/logos/descope.png',
       companyUrl: 'https://www.descope.com',
       roles: [
         {
@@ -23,15 +63,16 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Own enterprise CIAM presales for the East Coast, partnering with engineering and security leaders on scalable, secure customer identity architectures',
-        'Design and deliver custom sample applications and hands-on demos to accelerate technical evaluations and proof-of-value',
-        'Advise on authentication, authorization, federation, and progressive onboarding strategies across B2C and B2B use cases',
-        'Translate field learnings and customer feedback into actionable product insights, influencing platform roadmap and features',
-        'Guide prospects through complex architectural and implementation decisions, from initial design to production readiness',
+        'Lead East Coast presales for enterprise CIAM projects, working with engineering and security leaders on customer identity architecture',
+        'Build sample applications and custom demos for technical evaluations',
+        'Advise teams on authentication, authorization, federation, and progressive onboarding for B2C and B2B products',
+        'Bring customer feedback to the product team and help set roadmap priorities',
+        'Turn architecture decisions into practical implementation plans',
       ],
     },
     {
       company: 'ID.me',
+      logoSrc: '/images/logos/idme.png',
       companyUrl: 'https://www.id.me',
       roles: [
         {
@@ -42,14 +83,14 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Communicated complex technical concepts to diverse audiences, enhancing customer understanding and product adoption',
-        'Supported customer implementation of solutions, gathering and relaying feedback to product teams to inform product improvements',
-        'Developed Proof of Concepts (PoCs) and custom demos, showcasing product capabilities and features',
-        'Instrumental in achieving the technical win for the largest deal closed in the SLED segment in 2024',
+        'Explained identity integrations to customers during evaluations and implementation',
+        'Supported customer implementations and brought product feedback to internal teams',
+        'Built prototypes and custom demos for customer evaluations',
       ],
     },
     {
       company: 'Okta',
+      logoSrc: '/images/logos/okta.png',
       companyUrl: 'https://www.okta.com',
       roles: [
         {
@@ -65,7 +106,7 @@ export const resumeData: ResumeData = {
           location: 'New York, NY',
         },
         {
-          title: 'Analyst Solutions Engineer — CIAM Specialist',
+          title: 'Analyst Solutions Engineer, CIAM Specialist',
           startDate: 'June 2020',
           endDate: 'November 2021',
           location: 'New York, NY',
@@ -74,14 +115,12 @@ export const resumeData: ResumeData = {
       bullets: [
         '2x President\'s Club (2022 + 2023)',
         'Awarded Solutions Engineer of the Year FY23',
-        'Ranked #1 in segment by ARR $ closed for FY23',
-        'Ranked #5 globally across all segments by ARR $ closed for FY23',
-        'Helped close the largest Commercial segment deal in company history',
         'Gave demos entirely in Russian to Russian-speaking developer teams based in Armenia',
       ],
     },
     {
-      company: 'University of Pittsburgh — Swanson School of Engineering',
+      company: 'University of Pittsburgh, Swanson School of Engineering',
+      logoSrc: '/images/logos/pitt.png',
       companyUrl: 'https://www.engineering.pitt.edu',
       roles: [
         {
@@ -92,13 +131,14 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Developed laboratory and faculty webpages with HTML, CSS, JavaScript',
+        'Built laboratory and faculty webpages with HTML, CSS, and JavaScript',
         'Trained faculty and staff on how to edit their webpages',
         'Met with faculty and staff to create specifications for new webpages',
       ],
     },
     {
       company: 'Innovative Systems, Inc.',
+      logoSrc: '/images/logos/innovative.png',
       roles: [
         {
           title: 'Software Engineering Intern',
@@ -108,14 +148,15 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Worked with a team to develop a dataset profiling tool for an international customer',
-        'Developed simulations of competitors\' algorithms based on publicly available documentation',
+        'Built a dataset profiling tool with a team for an international customer',
+        'Built simulations of competitors\' algorithms from publicly available documentation',
         'Ported JavaScript code to TypeScript',
-        'Developed UI components in React',
+        'Built UI components in React',
       ],
     },
     {
       company: 'Federated Hermes',
+      logoSrc: '/images/logos/federated.png',
       roles: [
         {
           title: 'Software Developer Intern',
@@ -125,7 +166,7 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Utilized Java, Spring Framework, and Oracle SQL to develop web services',
+        'Built web services with Java, Spring Framework, and Oracle SQL',
         'Automated content entry into the CMS using the Selenium framework',
         'Documented web service APIs',
         'Redesigned and redeveloped the company\'s internal website at an intern hackathon',
@@ -133,6 +174,7 @@ export const resumeData: ResumeData = {
     },
     {
       company: 'University of Pittsburgh',
+      logoSrc: '/images/logos/pitt.png',
       roles: [
         {
           title: 'IT Support Assistant',
@@ -149,6 +191,7 @@ export const resumeData: ResumeData = {
     },
     {
       company: 'Carnegie Mellon University',
+      logoSrc: '/images/logos/cmu.png',
       companyUrl: 'https://www.cmu.edu',
       roles: [
         {
@@ -160,40 +203,21 @@ export const resumeData: ResumeData = {
       ],
       bullets: [
         'Researched Dynamic Random-Access Memory errors within Carnegie Mellon\'s Electrical and Computer Engineering Dept.',
-        'Developed data parsing tools in Java used for analyzing experimental data',
+        'Built Java tools to parse and analyze experimental data',
       ],
     },
   ],
 
   education: [
     {
-      institution: 'University of Pittsburgh — School of Computing and Information',
+      institution: 'University of Pittsburgh, School of Computing and Information',
       degree: "Bachelor's Degree",
       field: 'Information Science',
-      dates: '2016 — 2020',
+      dates: '2016 to 2020',
     }
   ],
 
-  skills: [
-    'Identity & Access Management (IAM)',
-    'OAuth 2.0',
-    'OIDC',
-    'SAML',
-    'WebAuthn / Passkeys',
-    'SCIM',
-    'Identity Federation',
-    'Technical Sales',
-    'Solutions Architecture',
-    'Artificial Intelligence (AI)',
-    'React',
-    'TypeScript',
-    'Next.js',
-    'Node.js',
-    'Java',
-    'C#',
-    'SQL',
-    'HTML / CSS',
-  ],
+  skills: resumeSkillGroups.flatMap(({ skills }) => [...skills]),
 
   languages: [
     { name: 'English', proficiency: 'Native' },
@@ -205,12 +229,10 @@ export const resumeData: ResumeData = {
   ],
 
   honors: [
-    'Solutions Engineer of the Year FY26 — Descope',
-    'Solutions Engineer of the Year FY25 — ID.me',
-    'Solutions Engineer of the Year FY23 — Okta',
-    "President's Club 2023 — Okta",
-    "President's Club 2022 — Okta",
-    'First Place Winner — Pitt Challenge Hackathon',
-    'Second Place Winner — Pitt Blast Furnace Demo Day',
+    'Solutions Engineer of the Year FY23, Okta',
+    "President's Club 2023, Okta",
+    "President's Club 2022, Okta",
+    'First Place Winner, Pitt Challenge Hackathon',
+    'Second Place Winner, Pitt Blast Furnace Demo Day',
   ],
 };

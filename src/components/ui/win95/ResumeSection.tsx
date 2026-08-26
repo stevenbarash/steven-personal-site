@@ -18,19 +18,8 @@ const resumeTabs: { id: ResumeTab; label: string }[] = [
   { id: 'honors', label: 'Honors' },
 ];
 
-const companyLogos: Record<string, string> = {
-  Descope: '/images/logos/descope.png',
-  'ID.me': '/images/logos/idme.png',
-  Okta: '/images/logos/okta.png',
-  'University of Pittsburgh — Swanson School of Engineering': '/images/logos/pitt.png',
-  'Innovative Systems, Inc.': '/images/logos/innovative.png',
-  'Federated Hermes': '/images/logos/federated.png',
-  'University of Pittsburgh': '/images/logos/pitt.png',
-  'Carnegie Mellon University': '/images/logos/cmu.png',
-};
-
 const educationLogos: Record<string, string> = {
-  'University of Pittsburgh — School of Computing and Information': '/images/logos/pitt.png',
+  'University of Pittsburgh, School of Computing and Information': '/images/logos/pitt.png',
 };
 
 const nextResumeTab = (currentTab: ResumeTab, key: string) => {
@@ -68,9 +57,9 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ resume }) => {
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-[14px] font-bold text-black leading-tight">RESUME.DOC</h2>
-            <p className="text-[11px] text-black mt-[4px] leading-normal">{resume.summary}</p>
+            <p className="win95-reading-copy text-black mt-[4px]">{resume.summary}</p>
             <div className="flex flex-wrap gap-[8px] mt-[6px]">
-              <a href={decodeEmailHref(resume.contact.email)} className="win95-link text-[11px]">
+              <a href={decodeEmailHref(resume.contact.email)} className="win95-link win95-content-action text-[11px]">
                 {resume.contact.email}
               </a>
               <span className="text-[11px] text-[#808080]">|</span>
@@ -78,7 +67,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ resume }) => {
                 href={resume.contact.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="win95-link text-[11px]"
+                className="win95-link win95-content-action text-[11px]"
               >
                 LinkedIn
               </a>
@@ -87,9 +76,9 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ resume }) => {
                 href={resume.contact.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="win95-link text-[11px]"
+                className="win95-link win95-content-action text-[11px]"
               >
-                barash.me
+                {new URL(resume.contact.website).hostname}
               </a>
             </div>
           </div>
@@ -113,7 +102,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ resume }) => {
                 aria-controls={panelId}
                 tabIndex={isActive ? 0 : -1}
                 data-tab-id={tab.id}
-                className={`win95-tab ${isActive ? 'active' : ''}`}
+                className={`win95-tab win95-content-action ${isActive ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(event) => handleTabKeyDown(event, tab.id)}
               >
@@ -167,13 +156,11 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ resume }) => {
 const ExperiencePanel: React.FC<{ experience: ResumeData['experience'] }> = ({ experience }) => (
   <div className="flex flex-col gap-[2px]">
     {experience.map((job, jobIndex) => {
-      const logoSrc = companyLogos[job.company];
-
       return (
         <div key={`${job.company}-${jobIndex}`} className="win95-group-box">
           <span className="win95-group-box-label">
             {job.companyUrl ? (
-              <a href={job.companyUrl} target="_blank" rel="noopener noreferrer" className="win95-link font-bold">
+              <a href={job.companyUrl} target="_blank" rel="noopener noreferrer" className="win95-link win95-content-action font-bold">
                 {job.company}
               </a>
             ) : (
@@ -181,7 +168,7 @@ const ExperiencePanel: React.FC<{ experience: ResumeData['experience'] }> = ({ e
             )}
           </span>
           <div className="flex gap-[6px]">
-            {logoSrc && <img src={logoSrc} alt="" className="w-[16px] h-[16px] shrink-0 mt-px" />}
+            <img src={job.logoSrc} alt="" className="w-[16px] h-[16px] shrink-0 mt-px" />
             <div className="flex-1 min-w-0">
               {job.roles.map((role, roleIndex) => (
                 <div
@@ -191,11 +178,11 @@ const ExperiencePanel: React.FC<{ experience: ResumeData['experience'] }> = ({ e
                 >
                   <div className="flex items-start justify-between gap-[8px] flex-wrap">
                     <span className="text-[11px] font-bold text-black">{role.title}</span>
-                    <span className="text-[11px] text-[color:var(--win95-text)] shrink-0">
-                      {role.startDate} — {role.endDate}
+                    <span className="win95-metadata text-[color:var(--win95-text)] shrink-0">
+                      {role.startDate} to {role.endDate}
                     </span>
                   </div>
-                  <div className="text-[11px] text-[color:var(--win95-text)]">{role.location}</div>
+                  <div className="win95-metadata text-[color:var(--win95-text)]">{role.location}</div>
                 </div>
               ))}
             </div>
@@ -203,7 +190,7 @@ const ExperiencePanel: React.FC<{ experience: ResumeData['experience'] }> = ({ e
           {job.bullets.length > 0 && (
             <ul className="mt-[4px] flex flex-col gap-[2px]">
               {job.bullets.map((bullet, index) => (
-                <li key={index} className="text-[11px] text-black pl-[12px] relative leading-normal">
+                <li key={index} className="win95-reading-copy text-black pl-[12px] relative">
                   <span className="absolute left-0 top-0">•</span>
                   {bullet}
                 </li>
@@ -247,7 +234,7 @@ const EducationPanel: React.FC<{
                 <div className="text-[11px] text-black">
                   {educationEntry.degree}, {educationEntry.field}
                 </div>
-                <div className="text-[11px] text-[color:var(--win95-text)]">{educationEntry.dates}</div>
+                <div className="win95-metadata text-[color:var(--win95-text)]">{educationEntry.dates}</div>
               </div>
             </div>
           );

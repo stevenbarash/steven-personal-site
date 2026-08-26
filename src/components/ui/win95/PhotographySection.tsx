@@ -30,21 +30,22 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
 
   return (
     <section className="win95-tab-panel" aria-label="Photography Explorer">
-      <div className="mb-[6px] text-[11px]">
+      <div className="win95-reading-copy mb-[6px]">
         <strong>Photography Explorer</strong> - Albums and contact sheets.
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-[6px]">
         <aside className="win95-well p-[4px]">
-          <div className="text-[11px] font-bold mb-[4px]">Albums</div>
-          <div className="flex flex-col gap-[2px] max-h-[200px] overflow-auto">
+          <h2 className="win95-reading-copy font-bold mb-[4px]">Albums</h2>
+          <div className="win95-photo-albums flex flex-col gap-[2px]">
             {albums.map((album) => {
               const isActive = selectedAlbum === album;
               return (
                 <button
                   key={album}
                   type="button"
-                  className="text-left px-[4px] py-[2px] text-[11px]"
+                  aria-pressed={isActive}
+                  className="win95-photo-control text-left px-[4px] py-[2px] text-[11px]"
                   style={{
                     background: isActive ? '#000080' : 'transparent',
                     color: isActive ? '#ffffff' : '#000000',
@@ -69,14 +70,15 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
           )}
 
           {filteredPhotos.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-[6px] max-h-[280px] overflow-auto">
+            <div className="win95-photo-grid grid grid-cols-2 sm:grid-cols-3 gap-[6px]">
               {filteredPhotos.map((photo) => {
                 const isSelected = selectedPhoto?.id === photo.id;
                 return (
                   <button
                     key={photo.id}
                     type="button"
-                    className="p-[3px] text-left"
+                    aria-pressed={isSelected}
+                    className="win95-photo-control p-[3px] text-left"
                     style={{
                       background: isSelected ? '#000080' : '#c0c0c0',
                       color: isSelected ? '#ffffff' : '#000000',
@@ -105,7 +107,7 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
               <img src={selectedPhoto.src} alt={selectedPhoto.alt} className="w-full h-auto object-cover" />
             </div>
 
-            <div className="text-[11px] space-y-[2px]">
+            <div className="win95-reading-copy space-y-[2px]">
               <p><strong>Title:</strong> {selectedPhoto.title}</p>
               <p><strong>Album:</strong> {selectedPhoto.album}</p>
               <p><strong>Taken:</strong> {selectedPhoto.takenAt}</p>

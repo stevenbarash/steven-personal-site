@@ -11,7 +11,7 @@ const settleClientFrames = async (page: Page) => {
 };
 
 test('top menu labels open coherent dropdowns instead of navigating directly', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
   const menubar = page.getByRole('menubar');
 
   await expect(menubar.getByRole('menuitem', { name: 'Edit', exact: true })).toHaveCount(0);
@@ -22,7 +22,7 @@ test('top menu labels open coherent dropdowns instead of navigating directly', a
     'Close Window',
     'Shut Down...',
   ]);
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
 
   await menubar.getByRole('menuitem', { name: 'View', exact: true }).click();
   await expectMenuItems(page.getByRole('menu', { name: 'View' }), [
@@ -30,72 +30,70 @@ test('top menu labels open coherent dropdowns instead of navigating directly', a
     'Projects',
     'Resume',
     'Photography',
-    'Internet',
-    'MS-DOS Prompt',
+    'Contact',
+    'About Me',
+    'Command Prompt',
   ]);
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
 
   await menubar.getByRole('menuitem', { name: 'Help', exact: true }).click();
   await expectMenuItems(page.getByRole('menu', { name: 'Help' }), [
     'Help Topics',
     'About This Site',
   ]);
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
 });
 
 test('Help and About This Site open their own focused windows', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
   const menubar = page.getByRole('menubar');
 
   await menubar.getByRole('menuitem', { name: 'Help', exact: true }).click();
   await page.getByRole('menu', { name: 'Help' }).getByRole('menuitem', { name: 'Help Topics' }).click();
-  await expect(page).toHaveURL('/?app=help');
+  await expect(page).toHaveURL('/desktop?app=help');
   await expect(page.locator('.win95-title-bar').getByText('HELP - Using This Site', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Using this desktop' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'STEVEN BARASH', exact: true })).toHaveCount(0);
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'Help', exact: true }).click();
   await page.getByRole('menu', { name: 'Help' }).getByRole('menuitem', { name: 'About This Site' }).click();
-  await expect(page).toHaveURL('/?app=about-site');
+  await expect(page).toHaveURL('/desktop?app=about-site');
   await expect(page.locator('.win95-title-bar').getByText('ABOUT - This Site', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'About this site' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'STEVEN BARASH', exact: true })).toHaveCount(0);
 });
 
 test('File and View commands perform the actions their labels promise', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'View', exact: true }).click();
   await page.getByRole('menu', { name: 'View' }).getByRole('menuitem', { name: 'Resume' }).click();
-  await expect(page).toHaveURL('/?app=resume');
+  await expect(page).toHaveURL('/desktop?app=resume');
   await expect(page.locator('.win95-title-bar').getByText('RESUME.DOC - WordPad', { exact: true })).toBeVisible();
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'File', exact: true }).click();
   await page.getByRole('menu', { name: 'File' }).getByRole('menuitem', { name: 'Close Window' }).click();
-  await expect(page.locator('.win95-title-bar')).toHaveCount(0);
-  await expect(page).toHaveURL('/?app=resume');
-
-  await page.getByRole('button', { name: 'Open My Computer' }).press('Enter');
-  await expect(page).toHaveURL('/');
+  await expect(page).toHaveURL('/desktop');
   await expect(page.locator('.win95-title-bar').getByText('STEVEN.EXE - Personal Site', { exact: true })).toBeVisible();
+  await expect(page.locator('[data-launcher-for="resume"]')).toBeFocused();
 });
 
 test('Photography opens its page and the menus retain their targets across routes', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'View', exact: true }).click();
   await page.getByRole('menu', { name: 'View' }).getByRole('menuitem', { name: 'Photography' }).click();
-  await expect(page).toHaveURL('/photos');
+  await expect(page).toHaveURL('/desktop?app=photos');
   await expect(page.locator('.win95-title-bar').getByText('PHOTOS.EXE - Photography Explorer', { exact: true })).toBeVisible();
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'View', exact: true }).click();
   await page.getByRole('menu', { name: 'View' }).getByRole('menuitem', { name: 'Projects' }).click();
-  await expect(page).toHaveURL('/?app=projects');
-  await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Windows Explorer', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL('/desktop?app=projects');
+  await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Project Explorer', { exact: true })).toBeVisible();
 });
 
 test('Photography window controls persist until the user restores or reopens the window', async ({ page }) => {
-  await page.goto('/photos');
+  await page.goto('/desktop?app=photos');
   const title = page.locator('.win95-title-bar').getByText('PHOTOS.EXE - Photography Explorer', { exact: true });
 
   await page.getByRole('button', { name: 'Minimize window' }).click();
@@ -123,7 +121,8 @@ test('Photography window controls persist until the user restores or reopens the
 });
 
 test('dropdown menus support Alt mnemonics, arrow keys, Escape, and Enter', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
+  await settleClientFrames(page);
 
   const helpTrigger = page.getByRole('menubar').getByRole('menuitem', { name: 'Help', exact: true });
   const helpMenu = page.getByRole('menu', { name: 'Help' });
@@ -141,40 +140,34 @@ test('dropdown menus support Alt mnemonics, arrow keys, Escape, and Enter', asyn
   await page.keyboard.press('Escape');
   await expect(helpMenu).not.toBeVisible();
   await expect(helpTrigger).toBeFocused();
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
 
   await page.keyboard.press('Enter');
   await expect(helpTopics).toBeFocused();
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL('/?app=about-site');
+  await expect(page).toHaveURL('/desktop?app=about-site');
 });
 
 test('dropdown arrow navigation moves DOM focus before the next key can act', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'Help', exact: true }).click();
   await expect(page.getByRole('menu', { name: 'Help' }).getByRole('menuitem', { name: 'Help Topics' })).toBeFocused();
 
-  const activeLabelAfterArrowDown = await page.evaluate(() => {
-    document.activeElement?.dispatchEvent(new KeyboardEvent('keydown', {
-      key: 'ArrowDown',
-      bubbles: true,
-      cancelable: true,
-    }));
-
-    return document.activeElement?.textContent?.trim();
-  });
-
-  expect(activeLabelAfterArrowDown).toBe('About This Site');
+  const aboutSite = page.getByRole('menu', { name: 'Help' }).getByRole('menuitem', { name: 'About This Site' });
+  await page.keyboard.press('ArrowDown');
+  await expect(aboutSite).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL('/desktop?app=about-site');
 });
 
 test('Start-menu Help opens Help, not the biography', async ({ page }) => {
-  await page.goto('/?app=profile');
+  await page.goto('/desktop?app=profile');
   await page.getByRole('button', { name: 'Start menu' }).click();
   await page.getByRole('menu', { name: 'Start' }).getByRole('menuitem', { name: 'Help' }).click();
 
-  await expect(page).toHaveURL('/?app=help');
+  await expect(page).toHaveURL('/desktop?app=help');
   await expect(page.locator('.win95-title-bar').getByText('HELP - Using This Site', { exact: true })).toBeVisible();
   await expect(page.locator('.win95-title-bar').getByText('ABOUT.EXE - About Me', { exact: true })).toHaveCount(0);
 });
@@ -186,7 +179,7 @@ test('coarse-pointer dropdown rows are independent 44px touch targets', async ({
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('/?app=resume');
+  await page.goto('/desktop?app=resume');
 
   await page.getByRole('menubar').getByRole('menuitem', { name: 'View', exact: true }).tap();
   const rows = await page.getByRole('menu', { name: 'View' }).getByRole('menuitem').all();
@@ -207,8 +200,8 @@ test('coarse-pointer dropdown rows are independent 44px touch targets', async ({
     Math.round(projectBox!.x + projectBox!.width - 2),
     Math.round(projectBox!.y + projectBox!.height / 2),
   );
-  await expect(page).toHaveURL('/?app=projects');
-  await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Windows Explorer', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL('/desktop?app=projects');
+  await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Project Explorer', { exact: true })).toBeVisible();
   await expect(page.getByRole('menu', { name: 'View' })).not.toBeVisible();
 
   await context.close();

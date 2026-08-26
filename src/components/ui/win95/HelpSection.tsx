@@ -4,7 +4,7 @@ export const HelpSection: React.FC = () => (
       <span className="win95-group-box-label">Help Topics</span>
       <div className="win95-well p-[8px]">
         <h2 className="text-[16px] font-bold mb-[8px]">Using this desktop</h2>
-        <dl className="space-y-[8px] text-[11px]">
+        <dl className="win95-reading-copy space-y-[8px]">
           <div>
             <dt className="font-bold">Open an application</dt>
             <dd>Double-click a desktop icon, press Enter or Space while it is selected, or choose it from Start. On touch devices, one tap opens it.</dd>
@@ -33,10 +33,10 @@ export const AboutSiteSection: React.FC = () => (
       <span className="win95-group-box-label">About</span>
       <div className="win95-well p-[8px]">
         <h2 className="text-[16px] font-bold mb-[8px]">About this site</h2>
-        <p className="text-[11px] mb-[8px]">
+        <p className="win95-reading-copy mb-[8px]">
           Steven&apos;s portfolio is built as a functional Windows 95 desktop, with projects, professional experience, photography, and contact links treated as applications and files.
         </p>
-        <dl className="grid grid-cols-[max-content_1fr] gap-x-[12px] gap-y-[4px] text-[11px]">
+        <dl className="win95-reading-copy grid grid-cols-[max-content_1fr] gap-x-[12px] gap-y-[4px]">
           <dt className="font-bold">Interface</dt>
           <dd>Windows 95 desktop</dd>
           <dt className="font-bold">Built with</dt>
@@ -49,7 +49,7 @@ export const AboutSiteSection: React.FC = () => (
               href="https://github.com/stevenbarash/steven-personal-site"
               target="_blank"
               rel="noopener noreferrer"
-              className="win95-link"
+              className="win95-link win95-content-action"
             >
               View on GitHub
             </a>

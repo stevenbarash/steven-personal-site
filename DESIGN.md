@@ -1,39 +1,116 @@
 ---
 name: "Steven Barash Personal Site"
-description: "A functional Windows 95 desktop for Steven's technical work, experience, photography, and contact paths."
+description: "Quiet Studio editorial portfolio with an intentionally isolated Windows 95 desktop easter egg."
 colors:
+  cool-paper: "#f8f8f6"
+  ink: "#040404"
+  precise-blue: "#034cfc"
+  deep-blue: "#0038bf"
+  dark-rule: "#161616"
+  soft-rule: "#c8c8c8"
+  muted-ink: "#2b2b2b"
   desktop-teal: "#008080"
   system-silver: "#c0c0c0"
   active-navy: "#000080"
   title-bar-blue: "#1084d0"
   window-white: "#ffffff"
-  highlight: "#ffffff"
-  light-edge: "#dfdfdf"
-  shadow: "#808080"
-  dark-edge: "#0a0a0a"
+  desktop-highlight: "#ffffff"
+  desktop-light-edge: "#dfdfdf"
+  desktop-shadow: "#808080"
+  desktop-dark-edge: "#0a0a0a"
   system-black: "#000000"
-  hyperlink-blue: "#0000ff"
-  visited-purple: "#800080"
 typography:
+  display:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "clamp(54px, 4.65vw, 74px)"
+    fontWeight: 650
+    lineHeight: 0.99
+    letterSpacing: "-0.038em"
+  tablet-display:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "clamp(46px, 5.6vw, 60px)"
+    fontWeight: 650
+    lineHeight: 0.99
+    letterSpacing: "-0.038em"
+  mobile-display:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "clamp(42px, 12vw, 50px)"
+    fontWeight: 650
+    lineHeight: 1
+    letterSpacing: "-0.038em"
   headline:
-    fontFamily: "Tahoma, Segoe UI, MS Sans Serif, Microsoft Sans Serif, Arial, sans-serif"
-    fontSize: "16px"
-    fontWeight: 700
-    lineHeight: 1.25
-    letterSpacing: "normal"
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "clamp(36px, 5vw, 48px)"
+    fontWeight: 650
+    lineHeight: 1.15
+    letterSpacing: "-0.025em"
   title:
-    fontFamily: "Tahoma, Segoe UI, MS Sans Serif, Microsoft Sans Serif, Arial, sans-serif"
-    fontSize: "11px"
-    fontWeight: 700
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "26px"
+    fontWeight: 640
+    lineHeight: 1
+    letterSpacing: "-0.035em"
+  mobile-title:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "25px"
+    fontWeight: 640
+    lineHeight: 1
+    letterSpacing: "-0.035em"
+  subheading:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "24px"
+    fontWeight: 650
+    lineHeight: 1.25
+    letterSpacing: "-0.025em"
+  prose-heading:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "22px"
+    fontWeight: 650
+    lineHeight: 1.3
+    letterSpacing: "-0.02em"
+  supporting:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "21px"
+    fontWeight: 400
+    lineHeight: 1.35
+    letterSpacing: "-0.018em"
+  section-heading:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "20px"
+    fontWeight: 650
+    lineHeight: 1.2
+    letterSpacing: "-0.025em"
+  mobile-supporting:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "19px"
+    fontWeight: 400
+    lineHeight: 1.35
+    letterSpacing: "-0.018em"
+  lede:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "18px"
+    fontWeight: 400
     lineHeight: 1.5
     letterSpacing: "normal"
   body:
-    fontFamily: "Tahoma, Segoe UI, MS Sans Serif, Microsoft Sans Serif, Arial, sans-serif"
-    fontSize: "11px"
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: "normal"
   label:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "13px"
+    fontWeight: 550
+    lineHeight: 1.3
+    letterSpacing: "-0.01em"
+  mobile-label:
+    fontFamily: "var(--font-quiet-studio), Helvetica Neue, Helvetica, Arial, sans-serif"
+    fontSize: "14px"
+    fontWeight: 550
+    lineHeight: 1.3
+    letterSpacing: "-0.01em"
+  desktop-interface:
     fontFamily: "Tahoma, Segoe UI, MS Sans Serif, Microsoft Sans Serif, Arial, sans-serif"
     fontSize: "11px"
     fontWeight: 400
@@ -46,262 +123,222 @@ typography:
     lineHeight: 1.4
     letterSpacing: "normal"
 rounded:
-  sharp: "0px"
-  tab-top: "2px 2px 0 0"
+  flat: "0px"
+  desktop-tab-top: "2px 2px 0 0"
 spacing:
-  edge: "2px"
-  compact: "4px"
-  control: "6px"
-  content: "8px"
-  section: "12px"
-  cluster: "16px"
+  shell-max: "1510px"
+  gutter-desktop: "76px"
+  gutter-mobile: "32px"
+  desktop-unit: "4px"
+  touch-target: "44px"
+  hero-height: "650px"
+  action-height: "58px"
 components:
-  raised-button:
+  action-primary:
+    backgroundColor: "{colors.precise-blue}"
+    textColor: "{colors.window-white}"
+    typography: "{typography.body}"
+    rounded: "{rounded.flat}"
+    padding: "12px 24px"
+    height: "{spacing.action-height}"
+  action-primary-hover:
+    backgroundColor: "{colors.deep-blue}"
+    textColor: "{colors.window-white}"
+    typography: "{typography.body}"
+    rounded: "{rounded.flat}"
+    padding: "12px 24px"
+    height: "{spacing.action-height}"
+  action-secondary:
+    backgroundColor: "transparent"
+    textColor: "{colors.precise-blue}"
+    typography: "{typography.body}"
+    rounded: "{rounded.flat}"
+    height: "{spacing.action-height}"
+  nav-link:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.flat}"
+    height: "{spacing.touch-target}"
+  project-row:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.flat}"
+    height: "70px"
+  desktop-raised-control:
     backgroundColor: "{colors.system-silver}"
     textColor: "{colors.system-black}"
-    typography: "{typography.label}"
-    rounded: "{rounded.sharp}"
+    typography: "{typography.desktop-interface}"
+    rounded: "{rounded.flat}"
     padding: "1px 6px"
     height: "23px"
-  pressed-button:
-    backgroundColor: "{colors.system-silver}"
-    textColor: "{colors.system-black}"
-    typography: "{typography.label}"
-    rounded: "{rounded.sharp}"
-    padding: "2px 5px 0 7px"
-    height: "23px"
-  menu-bar:
-    backgroundColor: "{colors.system-silver}"
-    textColor: "{colors.system-black}"
-    typography: "{typography.label}"
-    rounded: "{rounded.sharp}"
-    padding: "0"
-    height: "23px"
-  selected-menu-item:
-    backgroundColor: "{colors.active-navy}"
-    textColor: "{colors.window-white}"
-    typography: "{typography.label}"
-    rounded: "{rounded.sharp}"
-    padding: "6px 24px 6px 4px"
-    height: "32px"
-  content-well:
-    backgroundColor: "{colors.window-white}"
-    textColor: "{colors.system-black}"
-    typography: "{typography.body}"
-    rounded: "{rounded.sharp}"
-    padding: "2px"
-  active-tab:
-    backgroundColor: "{colors.system-silver}"
-    textColor: "{colors.system-black}"
-    typography: "{typography.title}"
-    rounded: "{rounded.tab-top}"
-    padding: "2px 12px 4px"
-  badge:
-    backgroundColor: "{colors.system-silver}"
-    textColor: "{colors.system-black}"
-    typography: "{typography.label}"
-    rounded: "{rounded.sharp}"
-    padding: "0 4px"
-  window-shell:
-    backgroundColor: "{colors.system-silver}"
-    textColor: "{colors.system-black}"
-    typography: "{typography.body}"
-    rounded: "{rounded.sharp}"
-    padding: "2px"
-    width: "min(56rem, 100%)"
-  desktop-icon:
-    textColor: "{colors.system-black}"
-    typography: "{typography.label}"
-    rounded: "{rounded.sharp}"
-    padding: "4px"
-  terminal-panel:
-    backgroundColor: "{colors.system-black}"
-    textColor: "{colors.system-silver}"
-    typography: "{typography.terminal}"
-    rounded: "{rounded.sharp}"
-    padding: "4px"
 ---
 
 # Design System: Steven Barash Personal Site
 
 ## Overview
 
-**Creative North Star: "The Working Desktop"**
+**Creative North Star: "Quiet Studio"**
 
-This system should feel like a real personal computer that happens to contain Steven's professional life. The Windows 95 language is not a nostalgic wrapper around a conventional portfolio; windows, desktop icons, menus, tabs, taskbar buttons, status fields, and file-like objects must organize the experience and communicate state.
+Quiet Studio is an editorial portfolio built from cool paper, exact black type, sparse precise blue, crisp rules, and first-party documentary photography. Its character comes from proportion, decisive image crops, asymmetry, and varied content density while the interface remains familiar and immediately usable.
 
-The composition is compact, mechanical, familiar, and purposeful. A teal desktop establishes the environment; silver application chrome creates the working layer; white sunken wells hold readable content; navy selection states indicate what is active. Density comes from a four-pixel rhythm, tightly grouped controls, and literal spatial relationships rather than from generic cards.
+The public system gives the oversized thesis and one real photograph equal weight, then shifts into unnumbered project rows and linear documents. It is flat, square, direct, and technically credible. Blue marks actions, links, focus, and active navigation rather than decorating the page.
 
-Motion is restrained and state-driven. Dragging is direct, pressed controls invert their bevel immediately, section navigation may scroll smoothly, and the terminal cursor may pulse. New motion must never delay access to content. At widths below the desktop breakpoint, the window becomes a full-width document, dragging is disabled, and any desktop-only double-click interaction must gain a direct one-tap equivalent.
+The functional Windows 95 experience at `/desktop` is a separate visual system. It retains teal, silver, navy, hard bevels, compact Tahoma-style type, raster icons, menus, windows, and taskbar behavior. Shared content may feed both systems, but public Quiet Studio selectors and desktop chrome must never visually merge.
 
 **Key Characteristics:**
 
-- Functional Windows 95 interaction grammar rather than decorative retro styling.
-- Compact 11px system typography with a restrained 16px headline ceiling.
-- Zero-radius surfaces, except the two-pixel top corners that distinguish tabs.
-- Hard inset and outset edges instead of ambient shadows.
-- Desktop Teal, System Silver, and Active Navy as the dominant color structure.
-- Content organized as windows, wells, lists, tabs, status fields, and desktop objects.
+- Oversized, tightly set Geist headlines balanced by quiet body copy.
+- Cool near-white paper, exact black ink, sparse precise blue, and crisp rules.
+- Flat, square surfaces with no shadows in the public system.
+- First-party photography used as evidence-bearing content rather than decoration.
+- Asymmetric editorial layouts that collapse into direct single-column mobile reading.
+- An intentionally isolated Windows 95 world at `/desktop`.
 
-**The Working-State Rule.** Every visual state must explain an interaction: raised means available, pressed means active, sunken means content or status, and navy means selected. Ornament without state meaning is prohibited.
-
-**The Device Rule.** Preserve the desktop metaphor on large screens; preserve directness on small screens. Mobile must never require double-clicking, precision dragging, or desktop-sized hit targets.
+**The Two-World Rule.** Quiet Studio owns every public route and share surface. Windows 95 styling remains inside `/desktop`; neither system borrows the other's chrome, typography, or interaction metaphor.
 
 ## Colors
 
-The palette is the canonical Windows 95 system palette: a committed teal environment, silver control surfaces, navy selection, bright content wells, and a four-tone neutral edge system.
+The public palette is cool, high-contrast, and deliberately narrow; the isolated desktop palette preserves authentic Windows 95 state and material cues.
 
 ### Primary
 
-- **Desktop Teal** (`#008080`): The desktop canvas and the largest continuous color field. It identifies the environment and should remain visible around floating windows on wide screens.
-- **System Silver** (`#c0c0c0`): The universal material for window chrome, taskbar surfaces, buttons, tabs, badges, menus, and panels.
-
-### Secondary
-
-- **Active Navy** (`#000080`): The authoritative selected state for menu items, focused icon labels, and the leading edge of active title bars.
-- **Title-Bar Blue** (`#1084d0`): The brighter endpoint of the active title-bar gradient. It supports Active Navy and must not become an unrelated accent surface.
-
-### Tertiary
-
-- **Hyperlink Blue** (`#0000ff`): The explicit hover state for links inside content wells.
-- **Visited Purple** (`#800080`): The browser-like visited state for links whose navigation history matters.
+- **Precise Blue** (`#034cfc`): Primary actions, links, selection, keyboard focus, active navigation, the manifest theme, and the Open Graph accent.
+- **Deep Blue** (`#0038bf`): Hover state for primary blue actions and links.
 
 ### Neutral
 
-- **Window White** (`#ffffff`): Content wells, readable list surfaces, and high-contrast highlight text.
-- **Highlight** (`#ffffff`): The brightest outer edge of raised controls and selected text on navy.
-- **Light Edge** (`#dfdfdf`): The inner light edge used to complete the two-step bevel.
-- **Shadow** (`#808080`): The medium structural edge, divider, and subdued secondary text color.
-- **Dark Edge** (`#0a0a0a`): The darkest bevel edge. Use it for depth definition, not as an ambient shadow.
-- **System Black** (`#000000`): Primary text, terminal background, focus outlines, and icon strokes.
+- **Cool Paper** (`#f8f8f6`): Default public canvas, menu surface, Open Graph background, and manifest background.
+- **Ink** (`#040404`): Primary public text and high-contrast headings.
+- **Dark Rule** (`#161616`): Header, mobile-menu, and decisive section boundaries.
+- **Soft Rule** (`#c8c8c8`): Repeated project-row dividers.
+- **Muted Ink** (`#2b2b2b`): Concise supporting copy in selected-work rows.
 
-**The System-Palette Rule.** New interface colors are forbidden unless they express a content-specific asset or a state the existing palette cannot communicate.
+### Isolated Desktop Palette
 
-**The Navy-State Rule.** Active Navy always carries selection or active-window meaning. Never use it as arbitrary decoration.
+- **Desktop Teal** (`#008080`): `/desktop` environment only.
+- **System Silver** (`#c0c0c0`): Window chrome and controls inside `/desktop`.
+- **Active Navy** (`#000080`) and **Title-Bar Blue** (`#1084d0`): Selected states and the authentic active title-bar gradient inside `/desktop` only.
+- **Window White** (`#ffffff`), **Desktop Highlight** (`#ffffff`), **Desktop Light Edge** (`#dfdfdf`), **Desktop Shadow** (`#808080`), **Desktop Dark Edge** (`#0a0a0a`), and **System Black** (`#000000`): Desktop content wells, text, and structural bevel edges.
 
-**The Four-Edge Rule.** Highlight, Light Edge, Shadow, and Dark Edge work as a set. Removing one edge or softening the set into a blur destroys the material language.
+**The Blue Precision Rule.** Precise Blue is scarce and functional. Use it for action, navigation state, focus, and selection; never spread it into decorative fills or ornamental systems.
+
+**The Desktop-Palette Containment Rule.** Desktop Teal, System Silver, Active Navy, and the four-edge bevel neutrals belong to `/desktop` only.
 
 ## Typography
 
-**Display Font:** Tahoma with Segoe UI, MS Sans Serif, Microsoft Sans Serif, and Arial fallbacks
-**Body Font:** Tahoma with the same system fallback stack
-**Label/Mono Font:** Courier New with Lucida Console and monospace fallbacks for terminal content
+**Display Font:** Geist through `--font-quiet-studio`, with Helvetica Neue, Helvetica, and Arial fallbacks
 
-**Character:** Type should read like a compact operating-system interface: direct, neutral, and information-dense. Personality comes from the environment and content, not from decorative font pairing.
+**Body Font:** Geist through the same public stack
+
+**Desktop Interface Font:** Tahoma with Segoe UI, MS Sans Serif, Microsoft Sans Serif, and Arial fallbacks
+
+**Label/Mono Font:** Courier New with Lucida Console and monospace fallbacks for `/desktop` terminal content only
+
+**Character:** Public typography is contemporary, tightly composed, and plainspoken. The oversized thesis supplies confidence while body copy and labels remain compact and highly readable. The desktop keeps its separate dense operating-system voice.
 
 ### Hierarchy
 
-- **Headline** (700, 16px, 1.25): Steven's name and the rare highest-level identity heading.
-- **Title** (700, 11px, 1.5): Window titles, active tabs, taskbar programs, and group labels.
-- **Body** (400, 11px, 1.5): Descriptions, résumé content, project details, and interface prose.
-- **Label** (400–700, 10–11px, normal tracking): Menus, badges, controls, metadata, icon labels, and status fields.
-- **Terminal** (400, 12px, 1.4): Command prompt text only.
+- **Display** (650, `clamp(54px, 4.65vw, 74px)`, 0.99): Homepage thesis on desktop; mobile shifts to `clamp(42px, 12vw, 50px)` at a 1.0 line height.
+- **Responsive Display** (650): The homepage thesis tightens to `clamp(46px, 5.6vw, 60px)` on tablet and `clamp(42px, 12vw, 50px)` on mobile.
+- **Headline** (650, `clamp(36px, 5vw, 48px)`, 1.15): Public route titles and major document headings.
+- **Title** (640, `26px`, 1.0): Selected project names and strong row-level headings.
+- **Supporting** (400, `21px` desktop / `19px` mobile, 1.35): Homepage thesis support copy.
+- **Document Hierarchy** (`24px`, `22px`, `20px`, `18px`): Subheadings and ledes in linear public documents.
+- **Body** (400, `16px`, 1.5): Navigation, documents, and primary explanatory copy, generally constrained to roughly 70 characters per line.
+- **Label** (550, `13px` desktop / `14px` mobile, -0.01em): Project metadata and concise action labels; primary actions increase to 16px and uppercase.
+- **Desktop Interface** (400, `11px`, 1.5): Windows, menus, controls, and status fields inside `/desktop`.
+- **Terminal** (400, `12px`, 1.4): Command-like content inside the desktop terminal only.
 
-**The Interface-Voice Rule.** Tahoma-style system type owns the interface. Do not introduce a display face to make the portfolio feel more contemporary.
+**The One Public Voice Rule.** Geist owns public headlines, body copy, labels, and navigation through `--font-quiet-studio`. Monospace and Tahoma-style system type stay inside `/desktop`.
 
-**The Hierarchy-by-Weight Rule.** Use weight, grouping, and surface state before increasing type size. Oversized portfolio typography is outside this system.
+## Layout
 
-**The Monospace-Containment Rule.** Monospace belongs inside the terminal and command-like strings. It must not become a lazy shorthand for technical credibility across the rest of the site.
+Public pages use a centered shell capped at 1510px. Desktop and tablet layouts reserve 76px total horizontal gutter. Mobile layouts switch at 767px and reserve 32px total horizontal gutter. At 1100px and below, the homepage tightens its two-column proportions and typography before the mobile stack takes over.
 
-## Elevation
+The homepage begins with a flat two-column hero, a 650px image plane on the right, and a vertically centered thesis on the left. Selected work begins at the fold with an offset photograph and unnumbered rows. Public detail routes use linear documents with readable measure, rules, and clear route navigation rather than card grids.
 
-Depth is structural rather than atmospheric. The system uses crisp one- and two-pixel inset shadows to encode raised, pressed, sunken, and shallow status surfaces. There are no blurred drop shadows, floating cards, translucent layers, or soft light sources.
+At 767px and below, the hero, work composition, document sections, and project rows become direct single-column reading. The top navigation becomes a native details disclosure, and interactive targets remain at least 44px high.
 
-### Shadow Vocabulary
+**The Breakpoint Contract Rule.** Treat 767px and 1100px as the observed Quiet Studio boundaries. Preserve the large editorial split above them and the direct mobile reading order below them.
 
-- **Raised Control** (`box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf`): Buttons, window frames, task buttons, scrollbar controls, and the Start menu.
-- **Pressed Control** (`box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080`): Active buttons, depressed taskbar programs, and pointer-down states.
-- **Sunken Content** (`box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #808080, inset -2px -2px #ffffff, inset 2px 2px #0a0a0a`): Content wells, the terminal, and recessed fields.
-- **Shallow Inset** (`box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #808080`): Status fields, badges, and the taskbar clock tray.
-- **Groove Divider** (`box-shadow: inset 0 1px #808080, inset 0 -1px #ffffff`): Menu separators and horizontal grooves.
+## Elevation & Depth
 
-**The Hard-Edge Rule.** Blur is forbidden. If an edge cannot be described at one or two pixels, it does not belong in this system.
+Quiet Studio is completely flat. Public surfaces use color, rules, crop, scale, and whitespace to establish hierarchy; box shadows, translucent layers, glass, glow, and ambient depth are absent. The hero photograph reveals over 560ms with `cubic-bezier(0.16, 1, 0.3, 1)`, navigation underlines transition over 160ms, and reduced-motion preferences remove both.
 
-**The State-Inversion Rule.** Pressed controls invert the light and dark edge directions and shift their padding by one pixel. A color-only pressed state is incomplete.
+The isolated desktop uses hard one- and two-pixel inset bevels for raised, pressed, and sunken state. Those structural edges are part of the Windows 95 interaction grammar and are never exported to public Quiet Studio surfaces.
+
+**The Flat Public Rule.** Public depth comes from editorial hierarchy and real photography. Never add shadows or simulated material layers to Quiet Studio.
+
+## Shapes
+
+Public form is square and exact: zero-radius actions, menus, rows, image crops, section boundaries, and focus treatments. Hairline rules and rectangular blue action blocks create structure without containers. `/desktop` also remains predominantly square, with its existing two-pixel top-only tab corners as the narrow system-authentic exception.
 
 ## Components
 
-### Window Shell
+### Primary Action
 
-- **Character:** A movable application surface with explicit active, minimized, maximized, and closed states.
-- **Shape:** Completely square, with a two-pixel silver frame and a maximum floating width of 56rem.
-- **Title Bar:** Active Navy to Title-Bar Blue gradient, white bold title, and compact raised window controls.
-- **Content:** A six-pixel internal stack of sections inside an independently scrolling window body.
-- **Responsive Behavior:** Floating and draggable at 768px and above; full-width and non-draggable below that threshold.
+- **Character:** A slim, decisive blue block for the single strongest action in a composition.
+- **Shape:** Square (`0px`) with a 58px desktop height and 12px by 24px padding.
+- **Color:** Precise Blue with Window White text; Deep Blue on hover.
+- **Focus:** A 3px Precise Blue outline offset by 3px.
 
-### Buttons
+### Secondary Action
 
-- **Shape:** Square corners with a minimum height of 23px.
-- **Default:** System Silver with the Raised Control bevel and compact horizontal padding.
-- **Pressed:** Edge direction and padding invert together to create a physical one-pixel depression.
-- **Focus:** A one-pixel dotted System Black outline inset inside the control.
-- **Mobile:** Visible touch controls must receive larger invisible or visible hit areas without rounding or visually inflating the authentic control face.
+- **Character:** A direct text link that stays visibly subordinate to the filled action.
+- **Shape:** Square and at least 54px to 58px high depending on viewport.
+- **Color:** Precise Blue with a long 9px underline offset; Deep Blue on hover.
 
-### Menu Bar and Start Menu
+### Navigation
 
-- **Menu Bar:** A flat silver strip with individually raised items on hover and pressed items on activation.
-- **Start Menu:** A raised fixed panel aligned to the taskbar, with a vertical navy-to-blue identity rail.
-- **Selection:** Active Navy background with Window White text and icon color.
-- **Keyboard State:** Focus and hover share the same unmistakable selected state.
-- **Mobile:** Open from one tap and use rows large enough for touch; never require hover to discover an action.
+- **Character:** Familiar horizontal route labels, with no taxonomy or decorative index system.
+- **Desktop:** A 60px header row, generous label gaps, and a 2px underline that transitions over 160ms on hover, focus, and active state.
+- **Mobile:** A 68px header row and native details disclosure. The menu is a flat Cool Paper rectangle with a 1px Dark Rule border.
+- **State:** Active navigation uses Precise Blue; focus always receives the shared 3px outline.
 
-### Tabs
+### Project Rows
 
-- **Shape:** Square lower corners with only two-pixel rounding across the top edge.
-- **Active State:** Raised one pixel above neighboring tabs, bold label, and extra bottom padding that visually joins the panel.
-- **Panel:** System Silver with a raised frame and eight-pixel internal padding.
+- **Character:** Unnumbered editorial rows that keep title, proof, and route action in one scan path.
+- **Desktop:** Three columns with a minimum 70px row height and Soft Rule dividers.
+- **Mobile:** A two-column title/action line with the description below, at least 112px tall.
+- **Typography:** A 26px tightly set title, 13px Muted Ink description, and 13px blue action.
 
-### Content Wells and Group Boxes
+### Documentary Photography
 
-- **Content Well:** Window White with the Sunken Content bevel. It is a list, explorer, profile, or readable-document surface—not a generic card.
-- **Group Box:** One-pixel Shadow border, single-pixel Highlight offset, and a label cut into the top edge.
-- **Internal Padding:** Two pixels at the primitive level; six to eight pixels where content needs breathing room.
+- **Character:** First-party content with decisive crops and accurate alt text.
+- **Hero:** Full-height, edge-to-edge crop inside a 650px plane on desktop.
+- **Selected Work:** Smaller offset crop that changes the density of the work section without becoming a card.
+- **Motion:** The hero image may use the single Quiet Studio reveal; all other photography stays still.
 
-### Badges
+### Linear Documents
 
-- **Character:** Compact system metadata, not marketing pills.
-- **Shape:** Square and shallow-inset, with zero vertical padding and four-pixel horizontal padding.
-- **Content:** Technology, proficiency, and short status labels only.
+- **Character:** Resume, project, contact, and photography routes read as documents rather than dashboards.
+- **Structure:** Readable measures, section rules, plain lists, strong route titles, and touch-safe links.
+- **Containers:** No card wrappers, floating panels, decorative badges, or artificial evidence blocks.
 
-### Desktop Icons
+### Windows 95 Controls
 
-- **Structure:** A real icon above a centered label, grouped in a compact vertical target.
-- **Selection:** One-pixel dotted focus rectangle and Active Navy behind the label.
-- **Behavior:** Single click may select; double click must open a focused window containing only the named application or content on desktop; Enter and Space must do the same from the keyboard; one tap must open it on touch devices. Never use a desktop shortcut merely to scroll a catch-all window.
-- **Label Width:** Keep labels within approximately 70px and allow natural wrapping.
-
-### Terminal
-
-- **Surface:** System Black with System Silver text and the Sunken Content bevel.
-- **Typography:** Courier New at 12px with a 1.4 line height.
-- **Behavior:** A blinking cursor implies input. If the terminal remains static, the cursor must not promise commands the visitor cannot enter.
-
-### Taskbar and Status Fields
-
-- **Taskbar:** Fixed to the bottom with a two-pixel light top edge and a compact 28px content row.
-- **Program Buttons:** Raised when available and pressed with a dithered silver pattern when active.
-- **Status Fields:** Shallow inset, single-line, and truncated rather than wrapped.
-- **Menu Semantics:** File contains window and session commands, View contains application launchers, and Help contains site help and site information. A top-level menu label opens its command list; it never masquerades as a direct link to unrelated content.
-- **Mobile:** Preserve access to the Start control and active program; secondary tray information may disappear first.
+- **Scope:** `/desktop` only.
+- **Character:** Square, compact, and stateful with authentic raised, pressed, and sunken bevels.
+- **Behavior:** Every visible control must keep its keyboard, pointer, and mobile-equivalent behavior; the public component system never imitates this chrome.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** use desktop objects, windows, menus, tabs, wells, and status fields to organize information and communicate state.
-- **Do** preserve the exact Desktop Teal, System Silver, Active Navy, and four-edge neutral relationships defined in the frontmatter.
-- **Do** use period-correct Windows 95 raster assets for system, navigation, project, and desktop icons.
-- **Do** keep professional content concrete: show what Steven built, why it matters, and where the visitor can inspect it.
-- **Do** make mobile interactions one-tap, touch friendly, and free of precision dragging.
-- **Do** give every blinking cursor, menu label, title-bar control, and desktop icon the behavior it visibly promises.
+- **Do** use Quiet Studio across every public route, the Open Graph image, and the manifest.
+- **Do** use first-party photography as visible content with decisive crops, accurate alt text, and truthful captions.
+- **Do** build hierarchy with typography, proportion, whitespace, and crisp rules.
+- **Do** keep the primary action blue, square, obvious, and touch safe.
+- **Do** keep project lists unnumbered and evidence grounded.
+- **Do** preserve the functional Windows 95 system inside `/desktop` as a separate noindex experience.
 
 ### Don't:
 
-- **Don't** use generic personal-site templates that could belong to anyone.
-- **Don't** turn the site into a sterile SaaS dashboard or polished corporate marketing page that erases Steven's personality.
-- **Don't** introduce contemporary glass, gradient, oversized-radius, or card-grid styling that breaks the Windows 95 visual language. The active title-bar gradient is the single system-authentic exception.
-- **Don't** ship decorative nostalgia whose controls, labels, and interaction promises do not actually work.
-- **Don't** force retro behavior that makes the mobile experience frustrating.
-- **Don't** use blurred shadows, translucent glass, floating rounded cards, gradient text, or side-stripe accents.
-- **Don't** use identical icon-heading-text card grids when a file list, explorer, tab panel, or desktop object is the correct Windows 95 structure.
-- **Don't** treat 11px desktop copy or 16×14px title-bar controls as acceptable touch targets without a mobile-specific adaptation.
+- **Don't** introduce cards, bento grids, floating panels, or rounded containers into Quiet Studio.
+- **Don't** use arbitrary numbering, index spines, timelines, nodes, paths, or decorative taxonomy.
+- **Don't** use gradients, glass, glow, blurred shadows, textures, or decorative depth on public surfaces.
+- **Don't** fabricate metrics, testimonials, customer evidence, case-study proof, or unpublished work.
+- **Don't** turn technical terms into badges, keyword clouds, or terminal styling on public routes.
+- **Don't** merge Windows 95 colors, bevels, raster iconography, or system type into the public visual world.

@@ -79,8 +79,10 @@ export const Taskbar: React.FC<TaskbarProps> = ({
         >
           <img 
             src="/images/win95.png" 
-            alt="" 
-            className="w-[16px] h-[16px]"
+            alt=""
+            width={16}
+            height={14}
+            className="w-[16px] h-[14px]"
             style={{ imageRendering: 'pixelated' }}
           />
           <span className="text-[11px] text-black">Start</span>

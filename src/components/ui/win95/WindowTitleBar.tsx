@@ -6,6 +6,7 @@ interface WindowTitleBarProps {
   onMaximize?: () => void;
   onClose?: () => void;
   isMaximized?: boolean;
+  showMaximize?: boolean;
   onTitleBarDragStart?: (e: React.MouseEvent) => void;
 }
 
@@ -15,10 +16,11 @@ export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
   onMaximize,
   onClose,
   isMaximized = false,
+  showMaximize = true,
   onTitleBarDragStart,
 }) => {
   return (
-    <div className="win95-title-bar" onDoubleClick={onMaximize}>
+    <div className="win95-title-bar" onDoubleClick={showMaximize ? onMaximize : undefined}>
       <div
         className={`flex items-center gap-[4px] flex-1 min-w-0 ${onTitleBarDragStart ? 'cursor-move' : 'cursor-default'}`}
         onMouseDown={onTitleBarDragStart}
@@ -41,27 +43,29 @@ export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
             </svg>
           </span>
         </button>
-        <button
-          className="win95-title-btn"
-          onClick={onMaximize}
-          aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
-        >
-          <span className="win95-title-btn-face">
-            {isMaximized ? (
-              <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                <rect x="2" y="0" width="7" height="7" fill="black" />
-                <rect x="3" y="2" width="5" height="4" fill="#c0c0c0" />
-                <rect x="0" y="2" width="7" height="7" fill="black" />
-                <rect x="1" y="4" width="5" height="4" fill="#c0c0c0" />
-              </svg>
-            ) : (
-              <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                <rect x="0" y="0" width="9" height="9" fill="black" />
-                <rect x="1" y="2" width="7" height="6" fill="#c0c0c0" />
-              </svg>
-            )}
-          </span>
-        </button>
+        {showMaximize && (
+          <button
+            className="win95-title-btn"
+            onClick={onMaximize}
+            aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
+          >
+            <span className="win95-title-btn-face">
+              {isMaximized ? (
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                  <rect x="2" y="0" width="7" height="7" fill="black" />
+                  <rect x="3" y="2" width="5" height="4" fill="#c0c0c0" />
+                  <rect x="0" y="2" width="7" height="7" fill="black" />
+                  <rect x="1" y="4" width="5" height="4" fill="#c0c0c0" />
+                </svg>
+              ) : (
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                  <rect x="0" y="0" width="9" height="9" fill="black" />
+                  <rect x="1" y="2" width="7" height="6" fill="#c0c0c0" />
+                </svg>
+              )}
+            </span>
+          </button>
+        )}
         <button
           className="win95-title-btn"
           onClick={onClose}

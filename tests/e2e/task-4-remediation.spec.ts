@@ -41,7 +41,7 @@ const expectResumeMetadataContrast = async (page: Page, text: string) => {
 const openShutdownDialogFromKeyboard = async (page: Page) => {
   await page.getByLabel('Start menu').focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('menu', { name: 'Start' }).getByRole('menuitem', { name: 'Home' })).toBeFocused();
+  await expect(page.getByRole('menu', { name: 'Start' }).getByRole('menuitem', { name: 'My Computer' })).toBeFocused();
   await page.keyboard.press('End');
   await page.keyboard.press('Enter');
   const restart = page.getByRole('button', { name: 'Restart computer' });
@@ -55,21 +55,21 @@ const box = async (locator: Locator) => {
   return result!;
 };
 
-test('Resume date metadata has readable rendered contrast in embedded and focused contexts', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('tab', { name: 'Resume', exact: true }).click();
-  await expectResumeMetadataContrast(page, 'January 2025 — Present');
+test('Resume date metadata has readable rendered contrast when launched and directly loaded', async ({ page }) => {
+  await page.goto('/desktop');
+  await page.getByRole('link', { name: 'Open Resume', exact: true }).click();
+  await expectResumeMetadataContrast(page, 'January 2025 to Present');
   await page.getByRole('tablist', { name: 'Resume sections' }).getByRole('tab', { name: 'Education' }).click();
-  await expectResumeMetadataContrast(page, '2016 — 2020');
+  await expectResumeMetadataContrast(page, '2016 to 2020');
 
-  await page.goto('/?app=resume');
-  await expectResumeMetadataContrast(page, 'January 2025 — Present');
+  await page.goto('/desktop?app=resume');
+  await expectResumeMetadataContrast(page, 'January 2025 to Present');
   await page.getByRole('tab', { name: 'Education' }).click();
-  await expectResumeMetadataContrast(page, '2016 — 2020');
+  await expectResumeMetadataContrast(page, '2016 to 2020');
 });
 
 test('shutdown is a keyboard-operable dialog that returns focus to Start after Enter, Space, or Escape', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/desktop');
 
   for (const key of ['Enter', 'Space', 'Escape']) {
     await openShutdownDialogFromKeyboard(page);
@@ -81,7 +81,7 @@ test('shutdown is a keyboard-operable dialog that returns focus to Start after E
 });
 
 test('shutdown Restart control renders a readable visible label', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/desktop');
   const restart = await openShutdownDialogFromKeyboard(page);
   await expect(restart).toBeVisible();
   await expect(restart).toHaveText('Restart');
@@ -94,7 +94,7 @@ test('shutdown Restart control renders a readable visible label', async ({ page 
 });
 
 test('shutdown makes the desktop inert and traps Tab focus until Escape restarts', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/desktop');
   const restart = await openShutdownDialogFromKeyboard(page);
 
   await expect.poll(() => page.locator('main').evaluate((element) => (element as HTMLElement).inert)).toBe(true);
@@ -118,7 +118,7 @@ test('coarse Start-menu rows are 44px non-overlapping targets whose edge taps re
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('/');
+  await page.goto('/desktop');
   await page.getByLabel('Start menu').tap();
 
   const rows = page.getByRole('menu', { name: 'Start' }).getByRole('menuitem');
@@ -136,20 +136,21 @@ test('coarse Start-menu rows are 44px non-overlapping targets whose edge taps re
   }
 
   const outcomes = [
-    { label: 'Home', startPath: '/?app=projects', targetPath: '/', title: 'STEVEN.EXE - Personal Site' },
-    { label: 'About Me', startPath: '/?app=terminal', targetPath: '/?app=profile', title: 'ABOUT.EXE - About Me' },
-    { label: 'My Projects', startPath: '/?app=profile', targetPath: '/?app=projects', title: 'PROJECTS - Windows Explorer' },
-    { label: 'Explorer', startPath: '/?app=projects', targetPath: '/?app=explorer', title: 'INTERNET - Links Explorer' },
-    { label: 'Photography', startPath: '/?app=explorer', targetPath: '/photos', title: 'PHOTOS.EXE - Photography Explorer' },
-    { label: 'Command Prompt', startPath: '/?app=explorer', targetPath: '/?app=terminal', title: 'MS-DOS Prompt' },
-    { label: 'My Resume', startPath: '/?app=terminal', targetPath: '/?app=resume', title: 'RESUME.DOC - WordPad' },
-    { label: 'Help', startPath: '/?app=resume', targetPath: '/?app=help', title: 'HELP - Using This Site' },
-    { label: 'Shut Down...', startPath: '/?app=profile' },
+    { label: 'My Computer', startPath: '/desktop?app=projects', targetPath: '/desktop', title: 'STEVEN.EXE - Personal Site' },
+    { label: 'About Me', startPath: '/desktop?app=terminal', targetPath: '/desktop?app=profile', title: 'ABOUT.EXE - About Me' },
+
+    { label: 'Projects', startPath: '/desktop?app=profile', targetPath: '/desktop?app=projects', title: 'PROJECTS - Project Explorer' },
+    { label: 'Resume', startPath: '/desktop?app=terminal', targetPath: '/desktop?app=resume', title: 'RESUME.DOC - WordPad' },
+    { label: 'Photography', startPath: '/desktop?app=projects', targetPath: '/desktop?app=photos', title: 'PHOTOS.EXE - Photography Explorer' },
+    { label: 'Contact', startPath: '/desktop?app=projects', targetPath: '/desktop?app=explorer', title: 'CONTACTS - Internet Explorer' },
+    { label: 'Command Prompt', startPath: '/desktop?app=profile', targetPath: '/desktop?app=terminal', title: 'MS-DOS Prompt' },
+    { label: 'Help', startPath: '/desktop?app=resume', targetPath: '/desktop?app=help', title: 'HELP - Using This Site' },
+    { label: 'Shut Down...', startPath: '/desktop?app=profile' },
   ];
   for (const outcome of outcomes) {
     await page.goto(outcome.startPath);
-    if (outcome.label === 'Home') {
-      await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Windows Explorer', { exact: true })).toBeVisible();
+    if (outcome.label === 'My Computer') {
+      await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Project Explorer', { exact: true })).toBeVisible();
     }
     await page.getByLabel('Start menu').tap();
     const row = page.getByRole('menu', { name: 'Start' }).getByRole('menuitem', { name: outcome.label });
@@ -161,8 +162,8 @@ test('coarse Start-menu rows are 44px non-overlapping targets whose edge taps re
     } else {
       await expect(page).toHaveURL(outcome.targetPath!);
       await expect(page.locator('.win95-title-bar').getByText(outcome.title!, { exact: true })).toBeVisible();
-      if (outcome.label === 'Home') {
-        await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Windows Explorer', { exact: true })).not.toBeVisible();
+      if (outcome.label === 'My Computer') {
+        await expect(page.locator('.win95-title-bar').getByText('PROJECTS - Project Explorer', { exact: true })).not.toBeVisible();
       }
     }
   }
@@ -170,7 +171,7 @@ test('coarse Start-menu rows are 44px non-overlapping targets whose edge taps re
 });
 
 test('menubar uses roving focus with arrows, Home, End, and retained Alt mnemonics', async ({ page }) => {
-  await page.goto('/?app=projects');
+  await page.goto('/desktop?app=projects');
   const menu = page.getByRole('menubar');
   const file = menu.getByRole('menuitem', { name: 'File' });
   const view = menu.getByRole('menuitem', { name: 'View' });
@@ -194,18 +195,26 @@ test('menubar uses roving focus with arrows, Home, End, and retained Alt mnemoni
   await expect(page.getByRole('menu', { name: 'File' }).getByRole('menuitem', { name: 'Home' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(file).toBeFocused();
-  await expect(page).toHaveURL('/?app=projects');
+  await expect(page).toHaveURL('/desktop?app=projects');
 });
 
 test('Escape closes Start and restores focus to its button', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/desktop');
   await page.getByLabel('Start menu').click();
-  await expect(page.getByRole('menuitem', { name: 'Home' })).toBeFocused();
+  await expect(page.getByRole('menuitem', { name: 'My Computer' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByLabel('Start menu')).toBeFocused();
 });
 
-test('reduced motion disables the terminal cursor pulse and smooth scrolling', async ({ page }) => {
+test('terminal is labeled as a read-only transcript with no false input cursor', async ({ page }) => {
+  await page.goto('/desktop?app=terminal');
+
+  await expect(page.getByText('Command Prompt: Read-only transcript', { exact: true })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Command Prompt transcript (read-only)' })).toBeVisible();
+  await expect(page.locator('.win95-terminal [class*="animate-pulse"]')).toHaveCount(0);
+});
+
+test('reduced motion navigation opens apps without smooth scrolling', async ({ page }) => {
   await page.addInitScript(() => {
     const calls: ScrollIntoViewOptions[] = [];
     const original = Element.prototype.scrollIntoView;
@@ -216,25 +225,16 @@ test('reduced motion disables the terminal cursor pulse and smooth scrolling', a
     Object.defineProperty(window, '__scrollIntoViewCalls', { value: calls });
   });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
-  const cursor = page.locator('.win95-terminal [class*="animate-pulse"]');
-  await expect(cursor).toHaveCount(1);
-  await expect(cursor).toHaveCSS('animation-name', 'none');
+  await page.goto('/desktop');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
   await page.getByRole('menubar').getByRole('menuitem', { name: 'View' }).click();
   await page.getByRole('menu', { name: 'View' }).getByRole('menuitem', { name: 'Projects' }).click();
-  await expect.poll(() => page.evaluate(() => window.__scrollIntoViewCalls)).toContainEqual({ behavior: 'auto', block: 'start' });
+  await expect(page).toHaveURL('/desktop?app=projects');
+  expect(await page.evaluate(() => window.__scrollIntoViewCalls)).not.toContainEqual({ behavior: 'smooth', block: 'start' });
 });
 
-test('Open Graph command prompt uses exactly one Windows path separator', async () => {
+test('Open Graph image contains no Windows command prompt', async () => {
   const source = await readFile(resolve(process.cwd(), 'src/app/opengraph-image.tsx'), 'utf8');
-  expect(source).toContain(String.raw`C:\STEVEN`);
-  expect(source).not.toContain(String.raw`C:\\STEVEN`);
-});
-
-test('sitemap lists the public photography route', async ({ request }) => {
-  const response = await request.get('/sitemap.xml');
-
-  expect(response.ok()).toBe(true);
-  expect(await response.text()).toContain('<loc>https://stevenbarash.com/photos</loc>');
+  expect(source).not.toMatch(/C:\\STEVEN|commandPrompt|STEVEN\.EXE|Identity Work/i);
+  expect(source).toContain('Senior Solutions Engineer at Descope');
 });

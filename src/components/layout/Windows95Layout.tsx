@@ -22,6 +22,7 @@ interface Windows95LayoutProps {
   onShutDown?: () => void;
   statusText?: string;
   statusPaneLabel?: string;
+  focusOnMount?: boolean;
 }
 
 export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
@@ -37,12 +38,17 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
   onShutDown,
   statusText = 'Ready',
   statusPaneLabel = 'My Computer',
+  focusOnMount = false,
 }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(INITIAL_WINDOW_POSITION);
   const dragRef = useRef<{ startX: number; startY: number; startLeft: number; startTop: number } | null>(null);
 
   const canDrag = isDesktop && !isMaximized;
+
+  useEffect(() => {
+    if (focusOnMount) windowRef.current?.focus();
+  }, [focusOnMount]);
 
   const handleTitleBarDragStart = useCallback(
     (e: React.MouseEvent) => {
@@ -95,13 +101,16 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
   return (
     <div
       ref={windowRef}
+      data-testid="application-window"
+      aria-label={`${title} application window`}
+      tabIndex={-1}
       className={`win95-window-frame ${
         isMaximized ? 'win95-window-frame--maximized' : 'win95-window-frame--floating'
       } ${className}`}
       style={wrapperStyle}
     >
       <div
-        className={`win95-window flex flex-col ${
+        className={`win95-window win95-app-shell flex flex-col ${
           isMaximized ? 'min-h-[calc(100vh-40px)]' : 'max-h-[calc(100vh-48px)]'
         }`}
       >
@@ -111,6 +120,7 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
           onMaximize={onMaximize}
           onClose={onClose}
           isMaximized={isMaximized}
+          showMaximize={isDesktop}
           onTitleBarDragStart={canDrag ? handleTitleBarDragStart : undefined}
         />
 
@@ -120,7 +130,7 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
           onShutDown={onShutDown}
         />
 
-        <div className="p-[6px] flex flex-col gap-[6px] flex-1 min-h-0 overflow-auto">
+        <div className="win95-app-body win95-reading p-[6px] flex flex-col gap-[6px] flex-1 min-h-0 overflow-auto">
           {children}
         </div>
 
