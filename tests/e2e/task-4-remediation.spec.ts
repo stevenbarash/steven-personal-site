@@ -236,5 +236,5 @@ test('reduced motion navigation opens apps without smooth scrolling', async ({ p
 test('Open Graph image contains no Windows command prompt', async () => {
   const source = await readFile(resolve(process.cwd(), 'src/app/opengraph-image.tsx'), 'utf8');
   expect(source).not.toMatch(/C:\\STEVEN|commandPrompt|STEVEN\.EXE|Identity Work/i);
-  expect(source).toContain('Senior Solutions Engineer at Descope');
+  expect(source).toContain('I turn complex technical systems into working products, demos, and decisions.');
 });

@@ -30,8 +30,9 @@ test('approved broad technical narrative leads while identity remains an area of
   expect(await page.locator('meta[property="og:title"]').getAttribute('content')).toContain('Products, Demos, and Technical Systems');
   expect(await page.locator('meta[property="og:title"]').getAttribute('content')).not.toContain('Photographer');
   const manifest = await (await request.get('/manifest.webmanifest')).json();
-  expect(manifest.name).toContain('Senior Solutions Engineer');
+  expect(manifest.name).toContain('Products, Demos, and Technical Systems');
   expect(manifest.name).not.toContain('Photographer');
+  expect(manifest.name).not.toContain('Senior Solutions Engineer');
 });
 
 test('My Computer is a concise identity summary with literal one-action controls', async ({ page }) => {
