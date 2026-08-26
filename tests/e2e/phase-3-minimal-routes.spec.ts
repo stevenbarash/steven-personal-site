@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { siteConfig } from '../../src/constants/site';
 import { contactCatalog } from '../../src/content/contact';
+import { archivePhotos, featuredPhotos } from '../../src/content/photography';
 import { publishedSpeaking, speakingCatalog } from '../../src/content/speaking';
 import { photoLibrary } from '../../src/data/photos';
 import { resumeData } from '../../src/data/resume';
@@ -213,14 +214,19 @@ test('photography renders every verified local photo with dimensions, honest alt
   const figures = page.locator('main figure');
   await expect(figures).toHaveCount(photoLibrary.length);
 
-  for (let index = 0; index < photoLibrary.length; index += 1) {
-    const photo = photoLibrary[index];
+  const projectedPhotos = [...featuredPhotos, ...archivePhotos];
+  for (let index = 0; index < projectedPhotos.length; index += 1) {
+    const photo = projectedPhotos[index];
     const figure = figures.nth(index);
     const image = figure.locator('img');
     await expect(image).toHaveAttribute('alt', photo.alt);
     await expect(image).toHaveAttribute('width', String(photo.width));
     await expect(image).toHaveAttribute('height', String(photo.height));
-    if (index > 0) await expect(image).toHaveAttribute('loading', 'lazy');
+    if (index === 0) {
+      await expect(image).not.toHaveAttribute('loading');
+    } else {
+      await expect(image).toHaveAttribute('loading', 'lazy');
+    }
     await expect(figure.getByText(photo.title, { exact: true })).toBeVisible();
     if (photo.location && photo.location !== 'Unknown') {
       await expect(figure.getByText(photo.location, { exact: true })).toBeVisible();
@@ -229,14 +235,46 @@ test('photography renders every verified local photo with dimensions, honest alt
 
   await expect(page.getByText('Unknown', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Instagram', exact: true })).toHaveAttribute('href', siteConfig.instagramUrl);
-  await expect(figures.nth(6).locator('img')).toHaveAttribute('alt', 'Two soldiers watch a woman in a red skirt and a man in a cowboy hat perform on a city sidewalk.');
-  await expect(figures.nth(9).locator('img')).toHaveAttribute('alt', 'A food-service worker prepares food behind a restaurant window.');
-  await expect(figures.nth(11).locator('img')).toHaveAttribute('alt', 'A white bulldog lies on the ground wearing a gray rhinoceros costume.');
+  await expect(page.getByAltText('Two soldiers watch a woman in a red skirt and a man in a cowboy hat perform on a city sidewalk.')).toBeVisible();
+  await expect(page.getByAltText('A food-service worker prepares food behind a restaurant window.')).toBeVisible();
+  await expect(page.getByAltText('A white bulldog lies on the ground wearing a gray rhinoceros costume.')).toBeVisible();
+  await expect(page.locator('head link[rel="preload"][as="image"]')).toHaveCount(1);
 
   await page.setViewportSize({ width: 1280, height: 720 });
-  await expect(page.locator('.minimal-photo-gallery')).toHaveCSS('column-count', '2');
+  await expect(page.locator('[data-photo-archive]')).toHaveCSS('column-count', '2');
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator('.minimal-photo-gallery')).toHaveCSS('column-count', '1');
+  await expect(page.locator('[data-photo-archive]')).toHaveCSS('column-count', '1');
+});
+
+test('photography opens with five selected images and keeps the full library exactly once', async ({ page }) => {
+  expect(featuredPhotos.map(({ id }) => id)).toEqual([
+    'ig-DTM8x-XjH87',
+    'ig-DC4r__8xPDU',
+    'ig-Cz83QsPOSTh',
+    'ig-CoQuyVsOJJA',
+    'ig-Cn-S9S4O_Of',
+  ]);
+  const projectedIds = [...featuredPhotos, ...archivePhotos].map(({ id }) => id);
+  expect(projectedIds).toHaveLength(photoLibrary.length);
+  expect(new Set(projectedIds).size).toBe(photoLibrary.length);
+  expect(projectedIds).toEqual(expect.arrayContaining(photoLibrary.map(({ id }) => id)));
+
+  await page.goto('/photos');
+  await expect(page.locator('[data-photo-featured] figure')).toHaveCount(5);
+  await expect(page.locator('[data-photo-archive] figure')).toHaveCount(photoLibrary.length - 5);
+  await expect(page.locator('main figure')).toHaveCount(photoLibrary.length);
+});
+
+test('featured photography varies scale on desktop and keeps one reading column on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/photos');
+  const figures = page.locator('[data-photo-featured] figure');
+  expect((await figures.nth(0).boundingBox())!.width).toBeGreaterThan((await figures.nth(1).boundingBox())!.width);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const boxes = await figures.evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
+  expect(Math.max(...boxes) - Math.min(...boxes)).toBeLessThan(2);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
 });
 
 test('photo catalog intrinsic dimensions match every verified local JPEG', async () => {
