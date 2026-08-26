@@ -3400,9 +3400,27 @@ figure[data-variant="preview"].bike-cli-specimen code {
   font-size: 14px;
 }
 
+.minimal-contact-primary {
+  max-width: 760px;
+}
+
+.minimal-contact-invitation {
+  margin-top: 28px !important;
+  color: #2b2b2b;
+}
+
 .minimal-email-link {
-  margin-top: 28px;
-  font-size: 18px;
+  display: inline-flex;
+  min-height: 58px;
+  align-items: center;
+  margin-top: 12px;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.minimal-contact-list {
+  margin-top: 24px;
 }
 
 .minimal-contact-list ul {

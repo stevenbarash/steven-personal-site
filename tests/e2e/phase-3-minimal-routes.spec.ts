@@ -340,6 +340,21 @@ test('contact is direct and projects the four social destinations as simple rows
   await expect(page.locator('main')).not.toContainText(/professional channel|\?/i);
 });
 
+test('contact makes email the primary conclusion and social links secondary', async ({ page }) => {
+  await page.goto('/contact');
+  const primary = page.locator('[data-contact-primary]');
+  const secondary = page.locator('[data-contact-secondary]');
+  await expect(primary.getByText('Email is the best place to start.', { exact: true })).toBeVisible();
+  const email = primary.getByRole('link', { name: `Email ${siteConfig.emailDisplay}`, exact: true });
+  await expect(email).toHaveAttribute('href', 'mailto:steven@barash.me');
+  expect(Number.parseFloat(await email.evaluate((node) => getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(28);
+  const primaryBox = await primary.boundingBox();
+  const secondaryBox = await secondary.boundingBox();
+  expect(primaryBox).not.toBeNull();
+  expect(secondaryBox).not.toBeNull();
+  expect(secondaryBox!.y).toBeGreaterThan(primaryBox!.y + primaryBox!.height);
+});
+
 test('the preserved speaking record has no public route, navigation, or sitemap entry', async ({ page, request }) => {
   expect(speakingCatalog).toHaveLength(1);
   expect(publishedSpeaking).toHaveLength(0);

@@ -23,13 +23,16 @@ export default function ContactPage() {
       <div className="minimal-shell minimal-document minimal-contact-page">
         <header className="minimal-document-header">
           <h1>Contact</h1>
-          <p className="minimal-document-lede">Email me about identity architecture, agentic systems, technical evaluations, or workshops.</p>
-          <a className="minimal-email-link" href={decodeEmailHref(contactContent.emailDisplay)} aria-label={`Email ${contactContent.emailDisplay}`}>
-            {contactContent.emailDisplay}
-          </a>
+          <div className="minimal-contact-primary" data-contact-primary>
+            <p className="minimal-document-lede">Email me about identity architecture, agentic systems, technical evaluations, or workshops.</p>
+            <p className="minimal-contact-invitation">Email is the best place to start.</p>
+            <a className="minimal-email-link" href={decodeEmailHref(contactContent.emailDisplay)} aria-label={`Email ${contactContent.emailDisplay}`}>
+              {contactContent.emailDisplay}
+            </a>
+          </div>
         </header>
 
-        <section className="minimal-contact-list" aria-label="Other places to find Steven">
+        <section className="minimal-contact-list" data-contact-secondary aria-label="Other places to find Steven">
           <ul>
             {socialLinks.map((contact) => (
               <li key={contact.kind}>
