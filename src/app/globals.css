@@ -2611,6 +2611,16 @@ a,
   font-weight: 650;
 }
 
+[data-project-artifact-variant="preview"] {
+  padding-block: 20px;
+}
+
+[data-project-artifact] figure[data-variant="preview"] figcaption,
+[data-project-artifact] .project-artifact-preview figcaption {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
 .pult-protocol-flow {
   border-radius: 0;
   background: transparent;
@@ -2645,10 +2655,23 @@ a,
   border-block: 1px solid #aeb5bf;
 }
 
+figure[data-variant="preview"].uptick-flow li,
+figure[data-variant="preview"].bike-cli-specimen dl > div,
+figure[data-variant="preview"].site-route-map li {
+  padding: 10px;
+  font-size: 13px;
+}
+
 .uptick-flow p,
 .site-route-map-source {
   margin: 18px 0 0;
   color: #2b2b2b;
+}
+
+figure[data-variant="preview"].uptick-flow p,
+figure[data-variant="preview"] .site-route-map-source {
+  margin-top: 12px;
+  font-size: 13px;
 }
 
 .bike-cli-specimen dt,
@@ -2665,6 +2688,10 @@ a,
   font-size: 13px;
 }
 
+figure[data-variant="preview"].bike-cli-specimen code {
+  font-size: 12px;
+}
+
 .site-route-map-source {
   margin-bottom: 16px;
   font-weight: 650;
@@ -2679,6 +2706,10 @@ a,
 .site-route-map li span {
   color: #2b2b2b;
   font-size: 14px;
+}
+
+.site-route-map[data-variant="preview"] li span {
+  font-size: 12px;
 }
 
 .pult-protocol-flow ol {
@@ -2715,6 +2746,19 @@ a,
   margin-top: 4px;
   color: #2b2b2b;
   font-size: 13px;
+}
+
+.project-artifact-preview.pult-protocol-flow ol {
+  gap: 24px;
+}
+
+.project-artifact-preview.pult-protocol-flow li {
+  min-height: 48px;
+  font-size: 13px;
+}
+
+.project-artifact-preview.pult-protocol-flow li span {
+  font-size: 11px;
 }
 
 .minimal-project-prose {

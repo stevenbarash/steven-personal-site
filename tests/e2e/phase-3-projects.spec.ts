@@ -209,6 +209,52 @@ test('project artifacts expose only verified technical claims', async ({ page })
   }
 });
 
+test('preview artifact variant keeps its facts in a compact responsive layout', async ({ page }) => {
+  await page.goto('/projects/bike-cli');
+  const detail = page.locator('[data-project-artifact="bike-cli"][data-project-artifact-variant="detail"]');
+  await detail.evaluate((node) => {
+    const preview = node.cloneNode(true) as HTMLElement;
+    preview.dataset.projectArtifactVariant = 'preview';
+    preview.querySelector('figure')?.setAttribute('data-variant', 'preview');
+    node.parentElement?.append(preview);
+  });
+
+  const preview = page.locator('[data-project-artifact="bike-cli"][data-project-artifact-variant="preview"]');
+  await expect(preview.locator('figure[data-variant="preview"]')).toHaveCount(1);
+  await expect(preview.getByRole('figure', { name: 'One command, three output formats' })).toHaveCount(1);
+  for (const command of ['bike now', 'bike now --format json', 'bike wear --format csv']) {
+    await expect(preview.getByText(command, { exact: true })).toBeVisible();
+  }
+
+  const [detailMetrics, previewMetrics] = await Promise.all(
+    [detail, preview].map((artifact) => artifact.evaluate((node) => {
+      const caption = node.querySelector('figcaption');
+      const item = node.querySelector('dl > div');
+      const code = node.querySelector('code');
+      if (!caption || !item || !code) throw new Error('Expected bike-cli artifact structure.');
+      return {
+        height: node.getBoundingClientRect().height,
+        paddingTop: Number.parseFloat(getComputedStyle(node).paddingTop),
+        captionFontSize: Number.parseFloat(getComputedStyle(caption).fontSize),
+        captionMarginBottom: Number.parseFloat(getComputedStyle(caption).marginBottom),
+        itemPaddingTop: Number.parseFloat(getComputedStyle(item).paddingTop),
+        codeFontSize: Number.parseFloat(getComputedStyle(code).fontSize),
+      };
+    })),
+  );
+
+  expect(previewMetrics.height).toBeLessThan(detailMetrics.height);
+  expect(previewMetrics.paddingTop).toBeLessThan(detailMetrics.paddingTop);
+  expect(previewMetrics.captionFontSize).toBeLessThan(detailMetrics.captionFontSize);
+  expect(previewMetrics.captionMarginBottom).toBeLessThan(detailMetrics.captionMarginBottom);
+  expect(previewMetrics.itemPaddingTop).toBeLessThan(detailMetrics.itemPaddingTop);
+  expect(previewMetrics.codeFontSize).toBeLessThan(detailMetrics.codeFontSize);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(preview.locator('dl')).toHaveCSS('grid-template-columns', /^(?!.* ).+$/);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+});
+
 test('corrected project copy has no duplicate Pult caveat, training notes, or public evidence IDs', async ({ page }) => {
   await page.goto('/projects/pult');
   await expect(page.getByText('Not on the App Store. Physical-device compatibility is documented per TV in the repository.', { exact: true })).toHaveCount(1);
