@@ -2279,6 +2279,15 @@ a,
   line-height: 1;
 }
 
+.minimal-project-breadcrumb a,
+.quiet-studio-projects h3 a {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  touch-action: manipulation;
+}
+
 .quiet-studio-projects h3 a {
   color: #040404;
   text-decoration: none;
@@ -2515,6 +2524,11 @@ a,
   max-width: 68ch;
   margin-top: 12px !important;
   color: #2b2b2b;
+}
+
+.minimal-project-list [data-project-artifact-variant="preview"] {
+  margin-top: 24px;
+  padding-block: 20px;
 }
 
 .minimal-project-facts {
@@ -3640,6 +3654,14 @@ figure[data-variant="preview"].bike-cli-specimen code {
     align-content: center;
     gap: 2px;
     padding-block: 12px;
+  }
+
+  .minimal-project-list article {
+    max-width: none;
+  }
+
+  .minimal-project-list [data-project-artifact-variant="preview"] {
+    margin-top: 18px;
   }
 
   .pult-protocol-flow ol {

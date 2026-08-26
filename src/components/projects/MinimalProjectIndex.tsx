@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ProjectArtifact } from '@/components/projects/artifacts/ProjectArtifact';
 import { publishedProjects } from '@/content/projects';
 
 const formatStatus = (status: string) => `${status.charAt(0).toUpperCase()}${status.slice(1)}`;
@@ -22,6 +23,7 @@ export function MinimalProjectIndex() {
               </h2>
               <p className="minimal-project-summary">{project.oneLiner}</p>
               <p className="minimal-project-differentiator">{project.approach[0]}</p>
+              <ProjectArtifact slug={project.slug} variant="preview" />
               <div className="minimal-project-facts">
                 <p><strong>Status:</strong> {formatStatus(project.status)}</p>
                 <p><strong>Technologies:</strong> {project.technologyLine}</p>

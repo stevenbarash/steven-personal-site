@@ -106,7 +106,7 @@ test('project index has one h1 and a strong semantic list rather than cards', as
   await expect(page.getByRole('heading', { level: 1, name: 'Projects' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
   await expect(page.locator('body')).not.toContainText(governanceVocabulary);
-  await expect(page.getByRole('list', { name: 'Projects' }).getByRole('listitem')).toHaveCount(4);
+  await expect(page.getByRole('list', { name: 'Projects' }).locator(':scope > li')).toHaveCount(4);
 
   for (const project of expectedProjects) {
     const row = page.getByRole('listitem').filter({ has: page.getByRole('heading', { name: project.name, exact: true }) });
@@ -123,6 +123,31 @@ test('project index has one h1 and a strong semantic list rather than cards', as
 
   const classNames = await page.locator('[class]').evaluateAll((nodes) => nodes.flatMap((node) => Array.from(node.classList)));
   expect(classNames.filter((name) => /(?:card|rounded|glass|gradient|eyebrow|grid)/i.test(name))).toEqual([]);
+});
+
+test('project index previews each project through its registered artifact', async ({ page }) => {
+  await page.goto('/projects');
+  for (const project of expectedProjects) {
+    const row = page.getByRole('listitem').filter({
+      has: page.getByRole('heading', { name: project.name, exact: true }),
+    });
+    await expect(row.locator(`[data-project-artifact="${project.slug}"][data-project-artifact-variant="preview"]`)).toHaveCount(1);
+  }
+});
+
+test('mobile project title and breadcrumb links meet the 44px floor', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/projects');
+  for (const project of expectedProjects) {
+    const box = await page.getByRole('link', { name: project.name, exact: true }).boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+  }
+  await page.goto('/projects/pult');
+  const breadcrumb = page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'Projects' });
+  const box = await breadcrumb.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box!.height).toBeGreaterThanOrEqual(44);
 });
 
 for (const expected of expectedProjects) {

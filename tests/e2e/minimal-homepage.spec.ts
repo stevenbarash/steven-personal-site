@@ -292,6 +292,8 @@ test('minimal home fits a 390px viewport and key targets are at least 44px', asy
     page.getByRole('link', { name: 'See the work', exact: true }),
     page.getByRole('link', { name: 'Contact', exact: true }).last(),
     page.getByRole('link', { name: 'Open the Windows 95 version' }),
+    page.getByRole('link', { name: 'Uptick', exact: true }),
+    page.getByRole('link', { name: 'bike-cli', exact: true }),
     page.getByRole('button', { name: 'Menu', exact: true }),
   ]) {
     const box = await locator.boundingBox();
