@@ -56,7 +56,7 @@
 
 @media (max-width: 767px) {
   .page {
-    padding-block: 32px 56px;
+    padding-block: 16px 48px;
   }
 
   .header {

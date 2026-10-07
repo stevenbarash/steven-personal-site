@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <PortfolioLayout>
-      <Column className={styles.home} gap="104">
-        <Column as="section" className={styles.hero} horizontal="center" align="center" gap="32" aria-labelledby="home-headline" data-home-hero>
-          <Column horizontal="center" gap="16">
+      <Column className={styles.home} gap="104" s={{ gap: '64' }}>
+        <Column as="section" className={styles.hero} horizontal="center" align="center" gap="32" s={{ gap: '20' }} aria-labelledby="home-headline" data-home-hero>
+          <Column horizontal="center" gap="16" s={{ gap: '12' }}>
             <Avatar src={profileContent.portraitUrl} size={4.5} aria-label="Illustrated portrait of Steven Barash" className={styles.portrait} />
             <Heading id="home-headline" variant="display-strong-l" className={styles.headline} wrap="balance">Hi, I’m Steven Barash.</Heading>
             <Text as="p" variant="heading-default-xl" className={styles.introduction}>{headline}</Text>
@@ -46,7 +46,7 @@ export default function Home() {
               </Button>
             </Row>
           </Column>
-          <Row gap="12" wrap horizontal="center" aria-label="Primary actions">
+          <Row className={styles.primaryActions} gap="12" wrap horizontal="center" aria-label="Primary actions">
             <Button href="/resume" size="l" rounded arrowIcon>View experience</Button>
             <Button href="/contact" size="l" rounded variant="secondary">Get in touch</Button>
           </Row>

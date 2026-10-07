@@ -84,3 +84,44 @@ for (const [path, expectedCopy] of [
     }
   });
 }
+
+test('small phones keep primary actions tappable and navigation clear of Start', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+
+  for (const name of ['View experience', 'Get in touch']) {
+    const action = page.getByRole('link', { name, exact: true });
+    await expect.poll(() => action.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      const hit = document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      return rect.bottom <= innerHeight && element.contains(hit);
+    })).toBe(true);
+  }
+
+  const start = page.getByRole('link', { name: 'Start the Windows 95 experience', exact: true });
+  const startBox = await start.boundingBox();
+  expect(startBox).not.toBeNull();
+  for (const [name, path] of [['Experience', '/resume'], ['Photography', '/photos'], ['Contact', '/contact'], ['Home', '/']] as const) {
+    const link = page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name, exact: true });
+    const box = await link.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+    expect(box!.x).toBeGreaterThanOrEqual(startBox!.x + startBox!.width);
+    await link.tap();
+    await expect(page).toHaveURL(path);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+
+  const face = await start.locator('.portfolio-start-face').boundingBox();
+  await start.tap();
+  await expect(page).toHaveURL('/desktop');
+  const desktopStart = page.getByRole('button', { name: 'Start menu', exact: true });
+  await expect(desktopStart).toBeVisible();
+  const desktopFace = await desktopStart.boundingBox();
+  expect(face).not.toBeNull();
+  expect(desktopFace).not.toBeNull();
+  expect(face!.x).toBeCloseTo(desktopFace!.x, 1);
+  expect(face!.y).toBeCloseTo(desktopFace!.y, 1);
+});

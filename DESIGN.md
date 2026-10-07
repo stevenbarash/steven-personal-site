@@ -119,9 +119,9 @@ The homepage uses the frontmatter display and introduction scales. Background an
 
 ## Layout
 
-The shared main is capped at 1008px including 24px horizontal padding, leaving 960px of content. The homepage is capped at 800px. Mobile gutters are 16px. Homepage sections are separated by 104px, with tighter 16–32px content groups.
+The shared main is capped at 1008px including 24px horizontal padding, leaving 960px of content. The homepage is capped at 800px. Mobile gutters are 16px. Homepage sections are separated by 104px on desktop and 64px on small screens.
 
-The homepage hero has three groups: portrait/greeting/introduction, career context with a centered social strip below it, and the experience/contact actions. Identity elements use 16px gaps and the three groups use 32px gaps. The portrait, heading, introduction, career paragraphs, social strip, and action group share one centerline at every breakpoint. Social icons are paired with an 8px gap, 12px below the career paragraphs; they do not flank the portrait or sit beside the text. The longer 6+ years/customer-organizations paragraph lives in the technical-background section rather than competing with the introduction.
+The homepage hero has three groups: portrait/greeting/introduction, career context with a centered social strip below it, and the experience/contact actions. Desktop identity elements use 16px gaps and the three groups use 32px gaps; small screens use 12px and 20px respectively. The portrait, heading, introduction, career paragraphs, social strip, and action group share one centerline. Mobile headings scale from 32px with a 1.08 line height, and introductory copy uses 18px. Below 375px, primary actions stack at full width; wider phones use a balanced two-button row. Social icons are paired with an 8px gap, 12px below the career paragraphs. Longer background copy follows below the hero.
 
 The homepage moves directly from the hero to technical background. The Descope presales lead paragraph and all three work-example rows were removed at Steven's request; career details remain on the résumé.
 
@@ -131,13 +131,13 @@ The shared footer contains Steven's name and Credits only. The redundant Windows
 
 The homepage email close contains “Say hello,” the email address, and the contact link without an introductory email sentence.
 
-The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, the header becomes static and navigation moves to a bottom dock with safe-area clearance. Labels are visually hidden there but accessible names remain. Footer padding reserves space for the dock and persistent Start shortcut.
+The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, navigation occupies an opaque bottom bar beside Start, not a floating pill over reading content. Home, Work, Photos, and Contact labels are visible; full accessible names remain unchanged. Each control has a 44px minimum target. The bar follows safe-area insets, and footer padding reserves its space. Mobile main padding is 16px at the top; route-local padding avoids repeated desktop-sized gaps.
 
 The experience page pairs a compact profile sidebar with a full career column and stacks on mobile. Photography uses one Once UI `MasonryGrid` with two columns, 24px gutters, and a single column at the framework's 768px small breakpoint. Every photograph keeps its original proportions and its caption; there is no separate featured-layout or archive-layout treatment. Retained project documents remain unpromoted in primary navigation.
 
 ## Elevation & Depth
 
-Depth comes from a subtle cyan ambient layer, tonal contrast, curved controls, and selective surfaces. The navigation alone carries a diffuse offset shadow (`0 8px 32px -12px` with neutral alpha). Resume chronology and supporting reading sections remain largely bare.
+Depth comes from a subtle cyan ambient layer, tonal contrast, curved controls, and selective surfaces. Desktop navigation carries a diffuse offset shadow (`0 8px 32px -12px` with neutral alpha); the mobile bottom bar is opaque and shadow-free. Resume chronology and supporting reading sections remain largely bare.
 
 The homepage introduction animates once over 650ms with a small upward settle and blur release; content is visible from the start. Reduced-motion preferences remove animation, transitions, and smooth scrolling inside the public boundary.
 
@@ -157,7 +157,7 @@ Once UI `Button` owns primary, secondary, and tertiary actions; `SmartLink` owns
 
 X and GitHub profile links form a compact centered row beneath the career details in the homepage hero. Each has an unframed 24px glyph inside a 48px square target, an accessible label announcing its new-tab behavior, and the canonical URL from `siteConfig`. Their inline brand glyphs come from [Simple Icons](https://github.com/simple-icons/simple-icons), licensed under [CC0](https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md); no additional icon package or remote image request is needed.
 
-The shared Start shortcut is an intentional, isolated exception to the public control style: the existing Windows 95 flag, square silver `win95-button` bevel, bold 11px system type, and a 23px face inside a 44px minimum touch target. It stays fixed at the bottom-left on every public page, including not-found pages, outside the animated hero. Its visible face matches the desktop Start button exactly: 2px from the left and 4.5px from the bottom with zero safe-area insets, using the desktop's max(2px, safe-area inset) padding and 23px face centered within a 28px row. Mobile navigation sits 48px above the bottom plus safe-area clearance, above the Start target rather than moving Start upward. It depresses while pressed and links to `/desktop` without prefetching the separate desktop experience. Enlarged photographs temporarily hide the shortcut. `/desktop` retains its own real Start menu without a duplicate public control.
+The shared Start shortcut is an intentional, isolated exception to the public control style: the existing Windows 95 flag, square silver `win95-button` bevel, bold 11px system type, and a 23px face inside a 44px minimum touch target. It stays fixed at the bottom-left on every public page, including not-found pages, outside the animated hero. Its visible face matches the desktop Start button exactly: 2px from the left and 4.5px from the bottom with zero safe-area insets, using the desktop's max(2px, safe-area inset) padding and 23px face centered within a 28px row. Mobile navigation sits alongside it in the same bottom bar, with separate touch targets. It depresses while pressed and links to `/desktop` without prefetching the separate desktop experience. Enlarged photographs temporarily hide the shortcut and cover the navigation bar. `/desktop` retains its own real Start menu without a duplicate public control.
 
 ### Photography
 

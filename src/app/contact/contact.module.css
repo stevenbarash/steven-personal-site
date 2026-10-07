@@ -68,7 +68,7 @@
 .document a:focus-visible { outline: 2px solid var(--brand-on-background-strong); outline-offset: 4px; }
 
 @media (max-width: 640px) {
-  .document { padding-block: 40px 64px; }
+  .document { padding-block: 16px 48px; }
   .document .pageHeading { font-size: 36px; }
   .primary { padding-block: 24px 48px; }
   .document .introduction { font-size: 17px; }

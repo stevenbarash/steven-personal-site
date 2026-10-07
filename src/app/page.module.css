@@ -30,7 +30,17 @@
 
 @media (max-width: 767px) {
   .hero { padding-top: 8px; }
+  :global(.portfolio-site) .home .headline { font-size: clamp(32px, 8.5vw, 42px); line-height: 1.08; }
+  :global(.portfolio-site) .home .introduction { font-size: 18px; line-height: 1.5; }
+  :global(.portfolio-site) .home :is(.about, .personal) h2 { font-size: 26px; }
+  .home .primaryActions { width: 100%; gap: 8px; }
+  .home .primaryActions a { flex: 1; min-width: 0; }
   .home .contact { padding: 32px 20px; }
+}
+
+@media (max-width: 374px) {
+  .home .primaryActions { flex-direction: column; gap: 12px; }
+  .home .primaryActions a { width: 100%; flex: auto; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
