@@ -55,34 +55,20 @@ export default function Home() {
         <Row as="section" className={styles.about} gap="48" s={{ direction: 'column' }} aria-labelledby="background-heading">
           <Column flex={1} gap="20">
             <Heading as="h2" id="background-heading" variant="display-strong-xs">Identity &amp; developer platforms</Heading>
-            <Text as="p" onBackground="neutral-weak">
-              I’ve spent 6+ years in identity, developer platforms, and technical
-              GTM. I work with early-stage startups, global enterprises,
-              and government agencies.
-            </Text>
-            <Text as="p" onBackground="neutral-weak">
-              My technical background includes OAuth 2.0, OpenID Connect, SAML,
-              WebAuthn/passkeys, SCIM, identity federation, CIAM, RBAC,
-              and fine-grained authorization.
-            </Text>
+            <Text as="p" onBackground="neutral-weak">{profileContent.background}</Text>
+            <Text as="p" onBackground="neutral-weak">{profileContent.protocols}</Text>
           </Column>
           <Column flex={1} gap="20">
             <Heading as="h3" variant="heading-strong-l">What I’m interested in</Heading>
-            <Text as="p" onBackground="neutral-weak">Developer-first platforms, AI-enabled GTM, building agents, demo engineering, and automation.</Text>
-            <Text as="p" onBackground="neutral-weak">
-              I like using rapid prototyping to make complex technical ideas
-              tangible: something a team can build, try, and evaluate.
-            </Text>
+            <Text as="p" onBackground="neutral-weak">{profileContent.interests}</Text>
+            <Text as="p" onBackground="neutral-weak">{profileContent.prototyping}</Text>
           </Column>
         </Row>
 
         <Column as="section" gap="20" className={styles.personal} aria-labelledby="about-heading" data-home-about>
           <Heading as="h2" id="about-heading" variant="display-strong-xs">Outside of work</Heading>
-          <Text as="p" onBackground="neutral-weak">
-            Outside of work, I’m usually cycling somewhere unnecessarily far
-            away, learning a language (the human spoken kind), or exploring a new place.
-          </Text>
-          <Text as="p" onBackground="neutral-weak">I speak Russian, some Ukrainian and Spanish, and a little Korean.</Text>
+          <Text as="p" onBackground="neutral-weak">{profileContent.personal}</Text>
+          <Text as="p" onBackground="neutral-weak">{profileContent.languages}</Text>
           <SmartLink href="/photos" suffixIcon="arrowRight" className={styles.textLink}>View photography</SmartLink>
         </Column>
 

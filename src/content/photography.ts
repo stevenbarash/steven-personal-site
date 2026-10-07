@@ -1,5 +1,9 @@
 import { photoLibrary } from '@/data/photos';
 
+export const photographyContent = {
+  introduction: 'I like to take photos sometimes.',
+} as const;
+
 export const featuredPhotoIds = [
   'ig-DTM8x-XjH87',
   'ig-DC4r__8xPDU',

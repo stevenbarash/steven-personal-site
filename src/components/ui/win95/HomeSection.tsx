@@ -42,7 +42,7 @@ export function HomeSection() {
         <div>
           <p className="win95-metadata"><strong>{profileContent.name}</strong> · {profileContent.role} at {profileContent.company} · {profileContent.location}</p>
           <h1 id="home-headline">{profileContent.headline}</h1>
-          <p>{profileContent.summary}</p>
+          <p>{profileContent.background}</p>
           <p className="win95-home-capabilities"><strong>{profileContent.capabilityLine}</strong></p>
         </div>
       </div>
@@ -50,6 +50,8 @@ export function HomeSection() {
       <div className="win95-home-actions" aria-label="Primary actions">
         <AppLink href="/desktop?app=resume" className="win95-button win95-content-action" data-focus-launcher="resume">Open Resume</AppLink>
         <DecodedEmailLink displayEmail={siteConfig.emailDisplay} className="win95-button win95-content-action">Email Steven</DecodedEmailLink>
+        <a href={siteConfig.xUrl} className="win95-button win95-content-action" target="_blank" rel="noopener noreferrer" aria-label="X (opens in a new tab)">X</a>
+        <a href={siteConfig.githubUrl} className="win95-button win95-content-action" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)">GitHub</a>
       </div>
 
       <div className="win95-group-box win95-home-programs">

@@ -22,7 +22,7 @@ export const Terminal: React.FC<TerminalProps> = ({ commands }) => {
                 <span className="text-[#c0c0c0]">{APP_CONFIG.terminalPrompt}</span>
                 <span className="text-[#ffffff]">{cmd.command}</span>
               </div>
-              <div className="text-[#c0c0c0] pl-0">{cmd.output}</div>
+              <div className="text-[#c0c0c0] pl-0 whitespace-pre-line">{cmd.output}</div>
               <div className="h-[2px]" />
             </div>
           ))}

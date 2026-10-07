@@ -3,13 +3,13 @@ import { siteConfig } from "@/constants/site";
 import { profileContent } from "@/content/profile";
 
 export const profileData: ProfileData = {
-  name: siteConfig.personName.toUpperCase(),
-  title: "Senior Solutions Engineer",
-  company: "DESCOPE",
+  name: profileContent.name.toUpperCase(),
+  title: profileContent.role,
+  company: profileContent.company.toUpperCase(),
   companyUrl: "https://www.descope.com",
-  location: "Brooklyn, New York",
-  description: profileContent.summary,
-  imageUrl: "/images/profile-portrait.png",
+  location: profileContent.location,
+  description: profileContent.background,
+  imageUrl: profileContent.portraitUrl,
 };
 
 export const socialLinks: SocialLink[] = [
@@ -44,7 +44,16 @@ export const terminalCommands = [
   { command: "pwd", output: "/home/steven" },
   {
     command: "cat about.txt",
-    output: profileContent.summary,
+    output: [
+      `${profileContent.name} · ${profileContent.role} at ${profileContent.company} · ${profileContent.location}`,
+      profileContent.headline,
+      profileContent.background,
+      profileContent.protocols,
+      profileContent.interests,
+      profileContent.prototyping,
+      profileContent.personal,
+      profileContent.languages,
+    ].join('\n\n'),
   },
 ];
 

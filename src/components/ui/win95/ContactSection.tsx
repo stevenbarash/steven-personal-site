@@ -15,7 +15,7 @@ export function ContactSection() {
     <section aria-labelledby="contact-title">
       <div className="win95-well p-[8px]">
         <h1 id="contact-title" className="text-[16px] font-bold">Contact Steven</h1>
-        <p className="win95-reading-copy mt-[4px]">Email me about identity architecture, agentic systems, technical evaluations, or workshops.</p>
+        <p className="win95-reading-copy mt-[4px]">{contactContent.introduction}</p>
       </div>
       <div className="win95-group-box">
         <span className="win95-group-box-label">Contact options</span>

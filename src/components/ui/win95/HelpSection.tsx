@@ -34,7 +34,7 @@ export const AboutSiteSection: React.FC = () => (
       <div className="win95-well p-[8px]">
         <h2 className="text-[16px] font-bold mb-[8px]">About this site</h2>
         <p className="win95-reading-copy mb-[8px]">
-          Steven&apos;s portfolio is built as a functional Windows 95 desktop, with projects, professional experience, photography, and contact links treated as applications and files.
+          Steven&apos;s personal site has a modern Once UI portfolio and this functional Windows 95 version. Both share professional experience, profile details, photography, projects, and contact links.
         </p>
         <dl className="win95-reading-copy grid grid-cols-[max-content_1fr] gap-x-[12px] gap-y-[4px]">
           <dt className="font-bold">Interface</dt>
@@ -53,6 +53,10 @@ export const AboutSiteSection: React.FC = () => (
             >
               View on GitHub
             </a>
+            {' · '}
+            <a href="/" className="win95-link win95-content-action">Open the main site</a>
+            {' · '}
+            <a href="/credits" className="win95-link win95-content-action">Credits and licenses</a>
           </dd>
         </dl>
       </div>

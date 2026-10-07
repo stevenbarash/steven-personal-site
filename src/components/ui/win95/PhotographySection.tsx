@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import type { PhotoItem } from '@/types';
+import { photographyContent } from '@/content/photography';
 
 interface PhotographySectionProps {
   photos: PhotoItem[];
@@ -33,6 +34,7 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
       <div className="win95-reading-copy mb-[6px]">
         <strong>Photography Explorer</strong> - Albums and contact sheets.
       </div>
+      <p className="win95-reading-copy mb-[6px]">{photographyContent.introduction}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-[6px]">
         <aside className="win95-well p-[4px]">

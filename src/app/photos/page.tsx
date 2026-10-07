@@ -3,7 +3,7 @@ import { Button, Heading, MasonryGrid, Text } from '@once-ui-system/core';
 import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
 import { PhotoMedia } from '@/components/photos/PhotoMedia';
 import { createTwitterMetadata, siteConfig } from '@/constants/site';
-import { archivePhotos, featuredPhotos } from '@/content/photography';
+import { archivePhotos, featuredPhotos, photographyContent } from '@/content/photography';
 import type { PhotoItem } from '@/types';
 import styles from './photos.module.css';
 
@@ -42,7 +42,7 @@ export default function PhotosPage() {
           <div className={styles.intro}>
             <Heading as="h1" variant="display-strong-s" className={styles.title}>Photography</Heading>
             <Text as="p" variant="body-default-l" onBackground="neutral-weak">
-              I like to take photos sometimes.
+              {photographyContent.introduction}
             </Text>
           </div>
           <Button href={siteConfig.instagramUrl} variant="secondary" size="l" target="_blank" rel="noopener noreferrer">

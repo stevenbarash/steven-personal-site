@@ -27,6 +27,16 @@ src/app/
 
 `src/components/photos/PhotoMedia.tsx` supplies keyboard activation for Once UI `Media` enlargement. A local image adapter preserves `next/image` optimization, catalog dimensions, and Next 16 preload without changing adapters for other routes. The gallery keeps the curated photographs first, followed by the remaining library, within a single responsive `MasonryGrid`.
 
+## Shared content across interfaces
+
+- `src/content/profile.ts` owns the public background, protocols, interests, prototyping, personal, and language paragraphs. The homepage, desktop About Me, and read-only terminal biography consume those fields; the desktop profile record also derives its role, company, location, and portrait from this source.
+- `src/data/resume.ts` supplies both résumé presentations: all eight employers, roles, dates, locations, bullets, education, skills, languages, and honors. Desktop tabs and public capability groups are presentation differences, not separate content.
+- `src/data/photos.ts` owns every image and its descriptive metadata. `src/content/photography.ts` owns the shared casual introduction and public gallery ordering; desktop albums use the same complete catalog.
+- `src/content/projects.ts` supplies both project indexes. Desktop project folders link to the canonical public case-study routes.
+- `src/content/contact.ts` supplies the introduction and social destinations for both Contact views. `src/constants/site.ts` supplies canonical email and social identities, including the desktop home's X and GitHub actions.
+
+Update these shared sources rather than adding interface-specific biographies or catalogs. Windows-style labels and chrome remain local to the desktop. About This Site explains the two interfaces and links to the main site and its credits.
+
 ## Canonical and metadata model
 
 `src/constants/site.ts` is the only code source for the canonical origin, `https://barash.me`, plus Steven's visible email and social identities. Root metadata supplies the exact default title, defensible keywords, global share defaults, and the canonical Person JSON-LD entity. Stable pages replace title, description, canonical, Open Graph, and Twitter values with route-specific metadata.

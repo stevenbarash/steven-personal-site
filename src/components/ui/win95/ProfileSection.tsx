@@ -1,5 +1,6 @@
 import { ProfileData } from '@/types';
 import Image from 'next/image';
+import { profileContent } from '@/content/profile';
 
 interface ProfileSectionProps {
   profile: ProfileData;
@@ -41,6 +42,27 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
           </p>
         </div>
       </div>
+      <section className="win95-group-box" aria-labelledby="profile-background-heading">
+        <h2 id="profile-background-heading" className="win95-group-box-label">Identity &amp; developer platforms</h2>
+        <div className="win95-well p-[8px]">
+          <p className="win95-reading-copy">{profile.description}</p>
+          <p className="win95-reading-copy mt-[8px]">{profileContent.protocols}</p>
+        </div>
+      </section>
+      <section className="win95-group-box" aria-labelledby="profile-interests-heading">
+        <h2 id="profile-interests-heading" className="win95-group-box-label">What I’m interested in</h2>
+        <div className="win95-well p-[8px]">
+          <p className="win95-reading-copy">{profileContent.interests}</p>
+          <p className="win95-reading-copy mt-[8px]">{profileContent.prototyping}</p>
+        </div>
+      </section>
+      <section className="win95-group-box" aria-labelledby="profile-personal-heading">
+        <h2 id="profile-personal-heading" className="win95-group-box-label">Outside of work</h2>
+        <div className="win95-well p-[8px]">
+          <p className="win95-reading-copy">{profileContent.personal}</p>
+          <p className="win95-reading-copy mt-[8px]">{profileContent.languages}</p>
+        </div>
+      </section>
     </div>
   );
 };
