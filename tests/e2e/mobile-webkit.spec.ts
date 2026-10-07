@@ -99,11 +99,15 @@ test('small phones keep primary actions tappable and navigation clear of Start',
     })).toBe(true);
   }
 
+  const darkHeadingColor = await page.getByRole('heading', { level: 1 }).evaluate((node) => getComputedStyle(node).color);
+  await page.getByRole('button', { name: 'Switch to light theme', exact: true }).tap();
+  await expect(page.getByRole('heading', { level: 1 })).not.toHaveCSS('color', darkHeadingColor);
+
   const start = page.getByRole('link', { name: 'Start the Windows 95 experience', exact: true });
   const startBox = await start.boundingBox();
   expect(startBox).not.toBeNull();
-  for (const [name, path] of [['Experience', '/resume'], ['Photography', '/photos'], ['Contact', '/contact'], ['Home', '/']] as const) {
-    const link = page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name, exact: true });
+  for (const path of ['/resume', '/photos', '/contact', '/']) {
+    const link = page.getByRole('navigation', { name: 'Primary navigation' }).locator(`a[href="${path}"]`);
     const box = await link.boundingBox();
     expect(box).not.toBeNull();
     expect(box!.width).toBeGreaterThanOrEqual(44);
@@ -111,6 +115,7 @@ test('small phones keep primary actions tappable and navigation clear of Start',
     expect(box!.x).toBeGreaterThanOrEqual(startBox!.x + startBox!.width);
     await link.tap();
     await expect(page).toHaveURL(path);
+    await expect(page.getByRole('button', { name: 'Switch to dark theme', exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 

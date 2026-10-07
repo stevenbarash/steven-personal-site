@@ -131,7 +131,7 @@ The shared footer contains Steven's name and Credits only. The redundant Windows
 
 The homepage email close contains “Say hello,” the email address, and the contact link without an introductory email sentence.
 
-The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, navigation occupies an opaque bottom bar beside Start, not a floating pill over reading content. Home, Work, Photos, and Contact labels are visible; full accessible names remain unchanged. Each control has a 44px minimum target. The bar follows safe-area insets, and footer padding reserves its space. Mobile main padding is 16px at the top; route-local padding avoids repeated desktop-sized gaps.
+The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, the theme toggle moves to the top-right header and four destinations occupy the opaque bottom bar beside Start. Home, Resume, Photos, and Contact use visible 12px labels; accessible names derive from the visible destination text. Each control has a 44px minimum target. A subtle vertical divider separates Start from site navigation. The bar follows safe-area insets, and footer padding reserves its space. Mobile main padding is 16px at the top; route-local padding avoids repeated desktop-sized gaps.
 
 The experience page pairs a compact profile sidebar with a full career column and stacks on mobile. Photography uses one Once UI `MasonryGrid` with two columns, 24px gutters, and a single column at the framework's 768px small breakpoint. Every photograph keeps its original proportions and its caption; there is no separate featured-layout or archive-layout treatment. Retained project documents remain unpromoted in primary navigation.
 
@@ -149,7 +149,7 @@ Photography, contact rows, and the email close use 16px corners. Navigation and 
 
 ### Navigation
 
-Once UI `ToggleButton` links identify Home, Experience, Photography, and Contact. The selected destination has `aria-current="page"`. All navigation controls have a 44px minimum size. The theme `IconButton` names the theme it will select. Navigation is sticky on desktop and fixed at the bottom on mobile.
+Once UI `ToggleButton` links identify Home, Experience, Photography, and Contact on desktop; mobile uses Home, Resume, Photos, and Contact. The selected destination has `aria-current="page"`. Mobile selection uses a 12px-radius rectangular fill with a stronger icon and semibold label. Pressed states increase contrast immediately, and an inset keyboard-focus outline stays within the bottom bar. All navigation controls have a 44px minimum size. The theme `IconButton` names the theme it will select and remains in the desktop navigation or mobile header, with only one visible at a time. Navigation is sticky on desktop and fixed at the bottom on mobile.
 
 ### Actions
 

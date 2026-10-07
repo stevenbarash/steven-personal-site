@@ -101,6 +101,7 @@
   min-height: 44px;
 }
 .portfolio-nav-mobile-label { display: none; }
+.portfolio-mobile-theme { display: none; }
 .portfolio-nav-divider {
   align-self: center;
   width: 1px;
@@ -194,6 +195,8 @@ html:has(.portfolio-site[data-theme="light"]) {
 
 @media (max-width: 767px) {
   .portfolio-header { position: static; min-height: 64px; padding: 12px 16px; }
+  .portfolio-mobile-theme { display: flex; justify-self: end; }
+  .portfolio-site .portfolio-navigation .portfolio-theme-toggle { display: none; }
   .portfolio-header::after {
     content: "";
     position: fixed;
@@ -218,14 +221,37 @@ html:has(.portfolio-site[data-theme="light"]) {
     transform: translateX(-50%);
     z-index: 20;
   }
-  .portfolio-site :is(.portfolio-nav-link, .portfolio-theme-toggle) { flex: 1; }
+  .portfolio-navigation::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: var(--neutral-alpha-medium);
+  }
   .portfolio-site .portfolio-nav-link {
+    flex: 1;
     flex-direction: column;
     gap: 2px;
     padding: 2px;
     height: 44px;
+    border-radius: 12px;
+    color: var(--neutral-on-background-weak);
+    background: transparent;
+    touch-action: manipulation;
   }
-  .portfolio-nav-mobile-label { display: block; font-size: 10px; line-height: 12px; }
+  .portfolio-site .portfolio-nav-link[aria-current="page"] {
+    background: var(--neutral-background-medium);
+    color: var(--neutral-on-background-strong);
+  }
+  .portfolio-nav-link[aria-current="page"] .portfolio-nav-mobile-label { font-weight: 600; }
+  .portfolio-site .portfolio-nav-link:active {
+    background: var(--neutral-background-strong);
+    color: var(--neutral-on-background-strong);
+  }
+  .portfolio-site .portfolio-nav-link:focus-visible { outline-offset: -2px; }
+  .portfolio-nav-mobile-label { display: block; font-size: 12px; line-height: 14px; }
   .portfolio-nav-label, .portfolio-nav-divider { display: none; }
   .portfolio-main { padding: 16px 16px 48px; }
   .portfolio-footer { width: calc(100% - 32px); padding-bottom: calc(96px + env(safe-area-inset-bottom)); }

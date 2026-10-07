@@ -11,7 +11,7 @@ interface PortfolioLayoutProps {
 
 // Navigation and shell adapted from Once UI's Magic Portfolio (CC BY-NC 4.0).
 const navigation = [
-  { href: '/resume', label: 'Experience', mobileLabel: 'Work', icon: 'person' },
+  { href: '/resume', label: 'Experience', mobileLabel: 'Resume', icon: 'person' },
   { href: '/photos', label: 'Photography', mobileLabel: 'Photos', icon: 'image' },
   { href: '/contact', label: 'Contact', mobileLabel: 'Contact', icon: 'mail' },
 ] as const;
@@ -30,6 +30,7 @@ export function PortfolioLayout({ children, activeHref }: PortfolioLayoutProps) 
       </div>
       <header className="portfolio-header">
         <Link className="portfolio-name" href="/" aria-label="Steven Barash, home">Steven Barash</Link>
+        <div className="portfolio-mobile-theme"><PortfolioThemeToggle /></div>
         <Row as="nav" className="portfolio-navigation" aria-label="Primary navigation" gap="4" padding="4" radius="l" background="page" border data-border="rounded">
           <ToggleButton href="/" prefixIcon="home" selected={!activeHref} aria-current={!activeHref ? 'page' : undefined} aria-label="Home" className="portfolio-nav-link">
             <span className="portfolio-nav-mobile-label">Home</span>
@@ -42,7 +43,6 @@ export function PortfolioLayout({ children, activeHref }: PortfolioLayoutProps) 
               prefixIcon={item.icon}
               selected={activeHref === item.href}
               aria-current={activeHref === item.href ? 'page' : undefined}
-              aria-label={item.label}
               className="portfolio-nav-link"
             >
               <span className="portfolio-nav-label">{item.label}</span>

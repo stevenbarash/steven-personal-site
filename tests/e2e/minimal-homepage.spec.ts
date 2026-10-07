@@ -126,8 +126,8 @@ test('home fits a 390px viewport with reachable 44px actions and navigation', as
     page.getByRole('navigation', { name: 'Social profiles' }).getByRole('link', { name: /^GitHub\b/ }),
     page.locator('[data-home-contact] a[href^="mailto:"]'),
     page.getByRole('link', { name: 'Start the Windows 95 experience', exact: true }),
-    ...['Home', 'Experience', 'Photography', 'Contact'].map((name) =>
-      page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name, exact: true })),
+    ...['/', '/resume', '/photos', '/contact'].map((href) =>
+      page.getByRole('navigation', { name: 'Primary navigation' }).locator(`a[href="${href}"]`)),
   ]) {
     await expect(locator).toBeVisible();
     await locator.scrollIntoViewIfNeeded();
@@ -138,12 +138,12 @@ test('home fits a 390px viewport with reachable 44px actions and navigation', as
   }
 
   const nav = page.getByRole('navigation', { name: 'Primary navigation' });
-  for (const [name, href] of [['Experience', '/resume'], ['Photography', '/photos'], ['Contact', '/contact'], ['Home', '/']] as const) {
-    const link = nav.getByRole('link', { name, exact: true });
+  for (const href of ['/resume', '/photos', '/contact', '/']) {
+    const link = nav.locator(`a[href="${href}"]`);
     await expect(link).toBeInViewport();
     await link.click();
     await expect(page).toHaveURL(href);
-    await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('aria-current', 'page');
+    await expect(link).toHaveAttribute('aria-current', 'page');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   }
 });
