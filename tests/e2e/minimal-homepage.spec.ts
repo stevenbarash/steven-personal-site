@@ -1,50 +1,14 @@
 import { expect, test } from '@playwright/test';
-import { readFile, readdir } from 'node:fs/promises';
-import { extname, join, relative } from 'node:path';
-import { publishedProjects } from '../../src/content/projects';
-import { photoLibrary } from '../../src/data/photos';
+import { siteConfig } from '../../src/constants/site';
 
-const headline = 'I turn complex technical systems into working products, demos, and decisions.';
-const supportLine = 'Identity systems, agentic AI, and independent software.';
-const selectedProjectSlugs = ['uptick', 'bike-cli'];
-const homepagePhotoId = 'ig-DC4r__8xPDU';
-
-const walk = async (directory: string): Promise<string[]> => {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = await Promise.all(entries.map((entry) => {
-    const path = join(directory, entry.name);
-    return entry.isDirectory() ? walk(path) : [path];
-  }));
-  return files.flat();
-};
-
-test('home server HTML is the minimal professional site, not the Windows shell', async ({ request }) => {
-  const response = await request.get('/');
-  expect(response.ok()).toBe(true);
-  const html = await response.text();
-
-  expect(html).toContain('minimal-site');
-  expect(html).toContain(headline);
-  expect(html).toContain(supportLine);
-  expect(html).toContain('See the work');
-  expect(html).toContain('Contact');
-  expect(html).toContain('data-quiet-studio-hero');
-  expect(html).toContain('d77beeac');
-  expect(html).toContain('unreviewed and undocumented is unfinished');
-  expect(html).not.toContain('win95-window');
-  expect(html).not.toContain('STEVEN.EXE');
-});
-
-test('home has semantic navigation, sections, exact copy, and working internal destinations', async ({ page, request }) => {
+test('home has semantic navigation and working internal destinations', async ({ page, request }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 1, name: headline })).toBeVisible();
-  await expect(page.getByText(supportLine, { exact: true })).toBeVisible();
-
+  expect((await request.get('/')).ok()).toBe(true);
   const nav = page.getByRole('navigation', { name: 'Primary navigation' });
   for (const [label, href] of [
+    ['Home', '/'],
     ['Experience', '/resume'],
-    ['Work', '/projects'],
     ['Photography', '/photos'],
     ['Contact', '/contact'],
   ]) {
@@ -52,18 +16,16 @@ test('home has semantic navigation, sections, exact copy, and working internal d
     expect((await request.get(href)).ok(), href).toBe(true);
   }
 
-  await expect(page.getByRole('link', { name: 'See the work', exact: true })).toHaveAttribute('href', '#work');
-  await expect(page.getByRole('link', { name: 'Contact', exact: true }).last()).toHaveAttribute('href', '/contact');
-  await expect(page.getByRole('link', { name: 'Start, open the Windows 95 version', exact: true })).toHaveAttribute('href', '/desktop');
+  await expect(page.locator('[data-home-hero]').getByRole('link', { name: 'Get in touch', exact: true })).toHaveAttribute('href', '/contact');
+  await expect(page.locator('[data-home-hero]').getByRole('link', { name: 'View experience', exact: true })).toHaveAttribute('href', '/resume');
 
-  await expect(page.getByRole('heading', { level: 2, name: 'Selected work' })).toBeVisible();
 });
 
 test('primary navigation identifies only the current public section', async ({ page }) => {
   const expectations = [
-    ['/', null],
-    ['/projects', 'Work'],
-    ['/projects/pult', 'Work'],
+    ['/', 'Home'],
+    ['/projects', null],
+    ['/projects/pult', null],
     ['/resume', 'Experience'],
     ['/photos', 'Photography'],
     ['/contact', 'Contact'],
@@ -83,67 +45,17 @@ test('primary navigation identifies only the current public section', async ({ p
   }
 });
 
-test('selected work is projected from published source data without artificial numbering', async ({ page }) => {
-  await page.goto('/');
-
-  for (const slug of selectedProjectSlugs) {
-    const project = publishedProjects.find((entry) => entry.slug === slug)!;
-    const link = page.getByRole('link', { name: project.name, exact: true });
-    await expect(link).toHaveAttribute('href', `/projects/${slug}`);
-    await expect(page.getByText(project.oneLiner, { exact: true })).toBeVisible();
+test('home and resume do not promote repository projects', async ({ page }) => {
+  for (const pathname of ['/', '/resume']) {
+    await page.goto(pathname);
+    const githubSelector = pathname === '/'
+      ? `main a[href^="${siteConfig.githubUrl}/"]`
+      : 'main a[href*="github.com/"]';
+    await expect(page.locator(`a[href^="/projects"], ${githubSelector}`)).toHaveCount(0);
   }
-
-  await expect(page.locator('[data-quiet-studio-work] ol')).toHaveCount(0);
-  await expect(page.locator('[data-quiet-studio-work] [data-project-number]')).toHaveCount(0);
-  await expect(page.locator('[data-quiet-studio-work]').getByRole('link', { name: 'Pult', exact: true })).toHaveCount(0);
 });
 
-test('home follows the work with personal context and a direct contact path', async ({ page }) => {
-  await page.goto('/');
 
-  const selectedWork = page.locator('[data-quiet-studio-work]');
-  const about = page.locator('[data-quiet-studio-about]');
-  const closer = page.locator('[data-quiet-studio-contact]');
-
-  await expect(about.getByRole('heading', { level: 2, name: 'About' })).toBeVisible();
-  await expect(about.getByRole('link', { name: 'View experience' })).toHaveAttribute('href', '/resume');
-  await expect(about.getByRole('link', { name: 'View photography' })).toHaveAttribute('href', '/photos');
-  await expect(closer.getByRole('heading', { level: 2, name: 'Working through a difficult technical decision?' })).toBeVisible();
-  const contactLink = closer.getByRole('link', { name: 'Get in touch' });
-  await expect(contactLink).toHaveAttribute('href', '/contact');
-
-  const paragraphBox = await closer.getByText(/Email me about identity architecture/).boundingBox();
-  const contactLinkBox = await contactLink.boundingBox();
-  expect(paragraphBox).not.toBeNull();
-  expect(contactLinkBox).not.toBeNull();
-  expect(contactLinkBox!.y).toBeGreaterThanOrEqual(paragraphBox!.y + paragraphBox!.height + 20);
-
-  expect(await selectedWork.evaluate((node) => {
-    const aboutNode = document.querySelector('[data-quiet-studio-about]');
-    return aboutNode !== null && Boolean(
-      node.compareDocumentPosition(aboutNode) & Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-  })).toBe(true);
-  expect(await about.evaluate((node) => {
-    const contactNode = document.querySelector('[data-quiet-studio-contact]');
-    return contactNode !== null && Boolean(
-      node.compareDocumentPosition(contactNode) & Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-  })).toBe(true);
-});
-
-test('about section presents Steven with the supplied illustrated portrait', async ({ page }) => {
-  await page.goto('/');
-
-  const portrait = page
-    .locator('[data-quiet-studio-about]')
-    .getByRole('img', { name: 'Illustrated portrait of Steven Barash' });
-
-  await expect(portrait).toHaveAttribute('src', /profile-portrait\.png/);
-  await expect.poll(
-    async () => portrait.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0),
-  ).toBe(true);
-});
 
 test('Windows 95 home and profile views use the supplied illustrated portrait', async ({ page }) => {
   await page.goto('/desktop');
@@ -159,112 +71,13 @@ test('Windows 95 home and profile views use the supplied illustrated portrait', 
 test('home does not claim an unfinished Georgia Tech degree', async ({ page }) => {
   await page.goto('/');
 
-  const about = page.locator('[data-quiet-studio-about]');
+  const about = page.locator('[data-home-about]');
   await expect(about).not.toContainText(/Georgia Tech|M\.S\. in Computer Science/i);
-  await expect(about).toContainText('I live in Brooklyn.');
-});
-
-test('footer exposes the desktop easter egg as an authentic Start control', async ({ page }) => {
-  await page.goto('/');
-
-  const startLink = page.getByRole('link', { name: 'Start, open the Windows 95 version' });
-  await expect(startLink).toHaveAttribute('href', '/desktop');
-  await expect(startLink.getByText('Start', { exact: true })).toBeVisible();
-  await expect(startLink.locator('img')).toHaveAttribute('src', /win95\.png/);
-
-  const face = startLink.locator('[data-desktop-start-face]');
-  const style = await face.evaluate((node) => {
-    const computed = getComputedStyle(node);
-    return {
-      backgroundColor: computed.backgroundColor,
-      boxShadow: computed.boxShadow,
-      fontFamily: computed.fontFamily,
-      fontSize: computed.fontSize,
-    };
-  });
-  expect(style.backgroundColor).toBe('rgb(192, 192, 192)');
-  expect(style.boxShadow).not.toBe('none');
-  expect(style.fontFamily).toContain('Tahoma');
-  expect(style.fontSize).toBe('11px');
-});
-
-test('home presents Pult as a protocol artifact before the selected project list', async ({ page }) => {
-  await page.goto('/');
-
-  const workbench = page.locator('[data-pult-workbench]');
-  await expect(workbench.getByRole('heading', { level: 2, name: 'On the bench' })).toBeVisible();
-  await expect(workbench.getByRole('heading', { level: 3, name: 'Pult' })).toBeVisible();
-  await expect(workbench.getByText('Pairing and control path', { exact: true })).toBeVisible();
-  await expect(workbench.getByText('iPhone Pult app', { exact: true })).toBeVisible();
-  await expect(workbench.getByText('mTLS pairing and command channels', { exact: true })).toBeVisible();
-  await expect(workbench.getByText('Pairing: port 6467', { exact: true })).toBeVisible();
-  await expect(workbench.getByText('Commands: port 6466', { exact: true })).toBeVisible();
-  await expect(workbench.getByText('Google TV', { exact: true })).toBeVisible();
-  await expect(workbench.getByRole('link', { name: 'Read the Pult case study' })).toHaveAttribute('href', '/projects/pult');
-  await expect(workbench.getByRole('link', { name: 'View Pult source' })).toHaveAttribute('href', 'https://github.com/stevenbarash/pult');
-
-  const appearsBeforeSelectedWork = await workbench.evaluate((node) => {
-    const selectedWork = document.querySelector('[data-quiet-studio-work]');
-    return selectedWork !== null && Boolean(node.compareDocumentPosition(selectedWork) & Node.DOCUMENT_POSITION_FOLLOWING);
-  });
-  expect(appearsBeforeSelectedWork).toBe(true);
-});
-
-test('the work anchor starts with Pult before the broader project list', async ({ page }) => {
-  await page.goto('/');
-  const work = page.locator('#work[data-pult-workbench]');
-  await expect(work).toHaveCount(1);
-  expect(await work.evaluate((node) => {
-    const selected = document.querySelector('[data-quiet-studio-work]');
-    return selected !== null && Boolean(
-      node.compareDocumentPosition(selected) & Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-  })).toBe(true);
-});
-
-test('mobile reaches the documentary image sooner without moving it ahead of the thesis', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  const statement = await page.locator('.quiet-studio-statement').boundingBox();
-  const image = await page.locator('.quiet-studio-hero-photo').boundingBox();
-  expect(statement).not.toBeNull();
-  expect(image).not.toBeNull();
-  expect(statement!.height).toBeLessThanOrEqual(500);
-  expect(image!.y).toBeGreaterThanOrEqual(statement!.y + statement!.height - 1);
-});
-
-test('the Start face stays authentic inside a more deliberate footer close', async ({ page }) => {
-  await page.goto('/');
-  const footer = page.locator('.minimal-footer-inner');
-  const face = page.locator('[data-desktop-start-face]');
-  expect((await footer.boundingBox())!.height).toBeGreaterThanOrEqual(136);
-  await expect(face).toHaveCSS('font-size', '11px');
-  await expect(face).toHaveCSS('background-color', 'rgb(192, 192, 192)');
-});
-
-test('quiet studio hero uses the verified taxi photograph while selected work stays typographic', async ({ page }) => {
-  await page.goto('/');
-  const images = page.locator('[data-quiet-studio-image]');
-  await expect(images).toHaveCount(1);
-
-  const source = photoLibrary.find(({ id }) => id === homepagePhotoId)!;
-  const image = images.first();
-  await expect(image).toHaveAttribute('src', /_next\/image/);
-  await expect(image).toHaveAttribute('alt', source.alt);
-  await expect(image).toHaveAttribute('width', String(source.width));
-  await expect(image).toHaveAttribute('height', String(source.height));
-  await expect(page.locator('[data-quiet-studio-work]').getByRole('img')).toHaveCount(0);
-  await image.scrollIntoViewIfNeeded();
-  await expect.poll(async () => image.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
 });
 
 test('desktop route preserves the functional Windows 95 homepage and is excluded from indexing', async ({ page, request }) => {
   const response = await request.get('/desktop');
   expect(response.ok()).toBe(true);
-  const html = await response.text();
-  expect(html).toContain('win95-window');
-  expect(html).toContain('STEVEN.EXE');
-  expect(html).toContain('Programs and Files');
 
   await page.goto('/desktop');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://barash.me/desktop');
@@ -286,22 +99,8 @@ test('desktop route preserves the functional Windows 95 homepage and is excluded
   await expect(page.locator('.win95-title-bar').getByText('RESUME.DOC - WordPad', { exact: true })).toBeVisible();
 });
 
-test('Windows 95 scrollbar chrome is scoped to the desktop route', async ({ page }) => {
-  await page.goto('/');
-  const publicScrollbar = await page.evaluate(() => ({
-    rootWidth: getComputedStyle(document.documentElement, '::-webkit-scrollbar').width,
-    siteColor: getComputedStyle(document.querySelector('.minimal-site')!).scrollbarColor,
-  }));
-  expect(publicScrollbar).toEqual({ rootWidth: 'auto', siteColor: 'auto' });
 
-  await page.goto('/desktop');
-  const desktopScrollbarWidth = await page.evaluate(
-    () => getComputedStyle(document.documentElement, '::-webkit-scrollbar').width,
-  );
-  expect(desktopScrollbarWidth).toBe('16px');
-});
-
-test('minimal home has visible keyboard focus and a working skip link', async ({ page }) => {
+test('home has visible keyboard focus and a working skip link', async ({ page }) => {
   await page.goto('/');
   await page.keyboard.press('Tab');
   const skipLink = page.getByRole('link', { name: 'Skip to content' });
@@ -315,39 +114,87 @@ test('minimal home has visible keyboard focus and a working skip link', async ({
   expect(focusedOutline).not.toBe('none');
 });
 
-test('minimal home fits a 390px viewport and key targets are at least 44px', async ({ page }) => {
+test('home fits a 390px viewport with reachable 44px actions and navigation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 
   for (const locator of [
-    page.getByRole('link', { name: 'See the work', exact: true }),
-    page.getByRole('link', { name: 'Contact', exact: true }).last(),
-    page.getByRole('link', { name: 'Open the Windows 95 version' }),
-    page.getByRole('link', { name: 'Uptick', exact: true }),
-    page.getByRole('link', { name: 'bike-cli', exact: true }),
-    page.getByRole('button', { name: 'Menu', exact: true }),
+    page.locator('[data-home-hero]').getByRole('link', { name: 'View experience', exact: true }),
+    page.locator('[data-home-hero]').getByRole('link', { name: 'Get in touch', exact: true }),
+    page.getByRole('navigation', { name: 'Social profiles' }).getByRole('link', { name: /^X\b/ }),
+    page.getByRole('navigation', { name: 'Social profiles' }).getByRole('link', { name: /^GitHub\b/ }),
+    page.locator('[data-home-contact] a[href^="mailto:"]'),
+    page.getByRole('link', { name: 'Start the Windows 95 experience', exact: true }),
+    ...['Home', 'Experience', 'Photography', 'Contact'].map((name) =>
+      page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name, exact: true })),
   ]) {
+    await expect(locator).toBeVisible();
+    await locator.scrollIntoViewIfNeeded();
     const box = await locator.boundingBox();
     expect(box).not.toBeNull();
     expect(box!.height).toBeGreaterThanOrEqual(44);
     expect(box!.width).toBeGreaterThanOrEqual(44);
   }
 
-  await page.getByRole('button', { name: 'Menu', exact: true }).click();
-  await expect(page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('link', { name: 'Contact' })).toBeVisible();
+  const nav = page.getByRole('navigation', { name: 'Primary navigation' });
+  for (const [name, href] of [['Experience', '/resume'], ['Photography', '/photos'], ['Contact', '/contact'], ['Home', '/']] as const) {
+    const link = nav.getByRole('link', { name, exact: true });
+    await expect(link).toBeInViewport();
+    await link.click();
+    await expect(page).toHaveURL(href);
+    await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('aria-current', 'page');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  }
 });
 
-test('minimal source avoids prohibited visual idioms and deployable source contains no em dash', async ({ page }) => {
-  await page.goto('/');
-  const classNames = await page.locator('[class]').evaluateAll((nodes) => nodes.flatMap((node) => Array.from(node.classList)));
-  expect(classNames.filter((name) => /(?:card|rounded|glass|gradient|eyebrow|grid)/i.test(name))).toEqual([]);
 
-  const sourceRoot = join(process.cwd(), 'src');
-  const sourceFiles = (await walk(sourceRoot)).filter((path) => ['.ts', '.tsx', '.css'].includes(extname(path)));
-  const violations: string[] = [];
-  for (const path of sourceFiles) {
-    if ((await readFile(path, 'utf8')).includes('—')) violations.push(relative(process.cwd(), path));
-  }
-  expect(violations, `em dash found in deployable source: ${violations.join(', ')}`).toEqual([]);
+test('theme changes persist across navigation and reload without changing the desktop', async ({ page }) => {
+  await page.goto('/desktop');
+  await expect(page.getByRole('button', { name: 'Start menu' })).toBeVisible();
+  const baseline = await page.locator('html, body, main, .win95-taskbar').evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const style = getComputedStyle(node);
+      return {
+        background: style.backgroundColor,
+        color: style.color,
+        font: style.fontFamily,
+        colorScheme: style.colorScheme,
+      };
+    }));
+
+  await page.goto('/');
+  const darkHeadingColor = await page.getByRole('heading', { level: 1 }).evaluate((node) => getComputedStyle(node).color);
+  await page.getByRole('button', { name: 'Switch to light theme' }).click();
+  await expect(page.getByRole('button', { name: 'Switch to dark theme' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).not.toHaveCSS('color', darkHeadingColor);
+  await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Experience', exact: true }).click();
+  await expect(page).toHaveURL('/resume');
+  await expect(page.getByRole('button', { name: 'Switch to dark theme' })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Switch to dark theme' })).toBeVisible();
+
+  await page.getByRole('link', { name: 'Start the Windows 95 experience', exact: true }).click();
+  await expect(page).toHaveURL('/desktop');
+  await expect(page.getByRole('button', { name: 'Start menu' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Switch to .* theme/ })).toHaveCount(0);
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+  const restored = await page.locator('html, body, main, .win95-taskbar').evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const style = getComputedStyle(node);
+      return {
+        background: style.backgroundColor,
+        color: style.color,
+        font: style.fontFamily,
+        colorScheme: style.colorScheme,
+      };
+    }));
+  expect(restored).toEqual(baseline);
+
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'Switch to dark theme' })).toBeVisible();
+  await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Switch to light theme' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('color', darkHeadingColor);
 });

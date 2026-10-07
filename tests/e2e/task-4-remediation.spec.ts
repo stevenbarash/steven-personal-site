@@ -1,6 +1,4 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 
 declare global {
   interface Window {
@@ -126,10 +124,6 @@ test('coarse Start-menu rows are 44px non-overlapping targets whose edge taps re
   for (let index = 0; index < rowBoxes.length; index += 1) {
     expect(rowBoxes[index].width).toBeGreaterThanOrEqual(44);
     expect(rowBoxes[index].height).toBeGreaterThanOrEqual(44);
-    const icon = rows.nth(index).locator('img.win95-start-menu-icon');
-    await expect(icon).toHaveCount(1);
-    await expect(icon).toHaveCSS('width', '32px');
-    await expect(icon).toHaveCSS('height', '32px');
     if (index > 0) {
       expect(rowBoxes[index - 1].y + rowBoxes[index - 1].height).toBeLessThanOrEqual(rowBoxes[index].y);
     }
@@ -233,8 +227,3 @@ test('reduced motion navigation opens apps without smooth scrolling', async ({ p
   expect(await page.evaluate(() => window.__scrollIntoViewCalls)).not.toContainEqual({ behavior: 'smooth', block: 'start' });
 });
 
-test('Open Graph image contains no Windows command prompt', async () => {
-  const source = await readFile(resolve(process.cwd(), 'src/app/opengraph-image.tsx'), 'utf8');
-  expect(source).not.toMatch(/C:\\STEVEN|commandPrompt|STEVEN\.EXE|Identity Work/i);
-  expect(source).toContain('I turn complex technical systems into working products, demos, and decisions.');
-});

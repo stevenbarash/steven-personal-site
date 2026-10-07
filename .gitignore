@@ -39,6 +39,9 @@ jspm_packages
 # Next.js
 .next
 .next-playwright
+.next-lighthouse
+.next-lighthouse.lock
+.lighthouse/
 next-env.d.ts
 .vercel
 test-results/
@@ -54,6 +57,8 @@ test-results/
 .DS_Store
 Thumbs.db
 .cursor/
+.local-audits/
+.hermes/
 
 # IDE files
 .vscode/

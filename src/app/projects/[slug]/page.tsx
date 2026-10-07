@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { MinimalSiteLayout } from '@/components/layout/MinimalSiteLayout';
-import { MinimalProjectDetail } from '@/components/projects/MinimalProjectDetail';
+import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
+import { PortfolioProjectDetail } from '@/components/projects/PortfolioProjectDetail';
 import { publishedProjects } from '@/content/projects';
 import { createTwitterMetadata, siteConfig } from '@/constants/site';
 
@@ -66,13 +66,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   };
 
   return (
-    <MinimalSiteLayout activeHref="/projects">
+    <PortfolioLayout activeHref="/projects">
       <script
         data-project-json-ld
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replaceAll('<', '\\u003c') }}
       />
-      <MinimalProjectDetail project={project} />
-    </MinimalSiteLayout>
+      <PortfolioProjectDetail project={project} />
+    </PortfolioLayout>
   );
 }

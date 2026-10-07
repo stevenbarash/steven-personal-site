@@ -43,6 +43,8 @@ export const contactCatalog: ContactEntry[] = [
 ];
 
 export const contactContent = {
+  description: `Email and social links for ${siteConfig.personName}.`,
+  introduction: 'For work inquiries or technical questions, email me.',
   emailDisplay: siteConfig.emailDisplay,
   socialLinks: contactCatalog,
 } as const;

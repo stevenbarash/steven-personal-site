@@ -3,6 +3,7 @@ import { siteConfig } from '@/constants/site';
 export interface ProfileContent {
   name: string;
   headline: string;
+  professionalLabel: string;
   role: string;
   company: string;
   location: string;
@@ -14,12 +15,13 @@ export interface ProfileContent {
 
 export const profileContent: ProfileContent = {
   name: siteConfig.personName,
-  headline: 'I turn complex technical systems into working products, demos, and decisions.',
+  headline: 'I’m a solutions engineer who writes code.',
+  professionalLabel: 'Solutions Engineer',
   role: 'Senior Solutions Engineer',
   company: 'Descope',
   location: 'Brooklyn, New York',
-  summary: `I’m ${siteConfig.personName}, a Senior Solutions Engineer at Descope. Before that, I worked at Okta/Auth0 and ID.me. My deepest areas are identity and agentic AI, and I also build independent software to make technical ideas concrete.`,
-  capabilityLine: 'Identity Systems · Agentic AI · Technical Prototyping · Independent Software',
+  summary: 'I’m a Senior Solutions Engineer with 6+ years of experience in identity, developer platforms, and technical GTM. I turn authentication and authorization requirements into architectures, prototypes, and production-ready solutions for startups, global enterprises, and government agencies. At Descope, I lead enterprise CIAM presales across the U.S. East Coast and Europe. Previously, I worked at ID.me and Okta.',
+  capabilityLine: 'Prototypes & Integrations · Architecture & Debugging · Demos & Enablement · POCs & Automation',
   portraitUrl: '/images/profile-portrait.png',
   websiteUrl: siteConfig.canonicalOrigin,
 };

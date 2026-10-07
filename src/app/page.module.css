@@ -1,0 +1,42 @@
+.home {
+  width: min(100%, 800px);
+  margin-inline: auto;
+}
+
+.hero { padding-block: 16px 8px; }
+.home .headline {
+  max-width: 650px;
+  font-size: clamp(42px, 5.6vw, 68px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+.home .introduction { font-size: clamp(20px, 2.5vw, 26px); line-height: 1.4; }
+.portrait { background: white; }
+.home .socials a { min-width: 48px; height: 48px; padding: 0; }
+.home .socials a:focus-visible { outline: 2px solid var(--brand-on-background-strong); outline-offset: 4px; }
+.socials svg { flex-shrink: 0; }
+.about { padding-top: 32px; border-top: 1px solid var(--neutral-alpha-weak); }
+.home :is(.about, .personal) p { font-size: 16px; line-height: 1.7; }
+.home :is(.about, .personal) h2 { font-size: 30px; line-height: 1.2; letter-spacing: -0.025em; }
+.textLink { width: fit-content; min-height: 44px; }
+.home .email {
+  max-width: 100%;
+  min-height: 48px;
+  font-size: clamp(22px, 3.5vw, 34px);
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+.contact { margin-top: 8px; }
+
+@media (max-width: 767px) {
+  .hero { padding-top: 8px; }
+  .home .contact { padding: 32px 20px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero { animation: introduce 650ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes introduce {
+    from { filter: blur(2px); transform: translateY(8px); }
+    to { filter: blur(0); transform: translateY(0); }
+  }
+}

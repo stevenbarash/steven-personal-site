@@ -3,34 +3,55 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import { siteConfig } from '@/constants/site';
+import { profileContent } from '@/content/profile';
 import "./globals.css";
+import "@once-ui-system/core/css/tokens.css";
+import "./portfolio.scss";
 import type { ReactNode } from "react";
 
-const quietStudioFont = Geist({
+const portfolioFont = Geist({
   subsets: ['latin'],
-  variable: '--font-quiet-studio',
+  variable: '--font-portfolio',
 });
 
-const publicDescription = 'I turn complex technical systems into working products, demos, and decisions.';
-const directionContract = 'THESIS: Quiet Studio presents Steven as a technical builder with breadth and judgment. OWN-WORLD: near-white paper, black type, documentary photography, and exact blue accents. STORY: capability first, fields of depth second, working proof next, contact always close. FIRST VIEWPORT: oversized statement and one Damascus Gate photograph share equal weight; selected work begins at the fold. FORM: d77beeac, editorial portfolio with a flat split hero and unnumbered project rows. FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance';
+const publicDescription = profileContent.headline;
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.siteName} | Senior Solutions Engineer`,
+    default: `${siteConfig.siteName} | ${profileContent.professionalLabel}`,
     template: `%s | ${siteConfig.siteName}`
   },
   description: publicDescription,
   keywords: [
     siteConfig.personName,
     "Senior Solutions Engineer",
+    "Software builder",
+    "Technical debugging",
+    "Automation and repeatability",
     "Descope",
     "CIAM",
     "OAuth/OIDC",
+    "SAML",
+    "MFA",
+    "identity architecture",
+    "authentication strategy",
     "passkeys",
     "FAPI",
     "identity federation",
     "B2B authorization",
     "RBAC",
+    "FGA",
+    "identity migrations",
+    "technical deal strategy",
+    "enterprise requirements",
+    "demo engineering",
+    "demo storytelling",
+    "demo automation",
+    "POC scoping and validation",
+    "SE and AE technical enablement",
+    "authentication and integration debugging",
+    "API and SDK integrations",
+    "MCP",
     "agentic AI",
     "technical prototypes",
     "independent software",
@@ -52,13 +73,13 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteConfig.canonicalOrigin,
-    title: `${siteConfig.siteName} | Senior Solutions Engineer`,
+    title: `${siteConfig.siteName} | ${profileContent.professionalLabel}`,
     description: publicDescription,
     siteName: siteConfig.siteName,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.siteName} | Senior Solutions Engineer`,
+    title: `${siteConfig.siteName} | ${profileContent.professionalLabel}`,
     description: publicDescription,
     creator: siteConfig.xHandle,
     site: siteConfig.xHandle,
@@ -118,13 +139,31 @@ const structuredData = {
     siteConfig.xUrl
   ],
   "knowsAbout": [
+    "Software prototyping and integrations",
+    "Technical debugging",
+    "Automation and repeatability",
     "CIAM",
     "OAuth/OIDC",
+    "SAML",
+    "MFA",
+    "Identity architecture",
+    "Authentication strategy",
     "Passkeys",
     "FAPI",
     "Identity federation",
     "B2B authorization",
     "RBAC",
+    "FGA",
+    "Identity migrations",
+    "Technical deal strategy",
+    "Unusual enterprise requirements",
+    "Demo engineering and business-value storytelling",
+    "Demo automation and repeatability",
+    "POC scoping, success criteria, validation, and technical wins",
+    "API and SDK prototypes and integrations",
+    "MCP and agent prototypes and integrations",
+    "SE and AE technical enablement",
+    "Complex authentication and integration debugging",
     "Agentic AI",
     "Technical prototyping"
   ],
@@ -154,11 +193,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replaceAll('<', '\\u003c') }}
         />
       </head>
-      <body className={`${quietStudioFont.variable} font-sans`} suppressHydrationWarning>
-        <template
-          data-impeccable-contract
-          dangerouslySetInnerHTML={{ __html: `<!-- ${directionContract} -->` }}
-        />
+      <body className={`${portfolioFont.variable} font-sans`} suppressHydrationWarning>
         {children}
         {enableVercelTelemetry && <Analytics />}
         {enableVercelTelemetry && <SpeedInsights />}

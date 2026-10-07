@@ -1,14 +1,17 @@
-import Link from 'next/link';
-import { MinimalSiteLayout } from '@/components/layout/MinimalSiteLayout';
+import { Button, Heading, Text } from '@once-ui-system/core';
+import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
+import styles from '@/components/projects/Projects.module.css';
 
 export default function ProjectNotFound() {
   return (
-    <MinimalSiteLayout activeHref="/projects">
-      <div className="minimal-shell minimal-project-not-found">
-        <h1>Project not found</h1>
-        <p>This project does not exist or is not available.</p>
-        <Link href="/projects">Back to projects</Link>
+    <PortfolioLayout activeHref="/projects">
+      <div className={`portfolio-shell ${styles.notFound}`}>
+        <Heading as="h1" variant="display-strong-s" className={styles.title}>Project not found</Heading>
+        <Text as="p" variant="body-default-l" onBackground="neutral-weak">
+          This project does not exist or is not available.
+        </Text>
+        <Button href="/projects" variant="secondary" size="m">Back to projects</Button>
       </div>
-    </MinimalSiteLayout>
+    </PortfolioLayout>
   );
 }

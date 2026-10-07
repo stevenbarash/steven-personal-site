@@ -8,7 +8,7 @@ web
 
 ## Users
 
-The primary visitors are hiring managers, technical leaders, potential collaborators, and professional peers evaluating Steven Barash's work, experience, judgment, and personality. They should be able to understand what he does quickly, inspect relevant work, and find a direct way to contact him.
+The primary visitors are hiring managers and solutions engineering leaders evaluating Steven Barash's hands-on engineering, technical judgment, communication, and ability to guide technical evaluations. Technical leaders, collaborators, and professional peers are secondary audiences. Visitors should quickly understand his range, inspect relevant experience, and find a direct way to contact him.
 
 ## Product Purpose
 
@@ -24,11 +24,15 @@ Success means visitors understand Steven's role from the first screen, can inspe
 
 ## Positioning
 
-Steven turns complex technical systems into working products, demos, and decisions. Identity and agentic AI are two areas of depth rather than the limits of his positioning.
+Steven is a solutions engineer who writes code. His work includes customer demos, integrations, debugging, POCs, demo automation, and technical enablement. Identity is a specialty, not the subject of every page.
 
-As a Senior Solutions Engineer at Descope, he helps teams reason about authentication and authorization, prototypes agentic identity concepts and proofs of concept for customers, and builds demos and workshops to test technical decisions. His identity work includes CIAM, OAuth/OIDC, passkeys, FAPI, identity federation, B2B authorization, and RBAC.
+His user-confirmed strengths are identity architecture and auth strategy (CIAM, OAuth/OIDC, SAML, MFA, RBAC/FGA, federation, and migrations); technical deal strategy; demo engineering and storytelling; demo automation and repeatability; POC design and execution; rapid API/SDK/MCP/agent prototyping and integrations; SE/AE technical enablement; and complex auth/integration debugging.
 
-The combination of customer-facing technical judgment, hands-on prototypes, independent software, photography, and a functional Windows 95 desktop gives the site material that a conventional professional profile cannot truthfully copy.
+He is a Senior Solutions Engineer with 6+ years of experience in identity, developer platforms, and technical GTM. His supplied biography confirms that he leads enterprise CIAM presales at Descope across the U.S. East Coast and Europe. It also confirms presales and post-sales work at ID.me, including a multi-phase identity deployment for an unnamed large state agency that became the company's largest deal closed that fiscal year, and top-of-segment performance with multiple President's Club honors and a Solutions Engineer of the Year award at Okta. Keep the agency anonymous and do not infer revenue, a fiscal year, or a segment-specific ranking. Other general strengths must not become employer-specific accomplishments or customer outcomes without supporting evidence.
+
+The homepage opens with an illustrated portrait, “Hi, I’m Steven Barash.” and a centered solutions-engineer introduction, followed by his 6+ years across identity, developer platforms, and technical GTM and work with startups, global enterprises, and government agencies. Experience/contact links lead to the primary destinations; his current role, prior employers, and location complete the introduction. Descope's enterprise CIAM presales scope follows before one highlighted professional example and two quieter rows covering sample apps and customer prototypes, the multi-phase state-agency deployment at ID.me, and Russian-language demos with two President's Club honors and the Okta FY23 award. A compact professional-background section names his identity protocols and authorization experience alongside interests in developer-first platforms, AI-enabled GTM, demo engineering, automation, and rapid prototyping. Brooklyn, unnecessarily long bike rides, human languages, exploring new places, and an invitation to the working Windows 95 desktop provide personal context before a direct email close. Photographs stay in their dedicated gallery, not on the homepage. The complete career history and capability groups remain on the experience page; the POC-method disclosure stays removed.
+
+The experience page remains a complete, scannable resume with dates once per role, detailed protocols, all eight capabilities, education, and recognition. The contact page leads with his actual email and four social destinations; photography retains the real library within the shared public shell. GitHub-based examples and independent project showcases remain excluded from the homepage and resume; Work is absent from primary navigation. Existing project URLs remain functional and unpromoted.
 
 ## Operating Context
 
@@ -60,7 +64,11 @@ Steven has built personal agents, but they are not publicly documented yet. The 
 
 The site must feel distinctly Steven: technically credible, observant, personal, and willing to show taste. Clarity and restraint are useful, but the result must not feel anonymous, timid, sterile, underdesigned, or interchangeable with a minimal portfolio template.
 
+Use plain, specific language. Describe the work; avoid slogans, vague claims, and sales copy.
+
 The public experience does not need to imitate Windows 95. It should find its own character while preserving the desktop as an optional, fully realized expression of Steven's playful side. Photography and real project material are first-party assets, not decoration.
+
+Keep photographs on `/photos`, not the homepage. The homepage should focus on Steven's professional introduction and work; the small illustrated portrait can remain as a personal signature.
 
 ## Evidence on Hand
 

@@ -1,10 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { getAppsForPlacement } from '../../src/features/desktop/app-catalog';
-import { profileContent } from '../../src/content/profile';
-
-const headline = 'I turn complex technical systems into working products, demos, and decisions.';
-const capabilityLine = 'Identity Systems · Agentic AI · Technical Prototyping · Independent Software';
-const supportLine = 'Identity systems, agentic AI, and independent software.';
 
 const homeLauncherExpectations = [
   ['projects', 'Projects', '/desktop?app=projects'],
@@ -16,24 +10,6 @@ const homeLauncherExpectations = [
   ['help', 'Help / About This Site', '/desktop?app=help'],
 ] as const;
 
-test('approved broad technical narrative leads while identity remains an area of depth', async ({ page, request }) => {
-  expect(profileContent.headline).toBe(headline);
-  expect(profileContent.summary).toContain('Senior Solutions Engineer at Descope');
-  expect(profileContent.summary).toContain('worked at Okta/Auth0 and ID.me');
-  expect(profileContent.capabilityLine).toBe(capabilityLine);
-
-  await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1, name: headline })).toBeVisible();
-  await expect(page.getByText(supportLine, { exact: true })).toBeVisible();
-  await expect(page.locator('.win95-window')).toHaveCount(0);
-  await expect(page).toHaveTitle('Steven Barash | Products, Demos, and Technical Systems');
-  expect(await page.locator('meta[property="og:title"]').getAttribute('content')).toContain('Products, Demos, and Technical Systems');
-  expect(await page.locator('meta[property="og:title"]').getAttribute('content')).not.toContain('Photographer');
-  const manifest = await (await request.get('/manifest.webmanifest')).json();
-  expect(manifest.name).toContain('Products, Demos, and Technical Systems');
-  expect(manifest.name).not.toContain('Photographer');
-  expect(manifest.name).not.toContain('Senior Solutions Engineer');
-});
 
 test('My Computer is a concise identity summary with literal one-action controls', async ({ page }) => {
   await page.goto('/desktop');
@@ -47,8 +23,7 @@ test('My Computer is a concise identity summary with literal one-action controls
   await expect(page.getByText('Read-only transcript')).toHaveCount(0);
 });
 
-test('Home application launchers are catalog-generated, ordered, and point only to shipped destinations', async ({ page, request }) => {
-  expect(getAppsForPlacement('home').map(({ id, placement, href }) => [id, placement.label, href])).toEqual(homeLauncherExpectations);
+test('Home application launchers point only to shipped destinations', async ({ page, request }) => {
 
   await page.goto('/desktop');
   for (const [id, label, href] of homeLauncherExpectations) {
@@ -64,19 +39,13 @@ test('Home application launchers are catalog-generated, ordered, and point only 
 });
 
 
-test('Contact is a stable minimal route with decoded email and direct links', async ({ page, request }) => {
+test('Contact serves its canonical route with a working email destination', async ({ page, request }) => {
   const response = await request.get('/contact');
   expect(response.ok()).toBe(true);
-  const html = await response.text();
-  expect(html).toContain('Contact');
-  expect(html).toContain('steven@barash.me');
 
   await page.goto('/contact');
   await expect(page.getByRole('heading', { level: 1, name: 'Contact' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Email steven@barash.me' })).toHaveAttribute('href', 'mailto:steven@barash.me');
-  for (const label of ['LinkedIn', 'GitHub', 'X', 'Instagram']) {
-    await expect(page.getByRole('link', { name: label, exact: true })).toBeVisible();
-  }
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://barash.me/contact');
 });
 

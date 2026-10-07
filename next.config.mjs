@@ -9,6 +9,7 @@ const nextConfig = {
   // API-based integrations still require the compatibility compiler.
   experimental: {
     useTypeScriptCli: false,
+    optimizePackageImports: ['@once-ui-system/core'],
   },
 
   // Enable image optimization

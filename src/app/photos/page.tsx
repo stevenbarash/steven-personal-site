@@ -1,20 +1,16 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import { MinimalSiteLayout } from '@/components/layout/MinimalSiteLayout';
+import { Button, Heading, MasonryGrid, Text } from '@once-ui-system/core';
+import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
+import { PhotoMedia } from '@/components/photos/PhotoMedia';
 import { createTwitterMetadata, siteConfig } from '@/constants/site';
 import { archivePhotos, featuredPhotos } from '@/content/photography';
 import type { PhotoItem } from '@/types';
+import styles from './photos.module.css';
 
 const description = 'Photography by Steven Barash, with street, travel, and everyday scenes.';
 const socialTitle = 'Photography | Steven Barash';
-const featuredPhotoSizes = [
-  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(66.6667vw - 62px), 995.33px',
-  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(33.3333vw - 48px), 480.67px',
-  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(41.6667vw - 51.5px), 609.33px',
-  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(50vw - 55px), 738px',
-  '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(58.3333vw - 58.5px), 866.67px',
-] as const;
-const archivePhotoSizes = '(max-width: 767px) calc(100vw - 32px), (max-width: 1586px) calc(50vw - 55px), 738px';
+const galleryPhotos = [...featuredPhotos, ...archivePhotos];
+const photoSizes = '(max-width: 768px) calc(100vw - 32px), (max-width: 1008px) calc(50vw - 36px), 468px';
 
 export const metadata: Metadata = {
   title: 'Photography',
@@ -24,21 +20,15 @@ export const metadata: Metadata = {
   twitter: createTwitterMetadata(socialTitle, description),
 };
 
-function PhotoFigure({ photo, sizes, eager = false }: { photo: PhotoItem; sizes: string; eager?: boolean }) {
+function PhotoFigure({ photo, eager = false }: { photo: PhotoItem; eager?: boolean }) {
   return (
-    <figure>
-      <Image
-        src={photo.src}
-        alt={photo.alt}
-        width={photo.width}
-        height={photo.height}
-        sizes={sizes}
-        loading={eager ? undefined : 'lazy'}
-        preload={eager}
-      />
-      <figcaption>
-        <p>{photo.title}</p>
-        {photo.location && photo.location !== 'Unknown' && <p className="minimal-photo-location">{photo.location}</p>}
+    <figure className={styles.photo}>
+      <PhotoMedia photo={photo} sizes={photoSizes} priority={eager} className={styles.media} />
+      <figcaption className={styles.caption}>
+        <Text as="p" variant="body-default-m" onBackground="neutral-strong">{photo.title}</Text>
+        {photo.location && photo.location !== 'Unknown' && (
+          <Text as="p" variant="body-default-s" onBackground="neutral-weak">{photo.location}</Text>
+        )}
       </figcaption>
     </figure>
   );
@@ -46,26 +36,26 @@ function PhotoFigure({ photo, sizes, eager = false }: { photo: PhotoItem; sizes:
 
 export default function PhotosPage() {
   return (
-    <MinimalSiteLayout activeHref="/photos">
-      <div className="minimal-shell minimal-document minimal-photos-page">
-        <header className="minimal-document-header">
-          <h1>Photography</h1>
-          <p className="minimal-document-lede">Street, travel, and everyday photographs.</p>
-          <a className="minimal-primary-link" href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
+    <PortfolioLayout activeHref="/photos">
+      <div className={`portfolio-shell ${styles.page}`}>
+        <header className={styles.header}>
+          <div className={styles.intro}>
+            <Heading as="h1" variant="display-strong-s" className={styles.title}>Photography</Heading>
+            <Text as="p" variant="body-default-l" onBackground="neutral-weak">
+              I like to take photos sometimes.
+            </Text>
+          </div>
+          <Button href={siteConfig.instagramUrl} variant="secondary" size="l" target="_blank" rel="noopener noreferrer">
+            Instagram
+          </Button>
         </header>
 
-        <section className="minimal-photo-featured" data-photo-featured aria-label="Featured photographs">
-          {featuredPhotos.map((photo, index) => (
-            <PhotoFigure key={photo.id} photo={photo} sizes={featuredPhotoSizes[index]} eager={index === 0} />
+        <MasonryGrid as="section" columns={2} s={{ columns: 1 }} gap="24" aria-label="Photographs" data-photo-gallery>
+          {galleryPhotos.map((photo, index) => (
+            <PhotoFigure key={photo.id} photo={photo} eager={index === 0} />
           ))}
-        </section>
-
-        <section className="minimal-photo-archive" data-photo-archive aria-label="Photography archive">
-          {archivePhotos.map((photo) => (
-            <PhotoFigure key={photo.id} photo={photo} sizes={archivePhotoSizes} />
-          ))}
-        </section>
+        </MasonryGrid>
       </div>
-    </MinimalSiteLayout>
+    </PortfolioLayout>
   );
 }

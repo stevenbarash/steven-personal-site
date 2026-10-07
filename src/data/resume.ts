@@ -6,27 +6,40 @@ export const resumeSkillGroups = [
     name: 'Identity',
     skills: [
       'Identity & Access Management (IAM)',
+      'Customer Identity & Access Management (CIAM)',
+      'Authentication Strategy & Identity Architecture',
       'OAuth 2.0',
       'OIDC',
       'SAML',
+      'Multi-Factor Authentication (MFA)',
       'WebAuthn / Passkeys',
       'SCIM',
       'Identity Federation',
       'B2B Authorization',
       'Role-Based Access Control (RBAC)',
+      'Fine-Grained Authorization (FGA)',
+      'Identity Migrations',
     ],
   },
   {
     name: 'Technical strategy',
     skills: [
-      'Technical Sales',
+      'Technical Deal Strategy & Unusual Enterprise Requirements',
       'Solutions Architecture',
-      'Artificial Intelligence (AI)',
+      'Demo Storytelling Linked to Business Value',
+      'POC Scoping, Success Criteria & Validation',
+      'Technical Wins',
+      'SE / AE Technical Enablement',
+      'Developer-First Platforms & AI-Enabled GTM',
     ],
   },
   {
     name: 'Building',
     skills: [
+      'Demo Engineering, Automation & Repeatability',
+      'Rapid API / SDK Prototypes & Integrations',
+      'MCP / Agent Prototypes & Integrations',
+      'Complex Authentication & Integration Debugging',
       'React',
       'TypeScript',
       'Next.js',
@@ -41,7 +54,7 @@ export const resumeSkillGroups = [
 
 export const resumeData: ResumeData = {
   summary:
-    'I turn complex authentication and authorization requirements into architectures, demos, workshops, and practical implementation plans.',
+    'For 6+ years, I’ve worked across identity, developer platforms, and technical GTM. I turn authentication and authorization requirements into architectures, prototypes, and production-ready solutions for startups, global enterprises, and government agencies. I’m particularly interested in developer-first platforms, AI-enabled GTM, and demo engineering and automation.',
 
   contact: {
     email: siteConfig.emailDisplay,
@@ -63,11 +76,11 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Lead East Coast presales for enterprise CIAM projects, working with engineering and security leaders on customer identity architecture',
-        'Build sample applications and custom demos for technical evaluations',
+        'Lead enterprise CIAM presales across the U.S. East Coast and Europe, partnering with engineering, security, and product teams',
+        'Build reference implementations, sample applications, and automated demos to validate architectures and accelerate technical evaluations',
         'Advise teams on authentication, authorization, federation, and progressive onboarding for B2C and B2B products',
         'Bring customer feedback to the product team and help set roadmap priorities',
-        'Turn architecture decisions into practical implementation plans',
+        'Translate ambiguous requirements and unusual integration constraints into identity architectures, POCs, and practical implementation plans',
       ],
     },
     {
@@ -83,9 +96,9 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
-        'Explained identity integrations to customers during evaluations and implementation',
-        'Supported customer implementations and brought product feedback to internal teams',
-        'Built prototypes and custom demos for customer evaluations',
+        'Worked across presales and post-sales on identity integrations and customer implementations',
+        'Worked on a multi-phase identity deployment for a large state agency that became the company’s largest deal closed that fiscal year',
+        'Built prototypes and custom demos for customer evaluations and brought product feedback to internal teams',
       ],
     },
     {
@@ -113,6 +126,7 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
+        'Consistently ranked at the top of my segment',
         '2x President\'s Club (2022 + 2023)',
         'Awarded Solutions Engineer of the Year FY23',
         'Gave demos entirely in Russian to Russian-speaking developer teams based in Armenia',

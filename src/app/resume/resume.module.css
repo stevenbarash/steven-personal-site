@@ -1,0 +1,193 @@
+.document {
+  display: grid;
+  grid-template-columns: 208px minmax(0, 1fr);
+  gap: 64px;
+  width: 100%;
+  padding-block: 48px 96px;
+  color: var(--neutral-on-background-strong);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.profile {
+  align-self: start;
+  position: sticky;
+  top: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.portrait {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.document .name {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.document .profileLocation {
+  margin: 0;
+  font-size: 14px;
+  color: var(--neutral-on-background-weak);
+}
+
+.contactLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 12px;
+  max-width: 100%;
+}
+
+.contactLinks a {
+  min-height: 44px;
+  max-width: 100%;
+  font-size: 14px;
+}
+
+.content { min-width: 0; }
+.hero { margin-bottom: 56px; }
+
+.document .pageHeading {
+  margin: 0 0 20px;
+  font-size: clamp(36px, 4.2vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.document .currentRole {
+  margin: 0 0 16px;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.document .summary {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--neutral-on-background-weak);
+}
+
+.document .sectionHeading {
+  margin: 0 0 24px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  scroll-margin-top: 112px;
+}
+
+.job {
+  position: relative;
+  padding: 0 0 36px 24px;
+  border-left: 1px solid var(--neutral-alpha-weak);
+}
+
+.job::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 16px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-on-background-strong);
+}
+
+.companyHeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.companyLogo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 8px;
+  background: white;
+}
+
+.document .companyName {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.companyName a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration: none; }
+.companyName a:hover { color: var(--brand-on-background-strong); }
+.role + .role { margin-top: 20px; }
+.document .roleTitle { margin: 0 0 4px; font-size: 16px; line-height: 1.5; }
+.document .dates,
+.document .location {
+  margin: 0;
+  color: var(--neutral-on-background-weak);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.dates { font-variant-numeric: tabular-nums; }
+
+.jobDetail ul { margin: 20px 0 0; padding-left: 20px; }
+.jobDetail li + li { margin-top: 10px; }
+.jobDetail li::marker { color: var(--neutral-on-background-weak); }
+.earlier { margin-top: 24px; }
+.earlierJob { padding-bottom: 28px; }
+.jobDetail details { margin-top: 16px; }
+.jobDetail summary {
+  width: fit-content;
+  min-height: 44px;
+  padding-block: 8px;
+  cursor: pointer;
+  color: var(--brand-on-background-strong);
+  font-size: 15px;
+  font-weight: 500;
+}
+.jobDetail summary:hover { text-decoration: underline; text-underline-offset: 4px; }
+.jobDetail details ul { margin-top: 8px; }
+
+.support { margin-top: 48px; }
+.supportSection { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--neutral-alpha-weak); }
+.skillGroups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; }
+.document .supportHeading { margin: 0 0 10px; font-size: 17px; font-weight: 600; line-height: 1.5; }
+.plainList { list-style: none; margin: 0; padding: 0; }
+.plainList li + li { margin-top: 8px; }
+.skillGroups .plainList { color: var(--neutral-on-background-weak); }
+.educationEntry + .educationEntry { margin-top: 24px; }
+.educationEntry p { margin: 8px 0 0; }
+.document a:focus-visible,
+.document summary:focus-visible { outline: 2px solid var(--brand-on-background-strong); outline-offset: 4px; border-radius: 4px; }
+
+@media (max-width: 850px) {
+  .document { grid-template-columns: 180px minmax(0, 1fr); gap: 32px; }
+  .skillGroups { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .document { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-block: 32px 64px; }
+  .profile { position: static; display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 4px 20px; align-items: center; }
+  .portrait { width: 80px; height: 80px; grid-row: 1 / 3; margin: 0; }
+  .document .name { align-self: end; }
+  .document .profileLocation { align-self: start; }
+  .contactLinks { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 12px; }
+  .hero { margin-bottom: 40px; }
+  .document .pageHeading { font-size: 36px; }
+  .job { padding-left: 20px; }
+  .support { margin-top: 32px; }
+}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { MinimalSiteLayout } from '@/components/layout/MinimalSiteLayout';
-import { MinimalProjectIndex } from '@/components/projects/MinimalProjectIndex';
+import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
+import { PortfolioProjectIndex } from '@/components/projects/PortfolioProjectIndex';
 import { createTwitterMetadata } from '@/constants/site';
 
 const description = 'Software projects by Steven Barash, with source code, design notes, and current status.';
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <MinimalSiteLayout activeHref="/projects">
-      <MinimalProjectIndex />
-    </MinimalSiteLayout>
+    <PortfolioLayout activeHref="/projects">
+      <PortfolioProjectIndex />
+    </PortfolioLayout>
   );
 }

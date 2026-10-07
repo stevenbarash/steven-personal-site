@@ -1,5 +1,6 @@
 import { ProfileData, SocialLink, Project } from "@/types";
 import { siteConfig } from "@/constants/site";
+import { profileContent } from "@/content/profile";
 
 export const profileData: ProfileData = {
   name: siteConfig.personName.toUpperCase(),
@@ -7,8 +8,7 @@ export const profileData: ProfileData = {
   company: "DESCOPE",
   companyUrl: "https://www.descope.com",
   location: "Brooklyn, New York",
-  description:
-    "Senior Solutions Engineer at Descope, formerly at Okta/Auth0 and ID.me. I help teams decide how customers sign in and what they can access, then build demos and workshops to test the design.",
+  description: profileContent.summary,
   imageUrl: "/images/profile-portrait.png",
 };
 
@@ -44,8 +44,7 @@ export const terminalCommands = [
   { command: "pwd", output: "/home/steven" },
   {
     command: "cat about.txt",
-    output:
-      "Senior Solutions Engineer at Descope. I help teams decide how customers sign in and what they can access, then build demos and workshops to test the design.",
+    output: profileContent.summary,
   },
 ];
 
