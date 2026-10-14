@@ -16,10 +16,10 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['business', 'productivity', 'photography'],
     icons: [
       {
-        src: '/images/sb-logo.svg',
+        src: '/icon.svg',
         sizes: 'any',
         type: 'image/svg+xml',
-        purpose: 'maskable',
+        purpose: 'any',
       },
     ],
     shortcuts: [],

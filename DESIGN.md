@@ -145,6 +145,8 @@ The homepage introduction animates once over 650ms with a small upward settle an
 
 Photography and the email close use 16px corners. Navigation and rounded primary actions use pill geometry; the illustrated portrait is circular. Contact service icons are unframed, with rounded hover targets instead of bordered rows. Desktop chrome keeps its authentic square beveled grammar.
 
+The favicon is a white, rounded-stroke S on a near-black rounded square, designed to remain legible at 16px. `src/app/icon.svg` is the vector source; `favicon.ico` includes 16px, 32px, 48px, and 256px variants. The matching 180px Apple touch icon uses an opaque background, and the web manifest references the vector S instead of the larger SB artwork.
+
 ## Components
 
 ### Navigation
