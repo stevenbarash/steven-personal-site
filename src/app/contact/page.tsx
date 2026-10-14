@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { Button, Heading, SmartLink, Text } from '@once-ui-system/core';
+import { Button, Heading, Text } from '@once-ui-system/core';
 import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
+import { SocialIcon } from '@/components/ui/SocialIcon';
 import { contactContent } from '@/content/contact';
 import { decodeEmailHref } from '@/lib/email';
 import { createTwitterMetadata } from '@/constants/site';
@@ -18,8 +19,6 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const socialLinks = contactContent.socialLinks.filter(({ kind }) => kind !== 'website');
-
   return (
     <PortfolioLayout activeHref="/contact">
       <div className={styles.document}>
@@ -33,26 +32,24 @@ export default function ContactPage() {
           </div>
         </header>
 
-        <section className={styles.otherLinks} data-contact-secondary aria-labelledby="contact-elsewhere">
-          <Heading as="h2" id="contact-elsewhere" className={styles.sectionHeading}>You can also find me on</Heading>
-          <ul>
-            {socialLinks.map((contact) => (
-              <li key={contact.kind}>
-                <SmartLink unstyled className={styles.socialLink} href={contact.url} target="_blank" rel="noopener noreferrer">
-                  <span className={styles.linkCopy}>
-                    <Text as="strong" className={styles.linkLabel}>{contact.label}</Text>
-                    <Text as="span" className={styles.linkDescription}>{contact.description}</Text>
-                  </span>
-                  <span className={styles.linkAction} aria-hidden="true">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M7 17 17 7M7 7h10v10" />
-                    </svg>
-                  </span>
-                </SmartLink>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <nav className={styles.otherLinks} data-contact-secondary aria-label="Social profiles">
+          {contactContent.socialLinks.map((contact) => contact.kind === 'website' ? null : (
+            <Button
+              key={contact.kind}
+              className={styles.socialLink}
+              href={contact.url}
+              size="l"
+              variant="tertiary"
+              rounded
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${contact.label} (opens in a new tab)`}
+              title={contact.label}
+            >
+              <SocialIcon service={contact.kind} />
+            </Button>
+          ))}
+        </nav>
       </div>
     </PortfolioLayout>
   );

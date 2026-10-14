@@ -15,7 +15,7 @@
   letter-spacing: -0.035em;
 }
 
-.primary { padding-block: 28px 64px; }
+.primary { padding-block: 28px 32px; }
 .document .introduction {
   margin: 0 0 24px;
   font-size: 18px;
@@ -30,49 +30,38 @@
   border-radius: 16px;
 }
 
-.document .sectionHeading {
-  margin: 0 0 24px;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.025em;
-  scroll-margin-top: 112px;
+.otherLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.otherLinks ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .document .socialLink {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  width: 100%;
-  min-height: 96px;
-  padding: 22px 24px;
-  border: 1px solid var(--neutral-alpha-weak);
-  border-radius: 16px;
-  background: var(--surface-background);
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  padding: 0;
   color: var(--neutral-on-background-strong);
   text-decoration: none;
-  transition: border-color 160ms ease, background-color 160ms ease;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
 .document .socialLink:hover {
-  border-color: var(--brand-on-background-medium);
+  color: var(--brand-on-background-strong);
   background: var(--neutral-alpha-weak);
 }
 
-.linkCopy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.document .linkLabel { font-size: 18px; font-weight: 600; line-height: 1.4; }
-.document .linkDescription { font-size: 16px; line-height: 1.5; color: var(--neutral-on-background-weak); }
-.linkAction { display: flex; flex-shrink: 0; color: var(--brand-on-background-strong); }
+.document .socialLink:active { background: var(--neutral-alpha-medium); }
 .document a:focus-visible { outline: 2px solid var(--brand-on-background-strong); outline-offset: 4px; }
 
 @media (max-width: 640px) {
   .document { padding-block: 16px 48px; }
   .document .pageHeading { font-size: 36px; }
-  .primary { padding-block: 24px 48px; }
+  .primary { padding-block: 24px 28px; }
   .document .introduction { font-size: 17px; }
-  .document .socialLink { padding: 20px; gap: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

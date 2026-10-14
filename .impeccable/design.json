@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-06T19:56:45.315Z",
+  "generatedAt": "2026-10-14T18:11:21.335Z",
   "title": "Design System: Steven Barash Personal Site",
   "extensions": {
     "colorMeta": {
@@ -205,16 +205,32 @@
         "displayName": "Personal Display",
         "purpose": "Centered homepage introduction."
       },
+      "introduction": {
+        "displayName": "Introduction",
+        "purpose": "Centered solutions-engineer introduction beneath the homepage greeting."
+      },
+      "section": {
+        "displayName": "Section Heading",
+        "purpose": "Public background and personal-interest section headings."
+      },
       "body": {
         "displayName": "Public Body",
         "purpose": "Reading content in both public themes."
+      },
+      "supporting": {
+        "displayName": "Supporting Copy",
+        "purpose": "Career context and secondary public reading content."
+      },
+      "desktop-interface": {
+        "displayName": "Desktop Interface",
+        "purpose": "Independent Windows 95 system typography."
       }
     },
     "shadows": [
       {
         "name": "navigation",
         "value": "0 8px 32px -12px var(--neutral-alpha-medium)",
-        "purpose": "Floating public navigation only."
+        "purpose": "Diffuse shadow under desktop public navigation; the opaque mobile bottom bar is shadow-free."
       }
     ],
     "motion": [
@@ -260,9 +276,9 @@
       "name": "Navigation",
       "kind": "nav",
       "refersTo": "navigation",
-      "description": "Floating pill and accessible destination selection.",
+      "description": "Desktop floating pill; at 767px and below, an opaque bottom dock with visible destination labels and 44px targets.",
       "html": "<nav class=\"ds-nav\" aria-label=\"Primary navigation\"><a href=\"/resume\" aria-current=\"page\">Experience</a><a href=\"/photos\">Photography</a><a href=\"/contact\">Contact</a></nav>",
-      "css": ".ds-nav {display:flex;gap:4px;padding:4px;border:1px solid #161616;border-radius:28px;background:#0b0b0b;box-shadow:0 8px 32px -12px rgba(128,128,128,.3);font:400 14px/1.4 sans-serif}.ds-nav a {display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:24px;color:#fff;text-decoration:none}.ds-nav a[aria-current],.ds-nav a:hover {background:#303030}.ds-nav a:focus-visible {outline:2px solid #8ce7f6;outline-offset:4px}"
+      "css": ".ds-nav {display:flex;gap:4px;padding:4px;border:1px solid #161616;border-radius:28px;background:#0b0b0b;box-shadow:0 8px 32px -12px rgba(128,128,128,.3);font:400 14px/1.4 var(--font-portfolio, sans-serif)}.ds-nav a {display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:24px;color:#fff;text-decoration:none}.ds-nav a[aria-current],.ds-nav a:hover {background:#303030}.ds-nav a:focus-visible {outline:2px solid #8ce7f6;outline-offset:4px}.ds-nav a:active {background:#404040}@media(max-width:767px){.ds-nav{border-radius:0;box-shadow:none;padding-bottom:max(4px,env(safe-area-inset-bottom));justify-content:space-around}.ds-nav a{border-radius:12px;font-size:12px}.ds-nav a[aria-current]{font-weight:600}}"
     },
     {
       "name": "Email Close",
@@ -287,7 +303,7 @@
       {
         "name": "The Two-World Rule",
         "body": "Public styling and theme state stay inside the portfolio boundary. Never apply Once UI's element resets or theme attributes to the Windows 95 desktop.",
-        "section": "elevation"
+        "section": "colors"
       }
     ],
     "dos": [

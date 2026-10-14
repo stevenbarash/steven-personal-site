@@ -149,6 +149,38 @@ test('home fits a 390px viewport with reachable 44px actions and navigation', as
 });
 
 
+for (const theme of ['light', 'dark'] as const) {
+  test(`saved ${theme} theme is visible before hydration`, async ({ page }) => {
+    await page.addInitScript((savedTheme) => {
+      localStorage.setItem('portfolio-theme', savedTheme);
+    }, theme);
+    const toggleName = `Switch to ${theme === 'light' ? 'dark' : 'light'} theme`;
+    await page.goto('/');
+    await expect(page.getByRole('button', { name: toggleName })).toBeVisible();
+    const themedBackground = await page.locator('.portfolio-site').evaluate(
+      (site) => getComputedStyle(site).backgroundColor,
+    );
+    // Leave the server-rendered page visible without React restoring the theme.
+    await page.route('**/_next/**/*.js', (route) => route.abort());
+    await page.goto('/resume');
+    await expect(page.locator('.portfolio-site')).toHaveAttribute('data-theme', theme);
+    await expect(page.locator('.portfolio-site')).toHaveCSS('color-scheme', theme);
+    await expect(page.locator('.portfolio-site')).toHaveCSS('background-color', themedBackground);
+    await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+
+    const hydrationErrors: string[] = [];
+    page.on('pageerror', (error) => hydrationErrors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'error') hydrationErrors.push(message.text());
+    });
+    await page.unroute('**/_next/**/*.js');
+    await page.reload();
+    await expect(page.getByRole('button', { name: toggleName })).toBeVisible();
+    await expect(page.locator('.portfolio-site')).toHaveAttribute('data-theme', theme);
+    expect(hydrationErrors.filter((message) => /hydrat|didn't match/i.test(message))).toEqual([]);
+  });
+}
+
 test('theme changes persist across navigation and reload without changing the desktop', async ({ page }) => {
   await page.goto('/desktop');
   await expect(page.getByRole('button', { name: 'Start menu' })).toBeVisible();

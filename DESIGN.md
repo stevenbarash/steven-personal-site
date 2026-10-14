@@ -143,7 +143,7 @@ The homepage introduction animates once over 650ms with a small upward settle an
 
 ## Shapes
 
-Photography, contact rows, and the email close use 16px corners. Navigation and rounded primary actions use pill geometry; the illustrated portrait is circular. Desktop chrome keeps its authentic square beveled grammar.
+Photography and the email close use 16px corners. Navigation and rounded primary actions use pill geometry; the illustrated portrait is circular. Contact service icons are unframed, with rounded hover targets instead of bordered rows. Desktop chrome keeps its authentic square beveled grammar.
 
 ## Components
 
@@ -157,6 +157,8 @@ Once UI `Button` owns primary, secondary, and tertiary actions; `SmartLink` owns
 
 X and GitHub profile links form a compact centered row beneath the career details in the homepage hero. Each has an unframed 24px glyph inside a 48px square target, an accessible label announcing its new-tab behavior, and the canonical URL from `siteConfig`. Their inline brand glyphs come from [Simple Icons](https://github.com/simple-icons/simple-icons), licensed under [CC0](https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md); no additional icon package or remote image request is needed.
 
+The contact page keeps its email action prominent and places LinkedIn, GitHub, Instagram, and X in a compact horizontal icon row beneath it, replacing the oversized descriptive link cards. Each service uses a 24px brand glyph in a 48px touch target, a native hover label, and an accessible name announcing its new-tab behavior. `SocialIcon` shares the Simple Icons glyphs with the homepage; canonical destinations remain in the contact catalog. The row wraps if necessary, with 12px gaps, theme-aware hover/pressed states, and visible keyboard focus.
+
 The shared Start shortcut is an intentional, isolated exception to the public control style: the existing Windows 95 flag, square silver `win95-button` bevel, bold 11px system type, and a 23px face inside a 44px minimum touch target. It stays fixed at the bottom-left on every public page, including not-found pages, outside the animated hero. Its visible face matches the desktop Start button exactly: 2px from the left and 4.5px from the bottom with zero safe-area insets, using the desktop's max(2px, safe-area inset) padding and 23px face centered within a 28px row. Mobile navigation sits alongside it in the same bottom bar, with separate touch targets. It depresses while pressed and links to `/desktop` without prefetching the separate desktop experience. Enlarged photographs temporarily hide the shortcut and cover the navigation bar. `/desktop` retains its own real Start menu without a duplicate public control.
 
 ### Photography
@@ -165,7 +167,7 @@ Once UI `Media` provides in-place image enlargement within the masonry gallery. 
 
 ### Theme Boundary
 
-`PortfolioProviders` subscribes to the browser's `portfolio-theme` preference, with a deterministic dark server snapshot and an in-memory fallback when storage is unavailable. Its `data-theme` and scheme attributes live on `.portfolio-site`, not `html`. Browser color scheme and scrollbar styling are conditional on the presence of that boundary.
+`PortfolioProviders` subscribes to the browser's `portfolio-theme` preference, with a deterministic dark server snapshot and an in-memory fallback when storage is unavailable. A synchronous inline script at the start of `.portfolio-site` applies a valid saved preference while the HTML is parsed, before content paints or React hydrates, avoiding a dark flash for light-mode visitors. Only that boundary's intentional theme-attribute difference is exempt from hydration warnings; React then adopts the stored preference. Storage failures retain the dark default. Theme and scheme attributes stay on `.portfolio-site`, not `html`, so the Windows 95 desktop remains isolated. Browser color scheme and scrollbar styling are conditional on the presence of that boundary.
 
 ### Attribution
 

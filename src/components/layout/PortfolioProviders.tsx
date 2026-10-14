@@ -8,6 +8,17 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void } | null>(
 const storageKey = 'portfolio-theme';
 let inMemoryTheme: Theme = 'dark';
 
+// Run while HTML is parsed, before portfolio content can paint or React hydrates.
+// Keep the mutation on this script's parent; the desktop has no theme boundary.
+const initialThemeScript = `
+  try {
+    var theme = localStorage.getItem(${JSON.stringify(storageKey)});
+    if (theme === 'light' || theme === 'dark') {
+      document.currentScript.parentElement.setAttribute('data-theme', theme);
+    }
+  } catch {}
+`;
+
 function readTheme(): Theme {
   try {
     const saved = localStorage.getItem(storageKey);
@@ -49,6 +60,7 @@ export function PortfolioProviders({ children }: { children: ReactNode }) {
         <div
           className="portfolio-site"
           data-theme={theme}
+          suppressHydrationWarning
           data-brand="cyan"
           data-accent="cyan"
           data-neutral="gray"
@@ -59,6 +71,7 @@ export function PortfolioProviders({ children }: { children: ReactNode }) {
           data-transition="micro"
           data-scaling="100"
         >
+          <script dangerouslySetInnerHTML={{ __html: initialThemeScript }} />
           {children}
         </div>
       </ThemeContext.Provider>
