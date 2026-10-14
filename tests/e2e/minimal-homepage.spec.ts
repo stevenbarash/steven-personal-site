@@ -162,6 +162,16 @@ for (const theme of ['light', 'dark'] as const) {
     );
     // Leave the server-rendered page visible without React restoring the theme.
     await page.route('**/_next/**/*.js', (route) => route.abort());
+    // Model Cloudflare Rocket Loader deferring scripts unless explicitly excluded.
+    await page.route('**/resume', async (route) => {
+      const response = await route.fetch();
+      const body = (await response.text()).replace(/<script\b([^>]*)>/g, (tag, attributes: string) =>
+        attributes.includes('data-cfasync="false"') || /\btype=/.test(attributes)
+          ? tag
+          : `<script type="rocket-loader-deferred"${attributes}>`,
+      );
+      await route.fulfill({ response, body });
+    });
     await page.goto('/resume');
     await expect(page.locator('.portfolio-site')).toHaveAttribute('data-theme', theme);
     await expect(page.locator('.portfolio-site')).toHaveCSS('color-scheme', theme);
@@ -174,6 +184,7 @@ for (const theme of ['light', 'dark'] as const) {
       if (message.type() === 'error') hydrationErrors.push(message.text());
     });
     await page.unroute('**/_next/**/*.js');
+    await page.unroute('**/resume');
     await page.reload();
     await expect(page.getByRole('button', { name: toggleName })).toBeVisible();
     await expect(page.locator('.portfolio-site')).toHaveAttribute('data-theme', theme);

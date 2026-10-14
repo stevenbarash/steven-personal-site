@@ -9,7 +9,7 @@ const storageKey = 'portfolio-theme';
 let inMemoryTheme: Theme = 'dark';
 
 // Run while HTML is parsed, before portfolio content can paint or React hydrates.
-// Keep the mutation on this script's parent; the desktop has no theme boundary.
+// Keep the mutation on this script's parent; opt out of Rocket Loader deferral.
 const initialThemeScript = `
   try {
     var theme = localStorage.getItem(${JSON.stringify(storageKey)});
@@ -71,7 +71,7 @@ export function PortfolioProviders({ children }: { children: ReactNode }) {
           data-transition="micro"
           data-scaling="100"
         >
-          <script dangerouslySetInnerHTML={{ __html: initialThemeScript }} />
+          <script data-cfasync="false" dangerouslySetInnerHTML={{ __html: initialThemeScript }} />
           {children}
         </div>
       </ThemeContext.Provider>

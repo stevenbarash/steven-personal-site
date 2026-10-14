@@ -169,6 +169,8 @@ Once UI `Media` provides in-place image enlargement within the masonry gallery. 
 
 `PortfolioProviders` subscribes to the browser's `portfolio-theme` preference, with a deterministic dark server snapshot and an in-memory fallback when storage is unavailable. A synchronous inline script at the start of `.portfolio-site` applies a valid saved preference while the HTML is parsed, before content paints or React hydrates, avoiding a dark flash for light-mode visitors. Only that boundary's intentional theme-attribute difference is exempt from hydration warnings; React then adopts the stored preference. Storage failures retain the dark default. Theme and scheme attributes stay on `.portfolio-site`, not `html`, so the Windows 95 desktop remains isolated. Browser color scheme and scrollbar styling are conditional on the presence of that boundary.
 
+The theme bootstrap script carries `data-cfasync="false"` so Cloudflare Rocket Loader cannot defer it. Without that exclusion, production can paint the dark server default even though local hydration checks pass. Theme regression coverage models the CDN's script deferral before asserting the saved theme.
+
 ### Attribution
 
 The footer uses a small, muted, underlined 12px Credits link beside Steven's name, with a 44px touch target. `/credits` identifies the adaptation of Magic Portfolio by Once UI and links its source and CC BY-NC 4.0 license. Keep that attribution publicly accessible while using the free template license. The footer also preserves a plain link to the separate desktop.
