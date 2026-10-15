@@ -8,11 +8,11 @@ import { decodeEmailHref } from '@/lib/email';
 import { createTwitterMetadata } from '@/constants/site';
 import styles from './resume.module.css';
 
-const description = 'Experience, education, skills, languages, and honors for Steven Barash.';
-const socialTitle = 'Resume | Steven Barash';
+const description = 'Experience, education, skills, languages, and honors for Steven Barash, Senior Solutions Engineer at Descope.';
+const socialTitle = 'Experience | Steven Barash';
 
 export const metadata: Metadata = {
-  title: 'Resume',
+  title: 'Experience',
   description,
   alternates: { canonical: '/resume' },
   openGraph: { url: '/resume', title: socialTitle, description },

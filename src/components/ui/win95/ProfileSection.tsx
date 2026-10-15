@@ -13,7 +13,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
         <div className="w-[80px] h-[80px] shrink-0 relative win95-sunken p-[2px]">
           <Image 
             src={profile.imageUrl} 
-            alt={profile.name} 
+            alt={`Illustrated portrait of ${profileContent.name}`}
             fill
             sizes="80px"
             className="object-cover"
@@ -39,6 +39,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
           </p>
           <p className="win95-metadata text-black mt-[2px]">
             {profile.location}
+          </p>
+          <p className="win95-metadata text-black mt-[2px]">
+            {profileContent.scope}
           </p>
         </div>
       </div>

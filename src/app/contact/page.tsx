@@ -33,22 +33,25 @@ export default function ContactPage() {
         </header>
 
         <nav className={styles.otherLinks} data-contact-secondary aria-label="Social profiles">
-          {contactContent.socialLinks.map((contact) => contact.kind === 'website' ? null : (
-            <Button
-              key={contact.kind}
-              className={styles.socialLink}
-              href={contact.url}
-              size="l"
-              variant="tertiary"
-              rounded
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${contact.label} (opens in a new tab)`}
-              title={contact.label}
-            >
-              <SocialIcon service={contact.kind} />
-            </Button>
-          ))}
+          <ul className={styles.socialList}>
+            {contactContent.socialLinks.map((contact) => (
+              <li key={contact.kind}>
+                <a
+                  className={styles.socialLink}
+                  href={contact.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${contact.label} (opens in a new tab)`}
+                >
+                  <SocialIcon service={contact.kind} />
+                  <span className={styles.socialCopy}>
+                    <strong>{contact.label}</strong>
+                    <small>{contact.description}</small>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
     </PortfolioLayout>

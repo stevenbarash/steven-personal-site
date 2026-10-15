@@ -16,8 +16,8 @@ test('home has semantic navigation and working internal destinations', async ({ 
     expect((await request.get(href)).ok(), href).toBe(true);
   }
 
-  await expect(page.locator('[data-home-hero]').getByRole('link', { name: 'Get in touch', exact: true })).toHaveAttribute('href', '/contact');
-  await expect(page.locator('[data-home-hero]').getByRole('link', { name: 'View experience', exact: true })).toHaveAttribute('href', '/resume');
+  await expect(page.locator('[data-home-hero]').getByRole('link', { name: 'Contact', exact: true })).toHaveAttribute('href', '/contact');
+  await expect(page.locator('[data-home-hero]').getByRole('link', { name: 'Experience', exact: true })).toHaveAttribute('href', '/resume');
 
 });
 
@@ -62,7 +62,7 @@ test('Windows 95 home and profile views use the supplied illustrated portrait', 
   await expect(page.locator('.win95-home-portrait')).toHaveAttribute('src', /profile-portrait\.png/);
 
   await page.goto('/desktop?app=profile');
-  await expect(page.getByRole('img', { name: 'STEVEN BARASH' })).toHaveAttribute(
+  await expect(page.getByRole('img', { name: 'Illustrated portrait of Steven Barash' })).toHaveAttribute(
     'src',
     /profile-portrait\.png/,
   );
@@ -120,8 +120,8 @@ test('home fits a 390px viewport with reachable 44px actions and navigation', as
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 
   for (const locator of [
-    page.locator('[data-home-hero]').getByRole('link', { name: 'View experience', exact: true }),
-    page.locator('[data-home-hero]').getByRole('link', { name: 'Get in touch', exact: true }),
+    page.locator('[data-home-hero]').getByRole('link', { name: 'Experience', exact: true }),
+    page.locator('[data-home-hero]').getByRole('link', { name: 'Contact', exact: true }),
     page.getByRole('navigation', { name: 'Social profiles' }).getByRole('link', { name: /^X\b/ }),
     page.getByRole('navigation', { name: 'Social profiles' }).getByRole('link', { name: /^GitHub\b/ }),
     page.locator('[data-home-contact] a[href^="mailto:"]'),
@@ -160,6 +160,8 @@ for (const theme of ['light', 'dark'] as const) {
     const themedBackground = await page.locator('.portfolio-site').evaluate(
       (site) => getComputedStyle(site).backgroundColor,
     );
+    const themedIcon = await page.getByRole('button', { name: toggleName })
+      .locator('svg:visible').evaluate((icon) => icon.outerHTML);
     // Leave the server-rendered page visible without React restoring the theme.
     await page.route('**/_next/**/*.js', (route) => route.abort());
     // Model Cloudflare Rocket Loader deferring scripts unless explicitly excluded.
@@ -177,6 +179,13 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(page.locator('.portfolio-site')).toHaveCSS('color-scheme', theme);
     await expect(page.locator('.portfolio-site')).toHaveCSS('background-color', themedBackground);
     await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+    for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      const toggle = page.getByRole('button', { name: toggleName });
+      await expect(toggle).toBeVisible();
+      await expect(toggle.locator('svg:visible')).toHaveCount(1);
+      expect(await toggle.locator('svg:visible').evaluate((icon) => icon.outerHTML)).toBe(themedIcon);
+    }
 
     const hydrationErrors: string[] = [];
     page.on('pageerror', (error) => hydrationErrors.push(error.message));

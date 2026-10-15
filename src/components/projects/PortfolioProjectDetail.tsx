@@ -34,8 +34,8 @@ export function PortfolioProjectDetail({ project }: { project: ProjectCaseStudy 
             <div><dt>Technologies</dt><dd>{project.technologies.join(', ')}</dd></div>
           </dl>
           <Column className={styles.notes} gap="12">
-            {project.outcomes.map((outcome) => <Text as="p" variant="body-default-m" key={outcome}>{outcome}</Text>)}
-            {project.limitations && <Text as="p" variant="body-default-m" onBackground="neutral-weak">{project.limitations}</Text>}
+            {project.outcomes.map((outcome) => <Text as="p" variant="body-default-m" key={outcome}><strong>Where it stands:</strong> {outcome}</Text>)}
+            {project.limitations && <Text as="p" variant="body-default-m" onBackground="neutral-weak"><strong>Limits:</strong> {project.limitations}</Text>}
           </Column>
           <div className={styles.actions} aria-label="Project links">
             {project.sourceUrl && (

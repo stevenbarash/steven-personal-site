@@ -1,6 +1,6 @@
 import { siteConfig } from '@/constants/site';
 
-export type ContactKind = 'linkedin' | 'github' | 'instagram' | 'x' | 'website';
+export type ContactKind = 'linkedin' | 'github' | 'instagram' | 'x';
 
 export interface ContactEntry {
   kind: ContactKind;
@@ -25,26 +25,20 @@ export const contactCatalog: ContactEntry[] = [
   {
     kind: 'instagram',
     label: 'Instagram',
-    description: 'Photos',
+    description: 'Photography',
     url: siteConfig.instagramUrl,
   },
   {
     kind: 'x',
     label: 'X',
-    description: 'Posts and updates',
+    description: 'Short posts and updates',
     url: siteConfig.xUrl,
-  },
-  {
-    kind: 'website',
-    label: 'Website',
-    description: 'Open the canonical site',
-    url: siteConfig.canonicalOrigin,
   },
 ];
 
 export const contactContent = {
-  description: `Email and social links for ${siteConfig.personName}.`,
-  introduction: 'For work inquiries or technical questions, email me.',
+  description: `Contact ${siteConfig.personName} by email, LinkedIn, GitHub, Instagram, or X.`,
+  introduction: 'For work inquiries or technical questions, email me. I’m based in Brooklyn, New York.',
   emailDisplay: siteConfig.emailDisplay,
   socialLinks: contactCatalog,
 } as const;

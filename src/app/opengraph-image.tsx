@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { profileContent } from '@/content/profile';
 
-export const alt = `${profileContent.name} | ${profileContent.professionalLabel}. ${profileContent.headline}`;
+export const alt = `${profileContent.name} | ${profileContent.professionalLabel} at ${profileContent.company}. ${profileContent.headline}`;
 
 export const size = {
   width: 1200,
@@ -43,7 +43,7 @@ export default function OpenGraphImage() {
             {profileContent.headline}
           </div>
           <div style={{ color: '#8ce7f6', display: 'flex', fontSize: 26, fontWeight: 600, marginTop: 34 }}>
-            {profileContent.professionalLabel}
+            {profileContent.role} at {profileContent.company} · {profileContent.location}
           </div>
         </div>
       </div>

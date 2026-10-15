@@ -11,7 +11,7 @@ export function PortfolioProjectIndex() {
       <header className={styles.indexIntro}>
         <Heading as="h1" variant="display-strong-s" className={styles.title}>Projects</Heading>
         <Text as="p" variant="body-default-l" onBackground="neutral-weak" className={styles.lede}>
-          Software projects I have built and maintain, with notes on how they work and where they stand.
+          Independent software I’ve built, with notes on how each piece works and where it stands.
         </Text>
       </header>
 
@@ -27,13 +27,12 @@ export function PortfolioProjectIndex() {
                   </SmartLink>
                 </Heading>
                 <Text as="p" variant="body-default-l">{project.oneLiner}</Text>
-                <Text as="p" variant="body-default-m" onBackground="neutral-weak">{project.approach[0]}</Text>
                 <dl className={styles.facts}>
                   <div><dt>Status</dt><dd>{formatStatus(project.status)}</dd></div>
                   <div><dt>Technologies</dt><dd>{project.technologyLine}</dd></div>
                 </dl>
                 <Button href={`/projects/${project.slug}`} variant="secondary" size="l" id={`read-${project.slug}`} arrowIcon>
-                  Read the case study
+                  Read the design notes
                 </Button>
               </div>
             </article>

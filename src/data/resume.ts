@@ -5,56 +5,42 @@ export const resumeSkillGroups = [
   {
     name: 'Identity',
     skills: [
-      'Identity & Access Management (IAM)',
-      'Customer Identity & Access Management (CIAM)',
-      'Authentication Strategy & Identity Architecture',
-      'OAuth 2.0',
-      'OIDC',
+      'CIAM & IAM',
+      'Identity architecture & authentication strategy',
+      'OAuth 2.0 / OIDC',
       'SAML',
-      'Multi-Factor Authentication (MFA)',
-      'WebAuthn / Passkeys',
-      'SCIM',
-      'Identity Federation',
-      'B2B Authorization',
-      'Role-Based Access Control (RBAC)',
-      'Fine-Grained Authorization (FGA)',
-      'Identity Migrations',
+      'MFA & WebAuthn / passkeys',
+      'SCIM & identity federation',
+      'B2B authorization, RBAC & fine-grained authorization',
+      'Identity migrations',
     ],
   },
   {
     name: 'Technical strategy',
     skills: [
-      'Technical Deal Strategy & Unusual Enterprise Requirements',
-      'Solutions Architecture',
-      'Demo Storytelling Linked to Business Value',
-      'POC Scoping, Success Criteria & Validation',
-      'Technical Wins',
-      'SE / AE Technical Enablement',
-      'Developer-First Platforms & AI-Enabled GTM',
+      'Technical deal strategy',
+      'Solutions architecture',
+      'POC scoping, success criteria & validation',
+      'Demo storytelling',
+      'SE / AE technical enablement',
     ],
   },
   {
     name: 'Building',
     skills: [
-      'Demo Engineering, Automation & Repeatability',
-      'Rapid API / SDK Prototypes & Integrations',
-      'MCP / Agent Prototypes & Integrations',
-      'Complex Authentication & Integration Debugging',
-      'React',
-      'TypeScript',
-      'Next.js',
-      'Node.js',
-      'Java',
-      'C#',
-      'SQL',
-      'HTML / CSS',
+      'Demo engineering & automation',
+      'API / SDK prototypes & integrations',
+      'MCP & agent prototypes',
+      'Authentication & integration debugging',
+      'TypeScript / React / Next.js / Node.js',
+      'Java / C# / SQL',
     ],
   },
 ] as const;
 
 export const resumeData: ResumeData = {
   summary:
-    'For 6+ years, I’ve worked across identity, developer platforms, and technical GTM. I turn authentication and authorization requirements into architectures, prototypes, and production-ready solutions for startups, global enterprises, and government agencies. I’m particularly interested in developer-first platforms, AI-enabled GTM, and demo engineering and automation.',
+    'Senior Solutions Engineer with 6+ years in identity, developer platforms, and technical GTM. I turn authentication and authorization requirements into architectures, working prototypes, and implementation plans, and I stay close to the code, from reference implementations to debugging failed integrations.',
 
   contact: {
     email: siteConfig.emailDisplay,
@@ -69,7 +55,7 @@ export const resumeData: ResumeData = {
       companyUrl: 'https://www.descope.com',
       roles: [
         {
-          title: 'Sr. Solutions Engineer',
+          title: 'Senior Solutions Engineer',
           startDate: 'January 2025',
           endDate: 'Present',
           location: 'New York, NY',
@@ -77,10 +63,10 @@ export const resumeData: ResumeData = {
       ],
       bullets: [
         'Lead enterprise CIAM presales across the U.S. East Coast and Europe, partnering with engineering, security, and product teams',
-        'Build reference implementations, sample applications, and automated demos to validate architectures and accelerate technical evaluations',
-        'Advise teams on authentication, authorization, federation, and progressive onboarding for B2C and B2B products',
+        'Build reference implementations, sample applications, and automated demos that customers use to validate architectures during technical evaluations',
+        'Advise B2C and B2B product teams on authentication, authorization, federation, and onboarding flows',
         'Bring customer feedback to the product team and help set roadmap priorities',
-        'Translate ambiguous requirements and unusual integration constraints into identity architectures, POCs, and practical implementation plans',
+        'Turn ambiguous requirements and unusual integration constraints into identity architectures, scoped POCs, and practical implementation plans',
       ],
     },
     {
@@ -89,16 +75,16 @@ export const resumeData: ResumeData = {
       companyUrl: 'https://www.id.me',
       roles: [
         {
-          title: 'Sr. Solutions Engineer',
+          title: 'Senior Solutions Engineer',
           startDate: 'January 2024',
           endDate: 'January 2025',
           location: 'New York, NY',
         },
       ],
       bullets: [
-        'Worked across presales and post-sales on identity integrations and customer implementations',
         'Worked on a multi-phase identity deployment for a large state agency that became the company’s largest deal closed that fiscal year',
-        'Built prototypes and custom demos for customer evaluations and brought product feedback to internal teams',
+        'Worked across presales and post-sales on identity integrations and customer implementations',
+        'Built prototypes and custom demos for customer evaluations, and relayed implementation feedback to internal teams',
       ],
     },
     {
@@ -126,9 +112,8 @@ export const resumeData: ResumeData = {
         },
       ],
       bullets: [
+        'Specialized in CIAM presales, progressing through three solutions engineering roles between 2020 and 2024',
         'Consistently ranked at the top of my segment',
-        '2x President\'s Club (2022 + 2023)',
-        'Awarded Solutions Engineer of the Year FY23',
         'Gave demos entirely in Russian to Russian-speaking developer teams based in Armenia',
       ],
     },
@@ -236,7 +221,7 @@ export const resumeData: ResumeData = {
   languages: [
     { name: 'English', proficiency: 'Native' },
     { name: 'Russian', proficiency: 'Full Professional' },
-    { name: 'Surzhyk', proficiency: 'Professional Working' },
+    { name: 'Surzhyk (Ukrainian–Russian mixed speech)', proficiency: 'Professional Working' },
     { name: 'Ukrainian', proficiency: 'Limited Working' },
     { name: 'Spanish', proficiency: 'Limited Working' },
     { name: 'Korean', proficiency: 'Basic' },

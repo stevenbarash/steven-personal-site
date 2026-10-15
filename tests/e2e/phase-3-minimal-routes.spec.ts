@@ -120,9 +120,6 @@ test('photography renders every verified local photo with dimensions, honest alt
 
   await expect(page.getByText('Unknown', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Instagram', exact: true })).toHaveAttribute('href', siteConfig.instagramUrl);
-  await expect(page.getByAltText('Two soldiers watch a woman in a red skirt and a man in a cowboy hat perform on a city sidewalk.')).toBeVisible();
-  await expect(page.getByAltText('A food-service worker prepares food behind a restaurant window.')).toBeVisible();
-  await expect(page.getByAltText('A white bulldog lies on the ground wearing a gray rhinoceros costume.')).toBeVisible();
   const preload = page.locator('head link[rel="preload"][as="image"]');
   await expect(preload).toHaveCount(1);
   const firstFeaturedImage = figures.first().locator('img');

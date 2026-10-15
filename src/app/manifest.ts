@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${siteConfig.siteName} | ${profileContent.professionalLabel}`,
     short_name: siteConfig.siteName,
-    description: profileContent.headline,
+    description: profileContent.publicDescription,
     start_url: '/',
     display: 'standalone',
     background_color: '#0b0b0b',

@@ -29,12 +29,12 @@ export function ProjectIndex() {
                     <p className="win95-reading-copy">{project.oneLiner}</p>
                     <p className="win95-metadata">{project.technologies.join(' · ')}</p>
                     <div className="win95-project-row-actions">
-                      <Link className="win95-button win95-content-action" href={`/projects/${project.slug}`}>Open case study</Link>
+                      <Link className="win95-button win95-content-action" href={`/projects/${project.slug}`}>Open design notes</Link>
 
                     </div>
                   </div>
                   <span className="win95-status-section win95-metadata">{project.status}</span>
-                  <span className="win95-metadata">Case study</span>
+                  <span className="win95-metadata">Design notes</span>
                 </li>
               ))}
             </ul>

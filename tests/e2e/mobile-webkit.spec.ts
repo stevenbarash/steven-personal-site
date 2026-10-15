@@ -90,8 +90,8 @@ test('small phones keep primary actions tappable and navigation clear of Start',
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
 
-  for (const name of ['View experience', 'Get in touch']) {
-    const action = page.getByRole('link', { name, exact: true });
+  for (const name of ['Experience', 'Contact']) {
+    const action = page.getByLabel('Primary actions').getByRole('link', { name, exact: true });
     await expect.poll(() => action.evaluate((element) => {
       const rect = element.getBoundingClientRect();
       const hit = document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);

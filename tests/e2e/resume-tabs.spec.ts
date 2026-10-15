@@ -1,6 +1,4 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 import { siteConfig } from '../../src/constants/site';
 
 const resumeTabs = ['Experience', 'Education', 'Skills', 'Honors'];
@@ -86,9 +84,3 @@ test('resume website link displays the canonical destination hostname', async ({
   await expect(websiteLink).toHaveAttribute('href', siteConfig.canonicalOrigin);
 });
 
-test('ProjectsSection delegates resume panels to ResumeSection', async () => {
-  const source = await readFile(resolve(process.cwd(), 'src/components/ui/win95/ProjectsSection.tsx'), 'utf8');
-
-  expect(source).toContain("import { ResumeSection } from './ResumeSection';");
-  expect(source).not.toMatch(/\b(?:ResumeContent|ExperiencePanel|EducationPanel|SkillsPanel|HonorsPanel)\b/);
-});

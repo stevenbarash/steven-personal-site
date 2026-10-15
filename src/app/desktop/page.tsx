@@ -8,7 +8,7 @@ import { ProfileSection } from '@/components/ui/win95/ProfileSection';
 import { ProjectIndex } from '@/components/ui/win95/ProjectIndex';
 import { ResumeSection } from '@/components/ui/win95/ResumeSection';
 import { Terminal } from '@/components/ui/win95/Terminal';
-import { photoLibrary } from '@/data/photos';
+import { photographs } from '@/content/photography';
 import { profileData, terminalCommands } from '@/data/profile';
 import { resumeData } from '@/data/resume';
 import { createTwitterMetadata } from '@/constants/site';
@@ -34,7 +34,7 @@ export default function DesktopPage() {
     { id: 'profile', content: <ProfileSection profile={profileData} /> },
     { id: 'projects', content: <ProjectIndex /> },
     { id: 'contact', content: <ContactSection /> },
-    { id: 'photos', content: <PhotographySection photos={photoLibrary} /> },
+    { id: 'photos', content: <PhotographySection photos={photographs} /> },
     { id: 'terminal', content: <Terminal commands={terminalCommands} /> },
     { id: 'resume', content: <ResumeSection resume={resumeData} /> },
     { id: 'help', content: <HelpSection /> },

@@ -35,7 +35,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
           <ProseSection title="Constraints"><TextList items={project.constraints} /></ProseSection>
           <ProseSection title="How it works"><TextList items={project.approach} /></ProseSection>
           <ProseSection title="Tradeoffs"><TextList items={project.hardestDecisions} /></ProseSection>
-          <ProseSection title="Current status">
+          <ProseSection title="Where it stands">
             <TextList items={project.outcomes} />
             <p className="win95-reading-copy"><strong>Status: {project.status}</strong></p>
           </ProseSection>
@@ -50,7 +50,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
               {project.liveUrl && <a className="win95-button win95-content-action" href={project.liveUrl}>Open live project</a>}
             </div>
           </ProseSection>
-          <ProseSection title="Caveats"><p className="win95-reading-copy">{project.limitations}</p></ProseSection>
+          <ProseSection title="Limits"><p className="win95-reading-copy">{project.limitations}</p></ProseSection>
         </div>
 
         <aside className="win95-group-box win95-project-properties" aria-labelledby="project-properties-title">

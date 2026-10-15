@@ -7,7 +7,6 @@ const iconByKind = {
   github: 'folderOpen',
   instagram: 'camera',
   x: 'url',
-  website: 'globe',
 } as const;
 
 export function ContactSection() {
@@ -27,7 +26,7 @@ export function ContactSection() {
                 <span><strong>Email Steven</strong><small className="win95-metadata">{contactContent.emailDisplay}</small></span>
               </DecodedEmailLink>
             </li>
-            {contactContent.socialLinks.filter(({ kind }) => kind !== 'website').map((contact) => (
+            {contactContent.socialLinks.map((contact) => (
               <li key={contact.kind}>
                 <a className="win95-contact-row win95-content-action" href={contact.url} target="_blank" rel="noopener noreferrer" aria-label={contact.label}>
                   <Win95Icon name={iconByKind[contact.kind]} size={32} />

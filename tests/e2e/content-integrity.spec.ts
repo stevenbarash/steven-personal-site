@@ -10,7 +10,6 @@ import { profileContent } from '../../src/content/profile';
 import { selectPublished, siteContent } from '../../src/content/site';
 import { publishedSpeaking, speakingCatalog } from '../../src/content/speaking';
 import { resumeData } from '../../src/data/resume';
-import { projects } from '../../src/data/profile';
 
 test('evidence ledger contains the defensible Phase 0 public records', () => {
   const ids = new Set(evidenceRecords.map((record) => record.id));
@@ -42,7 +41,7 @@ test('unsafe and unapproved claim IDs are absent from deployable evidence', () =
 });
 
 test('unsupported claims are absent from deployable resume and profile data', () => {
-  const deployedContent = JSON.stringify({ resumeData, projects });
+  const deployedContent = JSON.stringify({ resumeData });
   for (const unsupported of [
     'largest deal closed in the SLED',
     'Ranked #1 in segment by ARR',
@@ -203,7 +202,6 @@ test('profile and contact derive repeated canonical values from siteConfig', () 
     siteConfig.githubUrl,
     siteConfig.instagramUrl,
     siteConfig.xUrl,
-    siteConfig.canonicalOrigin,
   ]);
 
   const source = [

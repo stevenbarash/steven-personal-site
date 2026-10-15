@@ -36,7 +36,7 @@ test('project index exposes published case-study destinations and registered pre
     const titleLink = row.getByRole('link', { name: project.name, exact: true });
     await expect(titleLink).toHaveAttribute('href', `/projects/${project.slug}`);
     await expect(row.locator(`[data-project-artifact="${project.slug}"][data-project-artifact-variant="preview"]`)).toHaveCount(1);
-    await expect(row.getByRole('link', { name: 'Read the case study' })).toHaveAttribute('href', `/projects/${project.slug}`);
+    await expect(row.getByRole('link', { name: 'Read the design notes' })).toHaveAttribute('href', `/projects/${project.slug}`);
   }
 
 });

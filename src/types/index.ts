@@ -17,12 +17,6 @@ export type Win95IconName =
   | 'url'
   | 'mediaPlayer';
 
-export interface SocialLink {
-  name: string;
-  icon: Win95IconName;
-  content: string;
-  link: string;
-}
 
 export interface ProfileData {
   name: string;
@@ -39,15 +33,6 @@ export interface TerminalCommand {
   output: string;
 }
 
-export interface Project {
-  name: string;
-  description: string;
-  icon: Win95IconName;
-  link: string;
-  category: 'web' | 'mobile' | 'photography' | 'cli' | 'other';
-  technologies?: string[];
-  featured?: boolean;
-}
 
 export interface ResumeExperience {
   company: string;
@@ -91,7 +76,7 @@ export interface PhotoItem {
   album: string;
   takenAt: string;
   location: string;
-  camera: string;
+  camera?: string;
   width: number;
   height: number;
 }

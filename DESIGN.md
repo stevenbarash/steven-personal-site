@@ -129,7 +129,7 @@ The personal section is a single column headed “Outside of work,” with inter
 
 The shared footer contains Steven's name and Credits only. The redundant Windows 95 text link was removed; Start remains available on every public page.
 
-The homepage email close contains “Say hello,” the email address, and the contact link without an introductory email sentence.
+The homepage email close contains “Contact,” the email address, and a link to the full contact page.
 
 The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, the theme toggle moves to the top-right header and four destinations occupy the opaque bottom bar beside Start. Home, Resume, Photos, and Contact use visible 12px labels; accessible names derive from the visible destination text. Each control has a 44px minimum target. A subtle vertical divider separates Start from site navigation. The bar follows safe-area insets, and footer padding reserves its space. Mobile main padding is 16px at the top; route-local padding avoids repeated desktop-sized gaps.
 
@@ -172,6 +172,8 @@ Once UI `Media` provides in-place image enlargement within the masonry gallery. 
 `PortfolioProviders` subscribes to the browser's `portfolio-theme` preference, with a deterministic dark server snapshot and an in-memory fallback when storage is unavailable. A synchronous inline script at the start of `.portfolio-site` applies a valid saved preference while the HTML is parsed, before content paints or React hydrates, avoiding a dark flash for light-mode visitors. Only that boundary's intentional theme-attribute difference is exempt from hydration warnings; React then adopts the stored preference. Storage failures retain the dark default. Theme and scheme attributes stay on `.portfolio-site`, not `html`, so the Windows 95 desktop remains isolated. Browser color scheme and scrollbar styling are conditional on the presence of that boundary.
 
 The theme bootstrap script carries `data-cfasync="false"` so Cloudflare Rocket Loader cannot defer it. Without that exclusion, production can paint the dark server default even though local hydration checks pass. Theme regression coverage models the CDN's script deferral before asserting the saved theme.
+
+The theme toggle server-renders both Once UI glyphs and their visually hidden action labels. Scoped CSS selects the sun and “Switch to light theme” in dark mode, or the moon and “Switch to dark theme” in light mode, directly from the restored boundary attribute. The inactive variant is hidden from both the page and accessibility tree. Icon and accessible name therefore remain correct before and through hydration, without a separate JavaScript initialization step.
 
 ### Attribution
 

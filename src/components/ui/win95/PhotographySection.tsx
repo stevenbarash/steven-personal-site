@@ -113,8 +113,8 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
               <p><strong>Title:</strong> {selectedPhoto.title}</p>
               <p><strong>Album:</strong> {selectedPhoto.album}</p>
               <p><strong>Taken:</strong> {selectedPhoto.takenAt}</p>
-              <p><strong>Location:</strong> {selectedPhoto.location}</p>
-              <p><strong>Camera:</strong> {selectedPhoto.camera}</p>
+              {selectedPhoto.location !== 'Unknown' && <p><strong>Location:</strong> {selectedPhoto.location}</p>}
+              {selectedPhoto.camera && <p><strong>Camera:</strong> {selectedPhoto.camera}</p>}
               <p><strong>Resolution:</strong> {selectedPhoto.width}x{selectedPhoto.height}</p>
             </div>
           </div>
