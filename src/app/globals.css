@@ -143,6 +143,8 @@ body {
 
 /* Window outer frame - slightly different from regular raised */
 .win95-window-frame {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 56rem;
   margin-inline: auto;
@@ -487,21 +489,15 @@ body {
 }
 
 .win95-desktop-shortcuts {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .win95-desktop-shortcuts {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    z-index: 0;
-    display: flex;
-    width: 80px;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 0;
+  display: flex;
+  width: 80px;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 .win95-desktop-icon {
@@ -1376,6 +1372,22 @@ a,
     overflow: visible;
   }
 
+  .win95-photo-albums-panel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .win95-photo-albums-panel h2 {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .win95-photo-albums {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   .win95-photo-control {
     min-height: 44px;
   }
@@ -1409,6 +1421,16 @@ a,
 
   .win95-group-box {
     padding-inline: 6px;
+  }
+
+  /* A linked legend is a 44px touch target; straddling the border would
+     paint over the first content line, so it becomes a static header. */
+  .win95-group-box-label:has(a) {
+    position: static;
+    display: block;
+    padding: 0;
+    margin-bottom: 2px;
+    background: transparent;
   }
 
   .win95-start-menu {
@@ -1576,14 +1598,25 @@ a,
   }
 
   .win95-project-file-row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 5px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 8px;
   }
 
-  .win95-project-file-row > .win95-status-section,
-  .win95-project-file-row > .win95-metadata {
+  .win95-project-file-row > .win95-raster-icon,
+  .win95-project-file-row > .win95-project-file-copy {
+    grid-column: 1 / -1;
+  }
+
+  .win95-project-file-row > .win95-status-section {
     grid-column: 1;
+    justify-self: start;
     margin-left: 40px;
+  }
+
+  .win95-project-file-row > .win95-metadata:not(.win95-status-section) {
+    grid-column: 2;
+    justify-self: start;
+    align-self: center;
   }
 
   .win95-project-readme-section h2 {

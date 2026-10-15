@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { publishedProjects } from '../../src/content/projects';
+import { resumeData } from '../../src/data/resume';
 
 test('mobile Safari opts into safe areas and keeps the taskbar available', async ({ page }) => {
   await page.goto('/desktop');
@@ -129,4 +130,83 @@ test('small phones keep primary actions tappable and navigation clear of Start',
   expect(desktopFace).not.toBeNull();
   expect(face!.x).toBeCloseTo(desktopFace!.x, 1);
   expect(face!.y).toBeCloseTo(desktopFace!.y, 1);
+});
+
+test('closing the window on a phone reveals tappable desktop shortcuts', async ({ page }) => {
+  await page.goto('/desktop');
+  const coveredByWindow = await page.evaluate(() => {
+    const shortcut = document.querySelector('.win95-desktop-shortcuts button');
+    if (!shortcut) return false;
+    const rect = shortcut.getBoundingClientRect();
+    const hit = document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    return Boolean(hit?.closest('.win95-window'));
+  });
+  expect(coveredByWindow).toBe(true);
+
+  await page.getByRole('button', { name: 'Close window' }).tap();
+
+  const shortcut = page.locator('.win95-desktop-shortcuts').getByRole('button', { name: 'Open Resume' });
+  await expect(shortcut).toBeVisible();
+  const box = await shortcut.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box!.width).toBeGreaterThanOrEqual(44);
+  expect(box!.height).toBeGreaterThanOrEqual(44);
+
+  await shortcut.tap();
+  await expect(page).toHaveURL(/app=resume/);
+});
+
+test('resume company label does not cover the first role title', async ({ page }) => {
+  await page.goto('/desktop?app=resume');
+  const firstJob = resumeData.experience[0];
+  await expect(page.getByRole('link', { name: firstJob.company, exact: true })).toBeVisible();
+
+  const overlap = await page.evaluate(({ company, title }) => {
+    const link = [...document.querySelectorAll('a')].find((a) => a.textContent.trim() === company);
+    const role = [...document.querySelectorAll('span')].find((s) => s.textContent.trim() === title);
+    if (!link || !role) return -1;
+    const a = link.getBoundingClientRect();
+    const b = role.getBoundingClientRect();
+    const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+    const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+    return Math.max(0, w) * Math.max(0, h);
+  }, { company: firstJob.company, title: firstJob.roles[0].title });
+
+  expect(overlap).toBe(0);
+});
+
+test('project explorer rows keep status and type on one metadata line', async ({ page }) => {
+  await page.goto('/desktop?app=projects');
+  await expect(page.locator('.win95-project-file-row').first()).toBeVisible();
+
+  const row = await page.locator('.win95-project-file-row').first().evaluate((node) => {
+    const status = node.querySelector('.win95-status-section')?.getBoundingClientRect();
+    const type = node.querySelector(':scope > .win95-metadata:not(.win95-status-section)')?.getBoundingClientRect();
+    if (!status || !type) return null;
+    return { statusWidth: status.width, topDelta: Math.abs(status.top - type.top) };
+  });
+
+  expect(row).not.toBeNull();
+  expect(row!.statusWidth).toBeLessThanOrEqual(140);
+  expect(row!.topDelta).toBeLessThanOrEqual(4);
+});
+
+test('photography puts compact albums and selected photo details before the grid', async ({ page }) => {
+  await page.goto('/desktop?app=photos');
+
+  await expect(page.getByText('Photo Details', { exact: true })).toBeVisible();
+
+  const layout = await page.evaluate(() => {
+    const albums = document.querySelector('aside')?.getBoundingClientRect();
+    const detailLabel = [...document.querySelectorAll('.win95-group-box-label')]
+      .find((el) => el.textContent.includes('Photo Details'));
+    const detail = detailLabel?.closest('.win95-group-box')?.getBoundingClientRect();
+    const grid = document.querySelector('.win95-photo-grid')?.getBoundingClientRect();
+    if (!albums || !detail || !grid) return null;
+    return { albumsHeight: albums.height, detailTop: detail.top + window.scrollY, gridTop: grid.top + window.scrollY };
+  });
+
+  expect(layout).not.toBeNull();
+  expect(layout!.albumsHeight).toBeLessThanOrEqual(72);
+  expect(layout!.detailTop).toBeLessThan(layout!.gridTop);
 });

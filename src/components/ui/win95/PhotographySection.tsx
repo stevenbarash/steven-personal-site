@@ -37,7 +37,7 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
       <p className="win95-reading-copy mb-[6px]">{photographyContent.introduction}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-[6px]">
-        <aside className="win95-well p-[4px]">
+        <aside className="win95-well win95-photo-albums-panel p-[4px]">
           <h2 className="win95-reading-copy font-bold mb-[4px]">Albums</h2>
           <div className="win95-photo-albums flex flex-col gap-[2px]">
             {albums.map((album) => {
@@ -64,7 +64,27 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
           </div>
         </aside>
 
-        <div className="win95-well p-[4px]">
+        {selectedPhoto && (
+          <div className="win95-group-box order-2 md:order-3 md:col-span-2">
+            <span className="win95-group-box-label">Photo Details</span>
+            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,220px)_1fr] gap-[8px]">
+              <div className="win95-well p-[2px]">
+                <img src={selectedPhoto.src} alt={selectedPhoto.alt} className="w-full h-auto max-h-[320px] object-contain" />
+              </div>
+
+              <div className="win95-reading-copy space-y-[2px]">
+                <p><strong>Title:</strong> {selectedPhoto.title}</p>
+                <p><strong>Album:</strong> {selectedPhoto.album}</p>
+                <p><strong>Taken:</strong> {selectedPhoto.takenAt}</p>
+                {selectedPhoto.location !== 'Unknown' && <p><strong>Location:</strong> {selectedPhoto.location}</p>}
+                {selectedPhoto.camera && <p><strong>Camera:</strong> {selectedPhoto.camera}</p>}
+                <p><strong>Resolution:</strong> {selectedPhoto.width}x{selectedPhoto.height}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="win95-well order-3 md:order-2 p-[4px]">
           {filteredPhotos.length === 0 && (
             <div className="p-[8px] text-[11px]">
               No photos in this album yet. Add files under <code>/public/images/photos</code> and update <code>src/data/photos.ts</code>.
@@ -101,25 +121,6 @@ export const PhotographySection: React.FC<PhotographySectionProps> = ({ photos }
         </div>
       </div>
 
-      {selectedPhoto && (
-        <div className="win95-group-box mt-[8px]">
-          <span className="win95-group-box-label">Photo Details</span>
-          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,220px)_1fr] gap-[8px]">
-            <div className="win95-well p-[2px]">
-              <img src={selectedPhoto.src} alt={selectedPhoto.alt} className="w-full h-auto object-cover" />
-            </div>
-
-            <div className="win95-reading-copy space-y-[2px]">
-              <p><strong>Title:</strong> {selectedPhoto.title}</p>
-              <p><strong>Album:</strong> {selectedPhoto.album}</p>
-              <p><strong>Taken:</strong> {selectedPhoto.takenAt}</p>
-              {selectedPhoto.location !== 'Unknown' && <p><strong>Location:</strong> {selectedPhoto.location}</p>}
-              {selectedPhoto.camera && <p><strong>Camera:</strong> {selectedPhoto.camera}</p>}
-              <p><strong>Resolution:</strong> {selectedPhoto.width}x{selectedPhoto.height}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };
