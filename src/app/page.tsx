@@ -53,7 +53,7 @@ export default function Home() {
 
         <Row as="section" className={styles.about} gap="48" s={{ direction: 'column' }} aria-labelledby="background-heading">
           <Column flex={1} gap="20">
-            <Heading as="h2" id="background-heading" variant="display-strong-xs">Identity &amp; developer platforms</Heading>
+            <Heading as="h2" id="background-heading" variant="display-strong-xs" wrap="pretty">Identity &amp; developer platforms</Heading>
             <Text as="p" onBackground="neutral-weak">{profileContent.background}</Text>
             <Text as="p" onBackground="neutral-weak">{profileContent.protocols}</Text>
           </Column>

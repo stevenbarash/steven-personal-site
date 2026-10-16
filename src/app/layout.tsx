@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from 'next';
-import { Geist } from 'next/font/google';
+import { IBM_Plex_Sans } from 'next/font/google';
 import { siteConfig } from '@/constants/site';
 import { profileContent } from '@/content/profile';
 import "./globals.css";
@@ -9,8 +9,9 @@ import "@once-ui-system/core/css/tokens.css";
 import "./portfolio.scss";
 import type { ReactNode } from "react";
 
-const portfolioFont = Geist({
+const portfolioFont = IBM_Plex_Sans({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-portfolio',
 });
 

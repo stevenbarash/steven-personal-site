@@ -21,7 +21,7 @@ typography:
     fontSize: "clamp(42px, 5.6vw, 68px)"
     fontWeight: 600
     lineHeight: 1.08
-    letterSpacing: "-0.035em"
+    letterSpacing: "-0.025em"
   introduction:
     fontFamily: "var(--font-portfolio), sans-serif"
     fontSize: "clamp(20px, 2.5vw, 26px)"
@@ -32,7 +32,7 @@ typography:
     fontSize: "30px"
     fontWeight: 600
     lineHeight: 1.2
-    letterSpacing: "-0.025em"
+    letterSpacing: "-0.015em"
   body:
     fontFamily: "var(--font-portfolio), sans-serif"
     fontSize: "16px"
@@ -88,7 +88,7 @@ The public site adapts Once UI's Magic Portfolio, selected by Steven to replace 
 
 **Key Characteristics:**
 
-- Self-hosted Geist and a clear display-to-body hierarchy.
+- Self-hosted IBM Plex Sans and a clear display-to-body hierarchy.
 - Dark by default, with a persistent light-theme control.
 - Cyan for links, focus, and atmosphere.
 - Rounded photographs and selective surfaces, balanced with bare reading sections.
@@ -113,7 +113,7 @@ The web manifest and generated share image follow the default dark palette. Wind
 
 ## Typography
 
-Public headings, body, labels, and navigation use Geist from `next/font/google` through `--font-portfolio`. The portfolio boundary assigns that face to Once UI's heading, body, and label variables. Desktop system type remains independent.
+Public headings, body, labels, and navigation use IBM Plex Sans from `next/font/google` through `--font-portfolio`. The portfolio boundary assigns that face to Once UI's heading, body, and label variables. Hierarchy comes from size and weight within the single family; tracking tightens with size (-0.025em display, -0.015em section). The homepage headline is capped at 760px so it holds one line in Plex's wider metrics, and "Identity & developer platforms" sets `wrap="pretty"` because Once UI's default balance splits it after the ampersand. Only the latin subset loads; the two Cyrillic strings in body copy and a photo caption fall back to the system sans, as they did under Geist. Desktop system type remains independent.
 
 The homepage uses the frontmatter display and introduction scales. Background and personal sections use 16px reading copy. Document headings and body use Once UI primitives with route-local responsive scales. Reading measures generally stay within 65–75 characters.
 
