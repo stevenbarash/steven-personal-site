@@ -68,9 +68,16 @@ test.describe('Phase 2 mobile reading and shell adaptation', () => {
       expect(scrollOwners.ownerIsBody).toBe(true);
       expect(scrollOwners.count).toBeLessThanOrEqual(1);
 
-      const lastFocusable = page.locator('.win95-app-body a:visible, .win95-app-body button:visible').last();
-      await lastFocusable.scrollIntoViewIfNeeded();
-      await lastFocusable.focus();
+      // WebKit (Playwright 1.64) never reports this element "stable" under
+      // parallel load, so scroll/focus in-page instead of the actionability-gated API.
+      await page.evaluate(() => {
+        const focusables = [...document.querySelectorAll<HTMLElement>('.win95-app-body a, .win95-app-body button')]
+          .filter((element) => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden');
+        const last = focusables.at(-1);
+        if (!last) throw new Error('focusable missing');
+        last.scrollIntoView({ block: 'nearest' });
+        last.focus({ preventScroll: true });
+      });
       const clearance = await page.evaluate(() => {
         const focused = document.activeElement as HTMLElement;
         const taskbar = document.querySelector<HTMLElement>('.win95-taskbar');
