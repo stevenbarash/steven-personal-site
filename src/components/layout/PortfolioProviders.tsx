@@ -1,10 +1,10 @@
 'use client';
 
-import { IconButton, LayoutProvider } from '@once-ui-system/core';
+import { Icon, IconButton, LayoutProvider } from '@once-ui-system/core';
 import { createContext, useContext, useSyncExternalStore, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light';
-const ThemeContext = createContext<{ theme: Theme; toggle: () => void } | null>(null);
+const ThemeContext = createContext<{ toggle: () => void } | null>(null);
 const storageKey = 'portfolio-theme';
 let inMemoryTheme: Theme = 'dark';
 
@@ -56,7 +56,7 @@ export function PortfolioProviders({ children }: { children: ReactNode }) {
 
   return (
     <LayoutProvider>
-      <ThemeContext.Provider value={{ theme, toggle }}>
+      <ThemeContext.Provider value={{ toggle }}>
         <div
           className="portfolio-site"
           data-theme={theme}
@@ -84,11 +84,20 @@ export function PortfolioThemeToggle() {
   if (!context) throw new Error('PortfolioThemeToggle requires PortfolioProviders');
   return (
     <IconButton
-      icon={context.theme === 'dark' ? 'light' : 'dark'}
+      // Let the visible child label name the button, not IconButton's fallback.
+      aria-label={undefined}
       variant="ghost"
       className="portfolio-theme-toggle"
-      aria-label={`Switch to ${context.theme === 'dark' ? 'light' : 'dark'} theme`}
       onClick={context.toggle}
-    />
+    >
+      <span className="portfolio-theme-sun">
+        <Icon name="light" size="s" />
+        <span className="portfolio-theme-label">Switch to light theme</span>
+      </span>
+      <span className="portfolio-theme-moon">
+        <Icon name="dark" size="s" />
+        <span className="portfolio-theme-label">Switch to dark theme</span>
+      </span>
+    </IconButton>
   );
 }

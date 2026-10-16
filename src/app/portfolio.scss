@@ -100,6 +100,21 @@
   min-width: 44px;
   min-height: 44px;
 }
+// Both glyphs and labels are server-rendered; the pre-paint theme selects one.
+.portfolio-site :is(.portfolio-theme-sun, .portfolio-theme-moon) { display: none; }
+.portfolio-site[data-theme="dark"] .portfolio-theme-sun,
+.portfolio-site[data-theme="light"] .portfolio-theme-moon { display: inline-flex; }
+.portfolio-theme-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 .portfolio-nav-mobile-label { display: none; }
 .portfolio-mobile-theme { display: none; }
 .portfolio-nav-divider {
