@@ -295,6 +295,7 @@ test('coarse-pointer expanded edges activate their adjacent title, menu, and tab
   await expect(page.getByRole('button', { name: 'Minimize window' })).not.toBeVisible();
 
   await page.goto('/desktop?app=projects');
+  await expect(page.getByRole('region', { name: 'Project Explorer', exact: true })).toBeVisible();
   const fileTrigger = page.getByRole('menubar').getByRole('menuitem', { name: 'File' });
   const fileRegion = await expandedHitRegion(fileTrigger);
   await page.mouse.click(fileRegion.x + 2, fileRegion.y + fileRegion.height / 2);

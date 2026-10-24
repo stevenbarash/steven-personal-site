@@ -26,7 +26,11 @@
   color-scheme: dark;
 }
 
-.portfolio-site[data-theme="light"] { color-scheme: light; }
+.portfolio-site[data-theme="light"] {
+  color-scheme: light;
+  // The weak gray only passes on pure white, not the cyan ambient surface.
+  --neutral-on-background-weak: var(--neutral-on-background-medium);
+}
 
 .portfolio-site *,
 .portfolio-site *::before,
@@ -132,8 +136,6 @@
   padding: 48px 24px 104px;
 }
 .portfolio-main:focus { outline: none; }
-/* Once UI marks active Media enlargement with its zoom-out cursor class. */
-.portfolio-main:has([data-photo-gallery] .cursor-zoom-out) { z-index: 20; }
 .portfolio-shell { width: 100%; }
 .portfolio-start-link {
   position: fixed;
@@ -170,7 +172,6 @@
   outline: 1px dotted var(--win95-text);
   outline-offset: -4px;
 }
-.portfolio-main:has([data-photo-gallery] .cursor-zoom-out) ~ .portfolio-start-link { visibility: hidden; }
 .portfolio-footer {
   width: min(100% - 48px, 960px);
   margin-inline: auto;

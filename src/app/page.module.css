@@ -11,7 +11,17 @@
   letter-spacing: -0.025em;
 }
 :global(.portfolio-site) .home .introduction { font-size: clamp(20px, 2.5vw, 26px); font-weight: 400; line-height: 1.4; letter-spacing: -0.01em; }
-.portrait { background: white; }
+.home p { text-wrap: pretty; }
+:global(.portfolio-site) .home .hero p:not(.introduction) { line-height: 1.5; }
+.portrait {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border: 1px solid var(--neutral-border-strong);
+  border-radius: 50%;
+  background: var(--page-background);
+}
 .home .socials a { min-width: 48px; height: 48px; padding: 0; }
 .home .socials a:focus-visible { outline: 2px solid var(--brand-on-background-strong); outline-offset: 4px; }
 .socials svg { flex-shrink: 0; }

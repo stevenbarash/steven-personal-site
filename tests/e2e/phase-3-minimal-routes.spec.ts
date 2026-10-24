@@ -108,7 +108,8 @@ test('photography renders every verified local photo with dimensions, honest alt
     await expect(image).toHaveAttribute('width', String(photo.width));
     await expect(image).toHaveAttribute('height', String(photo.height));
     if (index === 0) {
-      await expect(image).not.toHaveAttribute('loading');
+      await expect(image).toHaveAttribute('loading', 'eager');
+      await expect(image).toHaveAttribute('fetchpriority', 'high');
     } else {
       await expect(image).toHaveAttribute('loading', 'lazy');
     }
@@ -120,47 +121,106 @@ test('photography renders every verified local photo with dimensions, honest alt
 
   await expect(page.getByText('Unknown', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Instagram', exact: true })).toHaveAttribute('href', siteConfig.instagramUrl);
-  const preload = page.locator('head link[rel="preload"][as="image"]');
-  await expect(preload).toHaveCount(1);
-  const firstFeaturedImage = figures.first().locator('img');
-  await expect(preload).toHaveAttribute('imagesrcset', await firstFeaturedImage.getAttribute('srcset') as string);
-  await expect(preload).toHaveAttribute('imagesizes', await firstFeaturedImage.getAttribute('sizes') as string);
-  expect(await preload.getAttribute('imagesrcset')).toContain(encodeURIComponent(featuredPhotos[0].src));
 
 });
-test('photographs support keyboard enlargement and Escape dismissal without losing focus', async ({ page }) => {
-  await page.goto('/photos');
-  await page.evaluate(async () => { await document.fonts.ready; });
-  const photo = page.getByRole('region', { name: 'Photographs' }).getByRole('button').first();
-  const image = photo.getByRole('img');
-  await photo.focus();
-  await expect(photo).toBeFocused();
-  expect(await photo.evaluate((node) => getComputedStyle(node).outlineStyle)).not.toBe('none');
-  const resting = await image.boundingBox();
-  expect(resting).not.toBeNull();
+for (const { width, theme } of [{ width: 320, theme: 'dark' }, { width: 1440, theme: 'light' }]) {
+  test(`photo modal contains keyboard focus and preserves the gallery at ${width}px in ${theme} mode`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.addInitScript((value) => localStorage.setItem('portfolio-theme', value), theme);
+    await page.goto('/photos');
+    await page.evaluate(async () => { await document.fonts.ready; });
+    const gallery = page.getByRole('region', { name: 'Photographs' });
+    const trigger = gallery.getByRole('button').first();
+    const nextTrigger = page.getByRole('button', {
+      name: `Enlarge ${[...featuredPhotos, ...archivePhotos][1].title}`,
+      exact: true,
+      includeHidden: true,
+    });
+    const thumbnail = trigger.getByRole('img');
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.focus();
+    expect(await trigger.evaluate((node) => getComputedStyle(node).outlineStyle)).not.toBe('none');
+    const resting = await thumbnail.boundingBox();
+    expect(resting).not.toBeNull();
+    expect(resting!.width / resting!.height).toBeCloseTo(featuredPhotos[0].width / featuredPhotos[0].height, 2);
+    const scrollY = await page.evaluate(() => window.scrollY);
+    const surfaceColor = await page.locator('.portfolio-site').evaluate((node) => getComputedStyle(node).backgroundColor);
 
-  const distanceFromViewportCenter = async () => {
-    const box = await image.boundingBox();
-    const viewport = page.viewportSize();
-    if (!box || !viewport) throw new Error('The photograph and viewport must be visible.');
-    return Math.hypot(box.x + box.width / 2 - viewport.width / 2, box.y + box.height / 2 - viewport.height / 2);
-  };
+    await page.keyboard.press('Enter');
+    const dialog = page.getByRole('dialog', { name: featuredPhotos[0].title, exact: true });
+    const close = dialog.getByRole('button', { name: 'Close enlarged photograph' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole('img', { name: featuredPhotos[0].alt, exact: true })).toBeVisible();
+    await expect(close).toBeFocused();
+    expect(await dialog.evaluate((node) => getComputedStyle(node).backgroundColor)).toBe(surfaceColor);
+    const closeBox = await close.boundingBox();
+    expect(closeBox!.width).toBeGreaterThanOrEqual(44);
+    expect(closeBox!.height).toBeGreaterThanOrEqual(44);
+    const enlarged = await dialog.getByRole('img').boundingBox();
+    expect(enlarged).not.toBeNull();
+    expect(enlarged!.x).toBeGreaterThanOrEqual(0);
+    expect(enlarged!.y).toBeGreaterThanOrEqual(0);
+    expect(enlarged!.x + enlarged!.width).toBeLessThanOrEqual(width);
+    expect(enlarged!.y + enlarged!.height).toBeLessThanOrEqual(900);
+    expect(await dialog.getByRole('img').evaluate((node) => {
+      const box = node.getBoundingClientRect();
+      return document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2) === node;
+    })).toBe(true);
 
-  await photo.press('Enter');
-  await expect.poll(distanceFromViewportCenter).toBeLessThan(1);
-  await expect.poll(() => image.evaluate((node) => {
-    const box = node.getBoundingClientRect();
-    return document.elementFromPoint(box.x + box.width / 2, box.y + 4) === node;
-  })).toBe(true);
-  await photo.press('Escape');
-  await expect.poll(() => image.boundingBox()).toEqual(resting);
-  await expect(photo).toBeFocused();
+    for (const key of ['Tab', 'Tab', 'Shift+Tab']) {
+      await page.keyboard.press(key);
+      await expect(close).toBeFocused();
+    }
+    await nextTrigger.evaluate((node) => node.focus());
+    await expect(close).toBeFocused();
+    await page.keyboard.press('PageDown');
+    await page.mouse.wheel(0, 600);
+    await page.evaluate(() => {
+      const { promise, resolve } = Promise.withResolvers<void>();
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      return promise;
+    });
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollY);
+    expect(await dialog.getByRole('img').boundingBox()).toEqual(enlarged);
 
-  await photo.press('Space');
-  await expect.poll(distanceFromViewportCenter).toBeLessThan(1);
-  await photo.press('Space');
-  await expect.poll(() => image.boundingBox()).toEqual(resting);
-  await expect(photo).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    expect(await thumbnail.boundingBox()).toEqual(resting);
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollY);
+
+    await page.keyboard.press('Space');
+    await expect(dialog).toBeVisible();
+    await close.click();
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await trigger.click();
+    await expect(dialog).toBeVisible();
+    await page.mouse.click(1, 1);
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollY);
+  });
+}
+
+test.describe('touch photo enlargement', () => {
+  test.use({ hasTouch: true, viewport: { width: 320, height: 740 } });
+
+  test('opens by touch and dismisses with the close target or backdrop', async ({ page }) => {
+    await page.goto('/photos');
+    const trigger = page.getByRole('region', { name: 'Photographs' }).getByRole('button').first();
+    const dialog = page.getByRole('dialog', { name: featuredPhotos[0].title, exact: true });
+    await trigger.tap();
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Close enlarged photograph' }).tap();
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await trigger.tap();
+    await expect(dialog).toBeVisible();
+    await page.touchscreen.tap(1, 1);
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
 });
 
 

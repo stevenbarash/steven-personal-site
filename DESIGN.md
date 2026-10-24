@@ -9,7 +9,7 @@ colors:
   dark-border: "oklch(0.1957 0 0)"
   light-page: "#ffffff"
   light-ink: "oklch(0.1448 0 0)"
-  light-support: "oklch(0.5624 0 0)"
+  light-support: "oklch(0.4640 0 0)"
   light-border: "oklch(0.9461 0 0)"
   cyan-wash: "oklch(0.6640 0.1467 238.08 / 0.15)"
   desktop-teal: "#008080"
@@ -70,10 +70,6 @@ components:
     backgroundColor: "{colors.dark-page}"
     rounded: "{rounded.navigation}"
     height: "{spacing.touch-target}"
-  featured-work:
-    backgroundColor: "{colors.cyan-wash}"
-    rounded: "{rounded.surface}"
-    padding: "32px"
   photography:
     rounded: "{rounded.surface}"
 ---
@@ -103,7 +99,7 @@ Once UI's gray neutral and cyan brand schemes supply the palette. The frontmatte
 
 ### Primary
 
-Cyan links and focus come from `--brand-on-background-medium` and `--brand-on-background-strong`. The subtle atmosphere and featured-work surface use brand alpha tokens. Body text on a tinted surface uses the stronger neutral medium token; weak text on the light cyan wash does not meet body contrast requirements.
+Cyan links and focus come from `--brand-on-background-medium` and `--brand-on-background-strong`. The subtle atmosphere uses brand alpha tokens. Light-theme supporting copy rebinds `--neutral-on-background-weak` to the stronger neutral medium token so it stays readable over the cyan atmosphere, not just pure white.
 
 ### Neutral
 
@@ -121,7 +117,9 @@ The homepage uses the frontmatter display and introduction scales. Background an
 
 The shared main is capped at 1008px including 24px horizontal padding, leaving 960px of content. The homepage is capped at 800px. Mobile gutters are 16px. Homepage sections are separated by 104px on desktop and 64px on small screens.
 
-The homepage hero has three groups: portrait/greeting/introduction, career context with a centered social strip below it, and the experience/contact actions. Desktop identity elements use 16px gaps and the three groups use 32px gaps; small screens use 12px and 20px respectively. The portrait, heading, introduction, career paragraphs, social strip, and action group share one centerline. Mobile headings scale from 32px with a 1.08 line height, and introductory copy uses 18px. Below 375px, primary actions stack at full width; wider phones use a balanced two-button row. Social icons are paired with an 8px gap, 12px below the career paragraphs. Longer background copy follows below the hero.
+The homepage hero has three groups: profile photograph/greeting/introduction, career context with a centered social strip below it, and the experience/contact actions. Desktop identity elements use 16px gaps and the three groups use 32px gaps; small screens use 8px and 12px respectively. The portrait, heading, introduction, career paragraphs, social strip, and action group share one centerline. Mobile headings scale from 32px with a 1.08 line height, and introductory copy uses 18px. Below 375px, primary actions stack at full width; wider phones use a balanced two-button row. Social icons use an 8px gap. Longer background copy follows below the hero.
+
+Secondary career copy uses 14px type with 1.5 line height. Homepage paragraphs use pretty wrapping where supported, without changing their factual copy.
 
 The homepage moves directly from the hero to technical background. The Descope presales lead paragraph and all three work-example rows were removed at Steven's request; career details remain on the résumé.
 
@@ -143,7 +141,7 @@ The homepage introduction animates once over 650ms with a small upward settle an
 
 ## Shapes
 
-Photography and the email close use 16px corners. Navigation and rounded primary actions use pill geometry; the illustrated portrait is circular. Contact service icons are unframed, with rounded hover targets instead of bordered rows. Desktop chrome keeps its authentic square beveled grammar.
+Photography, contact service links, and the email close use 16px corners. Navigation and rounded primary actions use pill geometry; the profile photograph is circular. Contact destinations pair brand glyphs with service names and descriptions in bordered rows. Desktop chrome keeps its authentic square beveled grammar.
 
 The favicon is a white, rounded-stroke S on a near-black rounded square, designed to remain legible at 16px. `src/app/icon.svg` is the vector source; `favicon.ico` includes 16px, 32px, 48px, and 256px variants. The matching 180px Apple touch icon uses an opaque background, and the web manifest references the vector S instead of the larger SB artwork.
 
@@ -157,15 +155,19 @@ Once UI `ToggleButton` links identify Home, Experience, Photography, and Contact
 
 Once UI `Button` owns primary, secondary, and tertiary actions; `SmartLink` owns text links. High-contrast primary actions invert by theme. Public controls receive a visible two-pixel theme-aware focus outline with four-pixel offset. Contact email remains a real mailto destination.
 
-X and GitHub profile links form a compact centered row beneath the career details in the homepage hero. Each has an unframed 24px glyph inside a 48px square target, an accessible label announcing its new-tab behavior, and the canonical URL from `siteConfig`. Their inline brand glyphs come from [Simple Icons](https://github.com/simple-icons/simple-icons), licensed under [CC0](https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md); no additional icon package or remote image request is needed.
+LinkedIn, GitHub, and X profile links form a compact centered row beneath the career details in the homepage hero. Each has an unframed 24px glyph inside a 48px square target, an accessible label announcing its new-tab behavior, and the canonical URL from `siteConfig`. Their inline brand glyphs come from [Simple Icons](https://github.com/simple-icons/simple-icons), licensed under [CC0](https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md); no additional icon package or remote image request is needed.
 
-The contact page keeps its email action prominent and places LinkedIn, GitHub, Instagram, and X in a compact horizontal icon row beneath it, replacing the oversized descriptive link cards. Each service uses a 24px brand glyph in a 48px touch target, a native hover label, and an accessible name announcing its new-tab behavior. `SocialIcon` shares the Simple Icons glyphs with the homepage; canonical destinations remain in the contact catalog. The row wraps if necessary, with 12px gaps, theme-aware hover/pressed states, and visible keyboard focus.
+The contact page keeps its email action prominent and places LinkedIn, GitHub, Instagram, and X in descriptive bordered links beneath it. Each service pairs a brand glyph with its visible name and supporting description, plus an accessible name announcing its new-tab behavior. `SocialIcon` shares the Simple Icons glyphs with the homepage; canonical destinations remain in the contact catalog. Links have a 64px minimum height, 16px corners, theme-aware hover/pressed states, and visible keyboard focus. The two-column grid becomes one column at 640px.
 
-The shared Start shortcut is an intentional, isolated exception to the public control style: the existing Windows 95 flag, square silver `win95-button` bevel, bold 11px system type, and a 23px face inside a 44px minimum touch target. It stays fixed at the bottom-left on every public page, including not-found pages, outside the animated hero. Its visible face matches the desktop Start button exactly: 2px from the left and 4.5px from the bottom with zero safe-area insets, using the desktop's max(2px, safe-area inset) padding and 23px face centered within a 28px row. Mobile navigation sits alongside it in the same bottom bar, with separate touch targets. It depresses while pressed and links to `/desktop` without prefetching the separate desktop experience. Enlarged photographs temporarily hide the shortcut and cover the navigation bar. `/desktop` retains its own real Start menu without a duplicate public control.
+The shared Start shortcut is an intentional, isolated exception to the public control style: the existing Windows 95 flag, square silver `win95-button` bevel, bold 11px system type, and a 23px face inside a 44px minimum touch target. It stays fixed at the bottom-left on every public page, including not-found pages, outside the animated hero. Its visible face matches the desktop Start button exactly: 2px from the left and 4.5px from the bottom with zero safe-area insets, using the desktop's max(2px, safe-area inset) padding and 23px face centered within a 28px row. Mobile navigation sits alongside it in the same bottom bar, with separate touch targets. It depresses while pressed and links to `/desktop` without prefetching the separate desktop experience. The native photography dialog sits in the browser's top layer, covering and making Start and navigation inert until dismissed. `/desktop` retains its own real Start menu without a duplicate public control.
 
 ### Photography
 
-Once UI `Media` provides in-place image enlargement within the masonry gallery. `PhotoMedia` adapts it to `next/image` with real catalog dimensions, optimized responsive sources, and Next 16 preload for the first photograph; remaining photos are lazy loaded. Enter and Space toggle enlargement, Escape or a backdrop click dismisses it, and focus remains on the photograph. While a photo is enlarged, the public main layer moves above navigation so neither the header nor mobile dock obscures the image. Visual review must scroll through and decode the complete gallery before taking full-page evidence.
+`PhotoMedia` renders native button thumbnails and a named native modal dialog within the public theme boundary. `next/image` preserves catalog dimensions, original proportions, and responsive optimized sources. The first thumbnail loads eagerly with high fetch priority; remaining thumbnails are lazy. Click, touch, Enter, or Space opens the dialog. Escape, the 44px close control, or a backdrop click dismisses it. Focus stays on the close control while open and returns to the originating thumbnail without scrolling when dismissed. Background content is inert and page scrolling is locked until close. The modal uses theme-aware surfaces and foregrounds and sits above all navigation without shared z-index workarounds. Visual review must scroll through and decode the complete gallery before taking full-page evidence.
+
+The homepage portrait uses a 72px `next/image` with a 72px responsive size hint, eager loading, circular crop, and theme-aware border. The original shared photograph remains at `public/images/profile-photo.png`; it is not downloaded at full resolution for the homepage avatar.
+
+The Windows 95 title handle uses captured Pointer Events for mouse, touch, and pen on floating layouts. Only the draggable handle suppresses native touch gestures. Pointer release, cancellation, lost capture, blur, viewport changes, and maximize stop dragging. Controls retain their own hit areas, and phone windows stay pinned.
 
 ### Theme Boundary
 
@@ -177,7 +179,7 @@ The theme toggle server-renders both Once UI glyphs and their visually hidden ac
 
 ### Attribution
 
-The footer uses a small, muted, underlined 12px Credits link beside Steven's name, with a 44px touch target. `/credits` identifies the adaptation of Magic Portfolio by Once UI and links its source and CC BY-NC 4.0 license. Keep that attribution publicly accessible while using the free template license. The footer also preserves a plain link to the separate desktop.
+The footer uses a small, muted, underlined 12px Credits link beside Steven's name, with a 44px touch target. `/credits` identifies the adaptation of Magic Portfolio by Once UI and links its source and CC BY-NC 4.0 license. Keep that attribution publicly accessible while using the free template license. Start remains the shared entry to the separate desktop.
 
 ## Do's and Don'ts
 
@@ -186,8 +188,8 @@ The footer uses a small, muted, underlined 12px Credits link beside Steven's nam
 - **Do** use Once UI primitives and semantic theme variables for public components.
 - **Do** preserve factual content, deep links, metadata, and the full photography library.
 - **Do** maintain readable contrast in both themes, including tinted surfaces.
-- **Do** keep photography on `/photos` and the illustrated portrait on the homepage.
-- **Do** keep X and GitHub profile links prominent in the homepage hero, with accessible icon-only controls.
+- **Do** keep the photography library on `/photos`; the small shared profile photograph is the homepage's only photographic asset.
+- **Do** keep LinkedIn, GitHub, and X profile links prominent in the homepage hero, with accessible icon-only controls.
 - **Do** keep the Windows 95 desktop functional and stylistically isolated.
 
 ### Don't:

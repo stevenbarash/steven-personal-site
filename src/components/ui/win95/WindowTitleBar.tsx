@@ -7,7 +7,9 @@ interface WindowTitleBarProps {
   onClose?: () => void;
   isMaximized?: boolean;
   showMaximize?: boolean;
-  onTitleBarDragStart?: (e: React.MouseEvent) => void;
+  onTitleBarPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
+  onTitleBarPointerMove?: (e: React.PointerEvent<HTMLDivElement>) => void;
+  onTitleBarPointerEnd?: (e: React.PointerEvent<HTMLDivElement>) => void;
 }
 
 export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
@@ -17,13 +19,24 @@ export const WindowTitleBar: React.FC<WindowTitleBarProps> = ({
   onClose,
   isMaximized = false,
   showMaximize = true,
-  onTitleBarDragStart,
+  onTitleBarPointerDown,
+  onTitleBarPointerMove,
+  onTitleBarPointerEnd,
 }) => {
   return (
     <div className="win95-title-bar" onDoubleClick={showMaximize ? onMaximize : undefined}>
       <div
-        className={`flex items-center gap-[4px] flex-1 min-w-0 ${onTitleBarDragStart ? 'cursor-move' : 'cursor-default'}`}
-        onMouseDown={onTitleBarDragStart}
+        className={`relative flex items-center gap-[4px] flex-1 min-w-0 ${onTitleBarPointerDown ? 'cursor-move' : 'cursor-default'}`}
+        style={{
+          // Coarse-pointer menu hit areas extend upward into the visible title.
+          zIndex: 'calc(var(--win95-layer-menu) + 1)',
+          touchAction: onTitleBarPointerDown ? 'none' : undefined,
+        }}
+        onPointerDown={onTitleBarPointerDown}
+        onPointerMove={onTitleBarPointerMove}
+        onPointerUp={onTitleBarPointerEnd}
+        onPointerCancel={onTitleBarPointerEnd}
+        onLostPointerCapture={onTitleBarPointerEnd}
       >
         <Win95Icon name="computer" size={16} />
         <span>{title}</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, PointerEvent, ReactNode } from 'react';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { MenuBar } from '@/components/ui/win95/MenuBar';
 import { WindowTitleBar } from '@/components/ui/win95/WindowTitleBar';
@@ -42,54 +42,83 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
 }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(INITIAL_WINDOW_POSITION);
-  const dragRef = useRef<{ startX: number; startY: number; startLeft: number; startTop: number } | null>(null);
+  const [isFloatingViewport, setIsFloatingViewport] = useState(false);
+  const dragRef = useRef<{
+    pointerId: number;
+    handle: HTMLDivElement;
+    startX: number;
+    startY: number;
+    startLeft: number;
+    startTop: number;
+    width: number;
+    height: number;
+  } | null>(null);
 
-  const canDrag = isDesktop && !isMaximized;
+  const canDrag = isDesktop && !isMaximized && isFloatingViewport;
+
+  const stopDrag = useCallback(() => {
+    const drag = dragRef.current;
+    dragRef.current = null;
+    if (drag?.handle.hasPointerCapture(drag.pointerId)) {
+      drag.handle.releasePointerCapture(drag.pointerId);
+    }
+  }, []);
+
+  useEffect(() => {
+    const viewport = window.matchMedia('(min-width: 768px)');
+    const updateViewport = () => setIsFloatingViewport(viewport.matches);
+    updateViewport();
+    viewport.addEventListener('change', updateViewport);
+    window.addEventListener('blur', stopDrag);
+    window.addEventListener('resize', stopDrag);
+    return () => {
+      viewport.removeEventListener('change', updateViewport);
+      window.removeEventListener('blur', stopDrag);
+      window.removeEventListener('resize', stopDrag);
+      stopDrag();
+    };
+  }, [stopDrag]);
+
+  useEffect(() => {
+    if (!canDrag) stopDrag();
+  }, [canDrag, stopDrag]);
 
   useEffect(() => {
     if (focusOnMount) windowRef.current?.focus();
   }, [focusOnMount]);
 
-  const handleTitleBarDragStart = useCallback(
-    (e: React.MouseEvent) => {
-      if (!canDrag || e.button !== 0) return;
+  const handleTitleBarPointerDown = useCallback(
+    (e: PointerEvent<HTMLDivElement>) => {
+      if (!canDrag || !e.isPrimary || e.button !== 0 || dragRef.current || !windowRef.current) return;
       e.preventDefault();
+      e.currentTarget.setPointerCapture(e.pointerId);
       dragRef.current = {
+        pointerId: e.pointerId,
+        handle: e.currentTarget,
         startX: e.clientX,
         startY: e.clientY,
         startLeft: position.x,
         startTop: position.y,
+        width: windowRef.current.offsetWidth,
+        height: windowRef.current.offsetHeight,
       };
     },
     [canDrag, position.x, position.y]
   );
 
-  useEffect(() => {
-    if (!canDrag) return;
+  const handleTitleBarPointerMove = useCallback((e: PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    const maxX = Math.max(0, window.innerWidth - drag.width);
+    const maxY = Math.max(0, window.innerHeight - TASKBAR_HEIGHT - drag.height);
+    const x = Math.min(maxX, Math.max(0, drag.startLeft + e.clientX - drag.startX));
+    const y = Math.min(maxY, Math.max(0, drag.startTop + e.clientY - drag.startY));
+    setPosition((current) => current.x === x && current.y === y ? current : { x, y });
+  }, []);
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!dragRef.current || !windowRef.current) return;
-      const { startX, startY, startLeft, startTop } = dragRef.current;
-      const width = windowRef.current.offsetWidth;
-      const height = windowRef.current.offsetHeight;
-      const maxX = Math.max(0, window.innerWidth - width);
-      const maxY = Math.max(0, window.innerHeight - TASKBAR_HEIGHT - height);
-      const newX = Math.min(maxX, Math.max(0, startLeft + (e.clientX - startX)));
-      const newY = Math.min(maxY, Math.max(0, startTop + (e.clientY - startY)));
-      setPosition({ x: newX, y: newY });
-    };
-
-    const handleMouseUp = () => {
-      dragRef.current = null;
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [canDrag]);
+  const handleTitleBarPointerEnd = useCallback((e: PointerEvent<HTMLDivElement>) => {
+    if (dragRef.current?.pointerId === e.pointerId) stopDrag();
+  }, [stopDrag]);
 
   const wrapperStyle = !isMaximized
     ? ({
@@ -121,7 +150,9 @@ export const Windows95Layout: React.FC<Windows95LayoutProps> = ({
           onClose={onClose}
           isMaximized={isMaximized}
           showMaximize={isDesktop}
-          onTitleBarDragStart={canDrag ? handleTitleBarDragStart : undefined}
+          onTitleBarPointerDown={canDrag ? handleTitleBarPointerDown : undefined}
+          onTitleBarPointerMove={handleTitleBarPointerMove}
+          onTitleBarPointerEnd={handleTitleBarPointerEnd}
         />
 
         <MenuBar

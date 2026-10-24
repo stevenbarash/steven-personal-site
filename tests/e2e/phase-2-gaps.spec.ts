@@ -60,6 +60,7 @@ for (const viewport of [
   test(`Photography uses only the app body as its vertical scroll owner on ${viewport.label}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/desktop?app=photos');
+    await expect(page.getByRole('region', { name: 'Photography Explorer', exact: true })).toBeVisible();
 
     const state = await page.locator('.win95-app-body').evaluate((body) => ({
       bodyOverflowY: getComputedStyle(body).overflowY,

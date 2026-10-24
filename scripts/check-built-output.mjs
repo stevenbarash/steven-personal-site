@@ -45,9 +45,16 @@ const walk = async (directory) => {
 const normalizedRelativePath = (root, path) => relative(root, path).split(sep).join('/');
 
 export const classifyDeployableFile = (relativePath) => {
-  if (/^server\/app\/.*\.(?:html|body)$/.test(relativePath)) return 'rendered HTML';
-  if (/^server\/app\/.*\.rsc$/.test(relativePath)) return 'rendered route payload';
-  if (/^(?:server\/app|static\/chunks)\/.*\.js$/.test(relativePath)) {
+  // Next's Vercel adapter emits pages and payloads under <distDir>/output.
+  if (/^(?:server\/app|output\/static)\/.*\.(?:html|body)$/.test(relativePath)
+    || /^output\/functions\/.*\.prerender-fallback\.(?:html|body)$/.test(relativePath)) {
+    return 'rendered HTML';
+  }
+  if (/^(?:server\/app|output\/static)\/.*\.rsc$/.test(relativePath)
+    || /^output\/functions\/.*\.prerender-fallback\.rsc$/.test(relativePath)) {
+    return 'rendered route payload';
+  }
+  if (/^(?:server\/app|static\/chunks|output\/static\/_next\/static\/chunks)\/.*\.js$/.test(relativePath)) {
     return 'first-party JavaScript';
   }
   return undefined;

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Avatar, Button, Column, Heading, Row, SmartLink, Text } from '@once-ui-system/core';
+import Image from 'next/image';
+import { Button, Column, Heading, Row, SmartLink, Text } from '@once-ui-system/core';
 import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
 import { SocialIcon } from '@/components/ui/SocialIcon';
 import { profileContent } from '@/content/profile';
@@ -24,7 +25,7 @@ export default function Home() {
       <Column className={styles.home} gap="104" s={{ gap: '64' }}>
         <Column as="section" className={styles.hero} horizontal="center" align="center" gap="32" s={{ gap: '12' }} aria-labelledby="home-headline" data-home-hero>
           <Column horizontal="center" gap="16" s={{ gap: '8' }}>
-            <Avatar src={profileContent.portraitUrl} size={4.5} aria-label="Portrait of Steven Barash" className={styles.portrait} />
+            <Image src={profileContent.portraitUrl} width={72} height={72} sizes="72px" alt="Portrait of Steven Barash" loading="eager" className={styles.portrait} />
             <Heading id="home-headline" variant="display-strong-l" className={styles.headline} wrap="balance">Hi, I’m Steven Barash.</Heading>
             <Text as="p" variant="heading-default-xl" className={styles.introduction}>{headline}</Text>
           </Column>

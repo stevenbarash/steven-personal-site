@@ -42,6 +42,106 @@
   object-fit: contain;
 }
 
+.media {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: min(1280px, calc(100vw - 32px));
+  height: calc(100dvh - 32px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 16px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 0;
+  border-radius: 16px;
+  background: var(--page-background);
+  color: var(--neutral-on-background-strong);
+}
+
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dialog::backdrop {
+  background: var(--backdrop);
+}
+
+.dialogHeader {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.dialogCaption {
+  min-width: 0;
+}
+
+.dialogCaption h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.dialogCaption p {
+  margin-top: 4px;
+  color: var(--neutral-on-background-medium);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.close {
+  display: grid;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--neutral-alpha-weak);
+  color: var(--neutral-on-background-strong);
+  cursor: pointer;
+}
+
+.close:hover,
+.close:active {
+  background: var(--neutral-alpha-medium);
+}
+
+.enlargedFrame {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog .enlargedImage {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
 .media:focus-visible {
   outline: 2px solid var(--brand-on-background-medium) !important;
   outline-offset: 4px;

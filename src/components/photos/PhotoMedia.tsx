@@ -1,38 +1,9 @@
 'use client';
 
-import { createContext, useContext, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Image from 'next/image';
-import { AdapterProvider, Media, type AdapterImageProps } from '@once-ui-system/core';
 import type { PhotoItem } from '@/types';
-
-const PhotoDimensions = createContext<Pick<PhotoItem, 'width' | 'height'> | null>(null);
-
-function PhotoImage({ alt, priority, ...props }: AdapterImageProps) {
-  const dimensions = useContext(PhotoDimensions);
-  if (!dimensions) throw new Error('PhotoImage must render within PhotoMedia.');
-
-  // Media supplies zero dimensions; retain the catalog dimensions and Next 16 preload.
-  return (
-    <Image
-      {...props}
-      alt={alt}
-      fill={false}
-      width={dimensions.width}
-      height={dimensions.height}
-      preload={priority}
-      loading={priority ? undefined : 'lazy'}
-    />
-  );
-}
-
-const photoAdapters = { Image: PhotoImage };
-
-function handlePhotoKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    event.currentTarget.click();
-  }
-}
+import styles from '@/app/photos/photos.module.css';
 
 export function PhotoMedia({ photo, sizes, priority, className }: {
   photo: PhotoItem;
@@ -40,25 +11,111 @@ export function PhotoMedia({ photo, sizes, priority, className }: {
   priority: boolean;
   className: string;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const titleId = useId();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const trigger = triggerRef.current;
+
+    const root = document.documentElement;
+    const body = document.body;
+    const previousOverflow = root.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousGutter = root.style.scrollbarGutter;
+
+    // Modal dialogs make the rest of the document inert; scroll locking is separate.
+    root.style.scrollbarGutter = 'stable';
+    root.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    dialog.showModal();
+    closeRef.current?.focus({ preventScroll: true });
+
+    return () => {
+      dialog.close();
+      root.style.overflow = previousOverflow;
+      body.style.overflow = previousBodyOverflow;
+      root.style.scrollbarGutter = previousGutter;
+      trigger?.focus({ preventScroll: true });
+    };
+  }, [isOpen]);
+
   return (
-    <PhotoDimensions.Provider value={photo}>
-      <AdapterProvider adapters={photoAdapters}>
-        <Media
+    <>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={className}
+        aria-label={`Enlarge ${photo.title}`}
+        aria-haspopup="dialog"
+        onClick={() => setIsOpen(true)}
+      >
+        <Image
           src={photo.src}
           alt={photo.alt}
-          aspectRatio={`${photo.width} / ${photo.height}`}
-          objectFit="contain"
+          width={photo.width}
+          height={photo.height}
           sizes={sizes}
-          priority={priority}
-          radius="l"
-          enlarge
-          role="button"
-          tabIndex={0}
-          aria-label={`Toggle enlarged view of ${photo.title}`}
-          onKeyDown={handlePhotoKeyDown}
-          className={className}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : undefined}
         />
-      </AdapterProvider>
-    </PhotoDimensions.Provider>
+      </button>
+      {isOpen && (
+        <dialog
+          ref={dialogRef}
+          className={styles.dialog}
+          aria-labelledby={titleId}
+          onCancel={(event) => {
+            // Close through React before another activation can observe stale open state.
+            event.preventDefault();
+            setIsOpen(false);
+          }}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setIsOpen(false);
+          }}
+          onKeyDown={(event) => {
+            // Close is the only interactive control; retain Tab in both directions.
+            if (event.key === 'Tab') {
+              event.preventDefault();
+              closeRef.current?.focus({ preventScroll: true });
+            }
+          }}
+        >
+          <div className={styles.dialogHeader}>
+            <div className={styles.dialogCaption}>
+              <h2 id={titleId}>{photo.title}</h2>
+              {photo.location && photo.location !== 'Unknown' && <p>{photo.location}</p>}
+            </div>
+            <button
+              ref={closeRef}
+              type="button"
+              className={styles.close}
+              aria-label="Close enlarged photograph"
+              onClick={() => setIsOpen(false)}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+          <div className={styles.enlargedFrame}>
+            <Image
+              className={styles.enlargedImage}
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              sizes="(max-width: 1312px) calc(100vw - 64px), 1248px"
+              loading="eager"
+            />
+          </div>
+        </dialog>
+      )}
+    </>
   );
 }

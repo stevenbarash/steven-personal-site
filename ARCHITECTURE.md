@@ -25,7 +25,9 @@ src/app/
 
 `src/components/layout/PortfolioLayout.tsx` owns public navigation and document chrome. `PortfolioProviders.tsx` owns the public theme preference and scoped Once UI layout context. `PortfolioProjectIndex.tsx` and `PortfolioProjectDetail.tsx` render retained project documents. `DesktopEnvironment.tsx` and `src/components/ui/win95/` own desktop state and retro interaction. Shared facts live in `src/content` and `src/data`.
 
-`src/components/photos/PhotoMedia.tsx` supplies keyboard activation for Once UI `Media` enlargement. A local image adapter preserves `next/image` optimization, catalog dimensions, and Next 16 preload without changing adapters for other routes. The gallery keeps the curated photographs first, followed by the remaining library, within a single responsive `MasonryGrid`.
+`src/components/photos/PhotoMedia.tsx` owns button thumbnails and named native modal enlargement. Native `showModal()` places the dialog above navigation and makes background content inert; the component contains focus, locks document scrolling, and restores trigger focus when dismissed. `next/image` preserves catalog dimensions and optimized responsive sources. The first thumbnail loads eagerly with high fetch priority; others remain lazy. The gallery keeps the curated photographs first, followed by the remaining library, within a single responsive `MasonryGrid`.
+
+The homepage portrait uses `next/image` directly at 72px with a matching size hint rather than the library Avatar's unoptimized native image. Both interfaces continue to share the original profile asset.
 
 ## Shared content across interfaces
 
@@ -57,9 +59,13 @@ The code-side canonical cutover does not change DNS, Vercel settings, external r
 
 ## Design boundaries
 
-The public site adapts Once UI Magic Portfolio: Geist, cyan accents, dark/light themes, rounded controls, selective surfaces, and a mobile navigation dock. `/desktop` retains teal, silver, navy, bevels, compact interface typography, Windows icons, and the terminal. The generated share image and manifest follow the public default dark system.
+The public site adapts Once UI Magic Portfolio: IBM Plex Sans, cyan accents, dark/light themes, rounded controls, selective surfaces, and a mobile navigation dock. `/desktop` retains teal, silver, navy, bevels, compact interface typography, Windows icons, and the terminal. The generated share image and manifest follow the public default dark system.
 
 The root imports Once UI token definitions, not unscoped element resets. `src/app/portfolio.scss` nests Once UI foundational styles and public artifact diagrams inside `.portfolio-site`; `globals.css` retains the desktop foundation. `PortfolioProviders` uses a deterministic dark server snapshot with `useSyncExternalStore`, persists `portfolio-theme`, and keeps an in-memory fallback if browser storage is denied. Theme attributes stay on the portfolio wrapper, never `html`. Public scrollbar and browser color-scheme selectors require that wrapper to be present.
+
+Light-theme supporting text uses the stronger neutral medium foreground over the ambient cyan surface; the library's weak gray only passes on pure white. The override is scoped to the public light-theme boundary.
+
+`Windows95Layout` owns floating window position and captured-pointer dragging. `WindowTitleBar` exposes pointer handlers only on its drag handle, above overlapping coarse-pointer menu hit areas. Drag dimensions are sampled at initiation; release, cancellation, lost capture, blur, resize, and maximize terminate the drag. Additional pointers cannot take ownership. Phone windows retain their pinned layout and native touch behavior.
 
 `experimental.optimizePackageImports` tree-shakes the Once UI barrel so unused components do not enter first-party bundles. Public route content remains server-rendered; only theme state, navigation selection, and existing interactive destinations require client boundaries.
 
@@ -76,6 +82,8 @@ npm audit --omit=dev --audit-level=high
 ```
 
 Development uses Webpack. `npm test` builds into `.next-playwright` and serves an isolated production server at `127.0.0.1:3101`. Lighthouse builds into `.next-lighthouse`, serves production at `127.0.0.1:3102`, writes `.lighthouse/local-production.report.json`, and removes its server and build directory after the run.
+
+The post-build integrity scanner recognizes both local Next output (`server/app` and `static/chunks`) and Vercel adapter output under `<distDir>/output`. The adapter places rendered pages and route payloads in `output/functions/*.prerender-fallback.html` and `*.prerender-fallback.rsc`, with static assets under `output/static`. These artifacts undergo the same private-content checks as local prerenders. Every build must contain rendered HTML, rendered route payloads, and first-party JavaScript; deployment-specific layout is not a reason to skip those checks.
 
 ## Browser matrix
 

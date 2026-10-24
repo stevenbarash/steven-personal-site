@@ -93,6 +93,7 @@ test('small phones keep primary actions tappable and navigation clear of Start',
 
   for (const name of ['Experience', 'Contact']) {
     const action = page.getByLabel('Primary actions').getByRole('link', { name, exact: true });
+    await action.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
     await expect.poll(() => action.evaluate((element) => {
       const rect = element.getBoundingClientRect();
       const hit = document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);

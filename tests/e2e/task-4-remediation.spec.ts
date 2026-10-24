@@ -166,6 +166,7 @@ test('coarse Start-menu rows are 44px non-overlapping targets whose edge taps re
 
 test('menubar uses roving focus with arrows, Home, End, and retained Alt mnemonics', async ({ page }) => {
   await page.goto('/desktop?app=projects');
+  await expect(page.getByRole('region', { name: 'Project Explorer', exact: true })).toBeVisible();
   const menu = page.getByRole('menubar');
   const file = menu.getByRole('menuitem', { name: 'File' });
   const view = menu.getByRole('menuitem', { name: 'View' });
