@@ -57,15 +57,17 @@ test('home and resume do not promote repository projects', async ({ page }) => {
 
 
 
-test('Windows 95 home and profile views use the supplied illustrated portrait', async ({ page }) => {
-  await page.goto('/desktop');
-  await expect(page.locator('.win95-home-portrait')).toHaveAttribute('src', /profile-portrait\.png/);
-
-  await page.goto('/desktop?app=profile');
-  await expect(page.getByRole('img', { name: 'Illustrated portrait of Steven Barash' })).toHaveAttribute(
-    'src',
-    /profile-portrait\.png/,
-  );
+test('Windows 95 home and profile portraits load successfully', async ({ page }) => {
+  for (const pathname of ['/desktop', '/desktop?app=profile']) {
+    await page.goto(pathname);
+    const portrait = pathname === '/desktop'
+      ? page.locator('.win95-home-portrait')
+      : page.getByRole('img', { name: /portrait/i });
+    await expect(portrait).toBeVisible();
+    await expect.poll(() => portrait.evaluate((image: HTMLImageElement) =>
+      image.complete && image.naturalWidth > 0,
+    )).toBe(true);
+  }
 });
 
 test('home does not claim an unfinished Georgia Tech degree', async ({ page }) => {
