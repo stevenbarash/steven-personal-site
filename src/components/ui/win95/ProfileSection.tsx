@@ -13,7 +13,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
         <div className="w-[80px] h-[80px] shrink-0 relative win95-sunken p-[2px]">
           <Image 
             src={profile.imageUrl} 
-            alt={`Illustrated portrait of ${profileContent.name}`}
+            alt={`Portrait of ${profileContent.name}`}
             fill
             sizes="80px"
             className="object-cover"
@@ -56,7 +56,6 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
         <h2 id="profile-interests-heading" className="win95-group-box-label">What I’m interested in</h2>
         <div className="win95-well p-[8px]">
           <p className="win95-reading-copy">{profileContent.interests}</p>
-          <p className="win95-reading-copy mt-[8px]">{profileContent.prototyping}</p>
         </div>
       </section>
       <section className="win95-group-box" aria-labelledby="profile-personal-heading">

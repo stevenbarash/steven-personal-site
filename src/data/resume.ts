@@ -40,7 +40,7 @@ export const resumeSkillGroups = [
 
 export const resumeData: ResumeData = {
   summary:
-    'Senior Solutions Engineer with 6+ years in identity, developer platforms, and technical GTM. I turn authentication and authorization requirements into architectures, working prototypes, and implementation plans, and I stay close to the code, from reference implementations to debugging failed integrations.',
+    'I’m a Senior Solutions Engineer with 6+ years in identity and developer platforms. I work directly with customers to understand their requirements, test architectures, and build working prototypes. My work spans customer identity and identity for AI agents, from early technical discovery to reference implementations and debugging integrations.',
 
   contact: {
     email: siteConfig.emailDisplay,

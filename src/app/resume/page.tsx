@@ -66,7 +66,7 @@ export default function ResumePage() {
           <Image
             className={styles.portrait}
             src={profileContent.portraitUrl}
-            alt={`Illustrated portrait of ${profileContent.name}`}
+            alt={`Portrait of ${profileContent.name}`}
             width={112}
             height={112}
             sizes="112px"

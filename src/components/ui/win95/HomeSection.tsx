@@ -33,7 +33,7 @@ export function HomeSection() {
       <div className="win95-well win95-home-summary">
         <Image
           src={profileContent.portraitUrl}
-          alt={`Illustrated portrait of ${profileContent.name}`}
+          alt={`Portrait of ${profileContent.name}`}
           width={80}
           height={80}
           priority

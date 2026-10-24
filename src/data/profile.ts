@@ -23,7 +23,6 @@ export const terminalCommands = [
       profileContent.background,
       profileContent.protocols,
       profileContent.interests,
-      profileContent.prototyping,
       profileContent.personal,
       profileContent.languages,
     ].join('\n\n'),

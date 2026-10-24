@@ -4,6 +4,8 @@ A personal professional site for Steven Barash, Senior Solutions Engineer at Des
 
 The homepage headline emphasizes customer collaboration and hands-on building. Its supporting introduction covers authentication and authorization for both users and AI agents, from early technical conversations to working prototypes.
 
+The background and experience summary use the same conversational voice, covering customer identity, identity for AI agents, and familiarity with web, mobile, backend, and SDK development. The shared profile photograph lives at `public/images/profile-photo.png`.
+
 The code-side canonical origin is `https://barash.me`. DNS, Vercel project settings, redirects, and deployment are managed separately and are not changed by this repository phase.
 
 ## Requirements
