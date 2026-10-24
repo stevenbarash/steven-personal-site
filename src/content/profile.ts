@@ -21,7 +21,7 @@ export interface ProfileContent {
 
 export const profileContent: ProfileContent = {
   name: siteConfig.personName,
-  headline: 'I’m a solutions engineer who writes code.',
+  headline: 'I help customers see what’s possible and build it with them.',
   publicDescription: `${siteConfig.personName} is a Senior Solutions Engineer at Descope in Brooklyn, specializing in CIAM, authentication, and authorization. Previously ID.me and Okta.`,
   professionalLabel: 'Senior Solutions Engineer',
   role: 'Senior Solutions Engineer',

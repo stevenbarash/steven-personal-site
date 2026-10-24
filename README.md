@@ -2,6 +2,8 @@
 
 A personal professional site for Steven Barash, Senior Solutions Engineer at Descope, aimed primarily at hiring managers and solutions engineering leaders. The homepage leads with a personal greeting and concise professional introduction, then presents three specific work examples, Brooklyn interests, and a direct email close. Photography stays in its dedicated gallery rather than decorating the homepage. Primary navigation covers experience, photography, and contact. Existing software project URLs remain intact but unpromoted on the homepage or resume. The working Windows 95 version is available at `/desktop` with `noindex, follow`.
 
+The homepage headline emphasizes customer collaboration and hands-on building. Its supporting introduction covers authentication and authorization for both users and AI agents, from early technical conversations to working prototypes.
+
 The code-side canonical origin is `https://barash.me`. DNS, Vercel project settings, redirects, and deployment are managed separately and are not changed by this repository phase.
 
 ## Requirements

@@ -30,7 +30,7 @@ export default function Home() {
           </Column>
           <Column gap="12" s={{ gap: '8' }} horizontal="center">
             <Column gap="4" horizontal="center">
-              <Text as="p" variant="body-default-s">{profileContent.role} at {profileContent.company}</Text>
+              <Text as="p" variant="body-default-s">I’m a {profileContent.role} at {profileContent.company}, helping teams solve authentication and authorization for their users and AI agents, from early technical conversations to working prototypes.</Text>
               <Text as="p" variant="body-default-s" onBackground="neutral-weak">{profileContent.scope} · Previously ID.me and Okta · {profileContent.location}</Text>
             </Column>
             <Row as="nav" className={styles.socials} gap="8" horizontal="center" aria-label="Social profiles">
