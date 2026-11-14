@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Button, Heading, MasonryGrid, Text } from '@once-ui-system/core';
 import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
 import { PhotoMedia } from '@/components/photos/PhotoMedia';
+import { PhotoDetails } from '@/components/photos/PhotoDetails';
 import { createTwitterMetadata, siteConfig } from '@/constants/site';
 import { archivePhotos, featuredPhotos, photographyContent } from '@/content/photography';
 import type { PhotoItem } from '@/types';
@@ -26,9 +27,7 @@ function PhotoFigure({ photo, eager = false }: { photo: PhotoItem; eager?: boole
       <PhotoMedia photo={photo} sizes={photoSizes} priority={eager} className={styles.media} />
       <figcaption className={styles.caption}>
         <Text as="p" variant="body-default-m" onBackground="neutral-strong">{photo.title}</Text>
-        {photo.location && photo.location !== 'Unknown' && (
-          <Text as="p" variant="body-default-s" onBackground="neutral-weak">{photo.location}</Text>
-        )}
+        <PhotoDetails photo={photo} />
       </figcaption>
     </figure>
   );

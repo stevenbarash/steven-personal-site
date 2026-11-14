@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import Image from 'next/image';
 import type { PhotoItem } from '@/types';
 import styles from '@/app/photos/photos.module.css';
+import { PhotoDetails } from './PhotoDetails';
 
 export function PhotoMedia({ photo, sizes, priority, className }: {
   photo: PhotoItem;
@@ -89,7 +90,7 @@ export function PhotoMedia({ photo, sizes, priority, className }: {
           <div className={styles.dialogHeader}>
             <div className={styles.dialogCaption}>
               <h2 id={titleId}>{photo.title}</h2>
-              {photo.location && photo.location !== 'Unknown' && <p>{photo.location}</p>}
+              <PhotoDetails photo={photo} />
             </div>
             <button
               ref={closeRef}

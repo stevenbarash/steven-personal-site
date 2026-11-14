@@ -97,7 +97,7 @@ test('photography renders every verified local photo with dimensions, honest alt
   await page.goto('/photos');
   await expect(page.getByRole('heading', { level: 1, name: 'Photography' })).toBeVisible();
   const figures = page.locator('main figure');
-  await expect(figures).toHaveCount(photoLibrary.length);
+  await expect(figures).toHaveCount(featuredPhotos.length + archivePhotos.length);
 
   const projectedPhotos = [...featuredPhotos, ...archivePhotos];
   for (let index = 0; index < projectedPhotos.length; index += 1) {
@@ -114,8 +114,9 @@ test('photography renders every verified local photo with dimensions, honest alt
       await expect(image).toHaveAttribute('loading', 'lazy');
     }
     await expect(figure.getByText(photo.title, { exact: true })).toBeVisible();
-    if (photo.location && photo.location !== 'Unknown') {
-      await expect(figure.getByText(photo.location, { exact: true })).toBeVisible();
+    await expect(figure.getByText(photo.location, { exact: true })).toBeVisible();
+    if (photo.camera) {
+      await expect(figure.getByText(photo.camera, { exact: true })).toBeVisible();
     }
   }
 

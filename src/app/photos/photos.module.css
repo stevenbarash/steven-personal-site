@@ -100,12 +100,6 @@
   overflow-wrap: anywhere;
 }
 
-.dialogCaption p {
-  margin-top: 4px;
-  color: var(--neutral-on-background-medium);
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
 
 .close {
   display: grid;
@@ -152,6 +146,43 @@
   gap: 4px;
   margin-top: 14px;
   padding-inline: 2px;
+}
+
+.metadata {
+  display: grid;
+  gap: 6px;
+  margin: 6px 0 0;
+  color: var(--neutral-on-background-medium);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.metadataRow {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+}
+
+.metadataRow dt {
+  display: flex;
+  align-items: center;
+  min-height: 19.5px;
+  color: var(--neutral-on-background-weak);
+}
+
+.metadataRow dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.metadataLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @media (max-width: 767px) {

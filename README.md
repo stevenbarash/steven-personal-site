@@ -74,6 +74,10 @@ The public site adapts [Magic Portfolio](https://github.com/once-ui-system/magic
 
 `/photos` uses Once UI `MasonryGrid` with two columns on desktop, one on mobile, consistent 24px gutters, original image proportions, and captions. `PhotoMedia` uses optimized `next/image` thumbnails and a named native modal dialog. The first thumbnail loads eagerly with high fetch priority; others are lazy. Click, touch, Enter, or Space opens enlargement. Escape, the close button, or a backdrop click dismisses it. Focus stays inside the modal, background scrolling is locked, and dismissal returns focus to the originating photograph. Light-theme supporting copy uses a stronger semantic foreground to maintain contrast over the cyan atmosphere.
 
+Local gallery uploads live in `public/images/photos/uploads/` and are cataloged in `src/content/photography.ts`, separate from the generated Instagram import. Original aspect ratios are preserved; unknown capture dates are omitted.
+
+Gallery captions and enlarged views share location and camera rows. Locations are curated; camera details are shown only when present in EXIF or an existing caption. The Amsterdam original identifies a Fujifilm X100VI at 23mm and f/11; Instagram files and the Tashkent upload have no camera EXIF.
+
 The homepage portrait uses a 72px optimized, eager-loaded `next/image`, avoiding the full-resolution PNG download for a small avatar. Contact retains descriptive bordered social links in a two-column grid that stacks on phones.
 
 The `/desktop` route retains teal, silver, navy, hard bevels, Windows 95 raster icons, compact system type, menus, windows, and a taskbar. Floating windows support captured mouse, touch, and pen dragging, with cancellation and interruption cleanup; phone windows stay pinned. See `DESIGN.md` for tokens and `ARCHITECTURE.md` for rendering boundaries.

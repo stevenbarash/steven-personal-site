@@ -11,7 +11,7 @@ export const photographyContent = {
  * copy lives here and survives re-imports. Both public and desktop surfaces
  * render `photographs`, never the raw import.
  */
-const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camera'>>> = {
+const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camera' | 'location'>>> = {
   'ig-DTM8x-XjH87': {
     alt: 'A woman in a white hijab buys bread from a street cart stacked with ka’ak rings outside Damascus Gate.',
   },
@@ -21,6 +21,7 @@ const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camer
   'ig-DC4r__8xPDU': {
     title: 'Found where all the taxis go to sleep at LGA',
     alt: 'Rows of yellow taxis wait in a holding lot at LaGuardia Airport, seen from an elevated roadway.',
+    location: 'LaGuardia Airport, New York',
   },
   'ig-DAhYCEQsyG2': {
     alt: 'A tabby-and-white cat presses its face to a windowpane at night, its reflection visible in the glass.',
@@ -28,6 +29,7 @@ const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camer
   'ig-C4COXHbOslT': {
     title: 'Mexican tomatoes hit different',
     alt: 'A woman selects tomatoes from wooden shelves stacked with fruit and vegetables at a small market stall.',
+    location: 'Mexico City, Mexico',
   },
   'ig-C3yfRWMMYaM': {
     alt: 'A marshrutka driver leans out of a white Damas minivan with his hand on the passenger door, on a dusty street in Nukus.',
@@ -43,16 +45,48 @@ const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camer
     title: 'Through the kitchen window at Tarim',
     alt: 'Seen through the restaurant window, a cook prepares food at a counter beside a tray of baked goods, under a red neon sign.',
     camera: 'Sony a7C · 80mm f/1.8',
+    location: 'Tarim Uyghur Food, New York',
   },
   'ig-Cn4XiyTOD9f': {
     alt: 'A cook in a skullcap and apron rolls out dough on a floured counter.',
+    location: 'Tarim Uyghur Food, New York',
   },
 };
 
-export const photographs: PhotoItem[] = photoLibrary.map((photo) => {
-  const copy = photoCopy[photo.id];
-  return copy ? { ...photo, ...copy, camera: copy.camera } : { ...photo, camera: undefined };
-});
+// Local uploads survive regeneration of the Instagram catalog.
+const localPhotos: PhotoItem[] = [
+  {
+    id: 'local-amsterdam-cyclists',
+    title: 'Side by side in Amsterdam',
+    src: '/images/photos/uploads/amsterdam.jpg',
+    alt: 'Two cyclists ride side by side along a sunlit bike path, their long shadows stretching behind them.',
+    album: 'Travel',
+    takenAt: '',
+    location: 'Amsterdam, Netherlands',
+    camera: 'Fujifilm X100VI · 23mm · f/11',
+    width: 2400,
+    height: 1600,
+  },
+  {
+    id: 'local-tashkent-watermelons',
+    title: 'Fun fact: Uzbekistan exports 200+ tons of watermelons annually.',
+    src: '/images/photos/uploads/tashkent-watermelons.jpg',
+    alt: 'A woman moves a cart piled with watermelons beside an open white van on a sunny street.',
+    album: 'Travel',
+    takenAt: '',
+    location: 'Tashkent, Uzbekistan',
+    width: 1440,
+    height: 1440,
+  },
+];
+
+export const photographs: PhotoItem[] = [
+  ...photoLibrary.map((photo) => {
+    const copy = photoCopy[photo.id];
+    return copy ? { ...photo, ...copy, camera: copy.camera } : { ...photo, camera: undefined };
+  }),
+  ...localPhotos,
+];
 
 export const featuredPhotoIds = [
   'ig-DTM8x-XjH87',
