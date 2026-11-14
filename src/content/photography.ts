@@ -10,18 +10,23 @@ export const photographyContent = {
  * The Instagram import only produces caption-derived titles, so accessibility
  * copy lives here and survives re-imports. Both public and desktop surfaces
  * render `photographs`, never the raw import.
+ * Camera credits were checked against the matching @steven.photography post
+ * captions on 2026-11-14; each ig- key contains that post's Instagram shortcode.
  */
 const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camera' | 'location'>>> = {
   'ig-DTM8x-XjH87': {
     alt: 'A woman in a white hijab buys bread from a street cart stacked with ka’ak rings outside Damascus Gate.',
+    camera: 'Sony a7IV · Sony 24–105mm f/4',
   },
   'ig-DTLPyoODImw': {
     alt: 'A man in a black hat and coat walks a path on the Mount of Olives, overlooking Jerusalem’s Old City walls and the Dome of the Rock.',
+    camera: 'Sony a7IV · Sony 24–105mm G f/4',
   },
   'ig-DC4r__8xPDU': {
     title: 'Found where all the taxis go to sleep at LGA',
     alt: 'Rows of yellow taxis wait in a holding lot at LaGuardia Airport, seen from an elevated roadway.',
     location: 'LaGuardia Airport, New York',
+    camera: 'iPhone 15 Pro Max · Halide',
   },
   'ig-DAhYCEQsyG2': {
     alt: 'A tabby-and-white cat presses its face to a windowpane at night, its reflection visible in the glass.',
@@ -30,9 +35,11 @@ const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camer
     title: 'Mexican tomatoes hit different',
     alt: 'A woman selects tomatoes from wooden shelves stacked with fruit and vegetables at a small market stall.',
     location: 'Mexico City, Mexico',
+    camera: 'Sony a7C',
   },
   'ig-C3yfRWMMYaM': {
     alt: 'A marshrutka driver leans out of a white Damas minivan with his hand on the passenger door, on a dusty street in Nukus.',
+    camera: 'Sony a7R II',
   },
   'ig-CoQuyVsOJJA': {
     title: '¿Qué estás mirando, parce?',
@@ -50,6 +57,9 @@ const photoCopy: Record<string, Partial<Pick<PhotoItem, 'title' | 'alt' | 'camer
   'ig-Cn4XiyTOD9f': {
     alt: 'A cook in a skullcap and apron rolls out dough on a floured counter.',
     location: 'Tarim Uyghur Food, New York',
+  },
+  'ig-Ck1OENvvUum': {
+    camera: 'Sony a7C · Sony 85mm f/1.8',
   },
 };
 

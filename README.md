@@ -78,6 +78,8 @@ Local gallery uploads live in `public/images/photos/uploads/` and are cataloged 
 
 Gallery captions and enlarged views share location and camera rows. Locations are curated; camera details are shown only when present in EXIF or an existing caption. The Amsterdam original identifies a Fujifilm X100VI at 23mm and f/11; Instagram files and the Tashkent upload have no camera EXIF.
 
+Instagram camera credits were recovered from the matching `@steven.photography` captions: Sony a7IV and 24–105mm f/4 lenses for the two Jerusalem photographs, iPhone 15 Pro Max with Halide for LGA, Sony a7C for the tomatoes, Sony a7R II for Nukus, and Sony a7C with Sony 85mm f/1.8 for the Halloween dog. Unspecified equipment remains blank rather than inheriting the profile's current camera.
+
 The homepage portrait uses a 72px optimized, eager-loaded `next/image`, avoiding the full-resolution PNG download for a small avatar. Contact retains descriptive bordered social links in a two-column grid that stacks on phones.
 
 The `/desktop` route retains teal, silver, navy, hard bevels, Windows 95 raster icons, compact system type, menus, windows, and a taskbar. Floating windows support captured mouse, touch, and pen dragging, with cancellation and interruption cleanup; phone windows stay pinned. See `DESIGN.md` for tokens and `ARCHITECTURE.md` for rendering boundaries.
