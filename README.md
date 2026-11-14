@@ -10,7 +10,7 @@ The code-side canonical origin is `https://barash.me`. DNS, Vercel project setti
 
 ## Requirements
 
-- Node.js 20.9.0 or newer
+- Node.js 22.19.0+ (22.x) or 24.0.0+; required by the lint and Lighthouse tooling
 - npm
 - Playwright Chromium and WebKit builds, installed once with `npx playwright install chromium webkit`
 - Chrome or Chromium for Lighthouse
@@ -21,6 +21,8 @@ The code-side canonical origin is `https://barash.me`. DNS, Vercel project setti
 npm install
 npm run dev
 ```
+
+Direct dependencies target stable releases, with exact resolutions in `package-lock.json`. Keep Next.js and `eslint-config-next`, React and React DOM, and the Tailwind packages aligned when upgrading. Preserve the TypeScript aliases: `@typescript/native` runs TypeScript 7, while `typescript` supplies the TypeScript 6 compatibility API for tooling.
 
 Open `http://localhost:3000`.
 
