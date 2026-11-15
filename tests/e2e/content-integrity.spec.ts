@@ -109,8 +109,9 @@ test('approved evidence records satisfy the public ledger contract', () => {
   }
 });
 
-test('project catalog contains four published projects and one safely excluded draft', () => {
+test('project catalog contains the public projects and one safely excluded draft', () => {
   expect(projectCatalog.map(({ slug }) => slug)).toEqual([
+    'localizr',
     'pult',
     'uptick',
     'bike-cli',
@@ -127,6 +128,7 @@ test('published projects expose structured fields, valid statuses, and approved 
 
   expect(publishedProjects).not.toBe(projectCatalog);
   expect(publishedProjects.map(({ slug }) => slug)).toEqual([
+    'localizr',
     'pult',
     'uptick',
     'bike-cli',
@@ -142,7 +144,7 @@ test('published projects expose structured fields, valid statuses, and approved 
     expect(project.approach.length, project.slug).toBeGreaterThan(0);
     expect(project.outcomes.length, project.slug).toBeGreaterThan(0);
     expect(project.technologies.length, project.slug).toBeGreaterThan(0);
-    expect(project.sourceUrl, project.slug).toMatch(/^https:\/\//);
+    expect(project.sourceUrl ?? project.liveUrl, project.slug).toMatch(/^https:\/\//);
     expect(project.evidenceIds.length, project.slug).toBeGreaterThan(0);
     for (const evidenceId of project.evidenceIds) {
       expect(approvedEvidenceIds, `${project.slug}: ${evidenceId}`).toContain(evidenceId);

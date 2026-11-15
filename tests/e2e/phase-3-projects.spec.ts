@@ -3,6 +3,7 @@ import { publishedProjects, projectCatalog } from '../../src/content/projects';
 import { siteConfig } from '../../src/constants/site';
 
 const expectedProjects = [
+  { slug: 'localizr', name: 'Localizr' },
   { slug: 'pult', name: 'Pult' },
   { slug: 'uptick', name: 'Uptick' },
   { slug: 'bike-cli', name: 'bike-cli' },
@@ -29,13 +30,15 @@ test('project index exposes published case-study destinations and registered pre
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
   await expect(page.locator('body')).not.toContainText(governanceVocabulary);
   await expect(page.getByRole('main')).not.toContainText(/future-case-study|Identity Work/i);
-  await expect(page.getByRole('list', { name: 'Projects' }).locator(':scope > li')).toHaveCount(4);
+  await expect(page.getByRole('list', { name: 'Projects' }).locator(':scope > li')).toHaveCount(expectedProjects.length);
 
   for (const project of expectedProjects) {
     const row = page.getByRole('listitem').filter({ has: page.getByRole('heading', { name: project.name, exact: true }) });
     const titleLink = row.getByRole('link', { name: project.name, exact: true });
     await expect(titleLink).toHaveAttribute('href', `/projects/${project.slug}`);
-    await expect(row.locator(`[data-project-artifact="${project.slug}"][data-project-artifact-variant="preview"]`)).toHaveCount(1);
+    if (project.slug !== 'localizr') {
+      await expect(row.locator(`[data-project-artifact="${project.slug}"][data-project-artifact-variant="preview"]`)).toHaveCount(1);
+    }
     await expect(row.getByRole('link', { name: 'Read the design notes' })).toHaveAttribute('href', `/projects/${project.slug}`);
   }
 
@@ -155,7 +158,12 @@ for (const project of expectedProjects) {
     expect(jsonLd['@type']).toBe('SoftwareSourceCode');
     expect(jsonLd.url).toBe(canonicalUrl(path));
     expect(jsonLd.author).toEqual({ '@id': `${siteConfig.canonicalOrigin}/#person` });
-    expect(jsonLd.codeRepository).toBe(`${siteConfig.githubUrl}/${project.slug === 'uptick' ? 'uptick-zed' : project.slug === 'personal-site' ? 'steven-personal-site' : project.slug}`);
+    if (project.slug === 'localizr') {
+      expect(jsonLd.codeRepository).toBeUndefined();
+      expect(jsonLd.sameAs).toEqual(['https://localizr.barash.me']);
+    } else {
+      expect(jsonLd.codeRepository).toBe(`${siteConfig.githubUrl}/${project.slug === 'uptick' ? 'uptick-zed' : project.slug === 'personal-site' ? 'steven-personal-site' : project.slug}`);
+    }
     if (project.slug === 'personal-site') expect(jsonLd.sameAs).toContain(siteConfig.canonicalOrigin);
     expect(JSON.stringify(jsonLd)).not.toContain('"@type":"Person"');
   });

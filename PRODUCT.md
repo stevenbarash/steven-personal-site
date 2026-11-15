@@ -32,7 +32,7 @@ He is a Senior Solutions Engineer with 6+ years of experience in identity, devel
 
 The homepage opens with the shared profile photograph, “Hi, I’m Steven Barash.” and “I help customers see what’s possible and build it with them.” His current role, authentication and authorization work for users and AI agents, Descope's enterprise CIAM presales scope across the U.S. East Coast and Europe, prior employers (ID.me and Okta), and Brooklyn location complete the introduction, followed by Experience and Contact actions. A compact background section covers his 6+ years helping startups, global enterprises, and government agencies work through identity decisions and test approaches with prototypes. It includes customer identity, identity for AI agents, web/mobile/backend/SDK development, developer tools, and customer-oriented demos. Outside-of-work copy covers cycling, human languages (including professional Russian and Russian-language demos), and a link to photography. The page closes with a direct email block. The photography library stays in its dedicated gallery; the shared profile photograph is the homepage's only photographic asset. The complete career history and capability groups remain on the experience page.
 
-The experience page remains a complete, scannable resume with dates once per role, detailed protocols, all eight capabilities, education, and recognition. The contact page leads with his actual email and four social destinations; photography retains the real library within the shared public shell. GitHub-based examples and independent project showcases remain excluded from the homepage and resume; Work is absent from primary navigation. Existing project URLs remain functional and unpromoted.
+The experience page remains a complete, scannable resume with dates once per role, detailed protocols, all eight capabilities, education, and recognition. The contact page leads with his actual email and four social destinations; photography retains the real library within the shared public shell. Projects is a primary navigation destination. The homepage features Localizr with a link to its short explanation and the full project index; the resume remains free of project showcases and repository links. Localizr links to its live app, not its private repository.
 
 ## Operating Context
 
@@ -47,6 +47,7 @@ The indexable route set is:
 - `/`
 - `/resume`
 - `/projects`
+- `/projects/localizr`
 - `/projects/pult`
 - `/projects/uptick`
 - `/projects/bike-cli`

@@ -1,6 +1,6 @@
 # Steven Barash personal site
 
-A personal professional site for Steven Barash, Senior Solutions Engineer at Descope, aimed primarily at hiring managers and solutions engineering leaders. The homepage leads with a personal greeting and concise professional introduction, followed by technical background, Brooklyn interests, and a direct email close. The photography library stays in its dedicated gallery rather than decorating the homepage; the shared profile photograph is the only exception. Primary navigation covers experience, photography, and contact. Existing software project URLs remain intact but unpromoted on the homepage or resume. The working Windows 95 version is available at `/desktop` with `noindex, follow`.
+A personal professional site for Steven Barash, Senior Solutions Engineer at Descope, aimed primarily at hiring managers and solutions engineering leaders. The homepage leads with a personal greeting and concise professional introduction, followed by technical background, Projects featuring Localizr, Brooklyn interests, and a direct email close. The photography library stays in its dedicated gallery rather than decorating the homepage; the shared profile photograph is the only exception. Primary navigation covers experience, projects, photography, and contact. The resume stays focused on professional experience. The working Windows 95 version is available at `/desktop` with `noindex, follow`.
 
 The homepage headline emphasizes customer collaboration and hands-on building. Its supporting introduction covers authentication and authorization for both users and AI agents, from early technical conversations to working prototypes.
 
@@ -46,6 +46,7 @@ npm run lighthouse
 - `/`
 - `/resume`
 - `/projects`
+- `/projects/localizr`
 - `/projects/pult`
 - `/projects/uptick`
 - `/projects/bike-cli`

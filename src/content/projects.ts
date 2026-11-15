@@ -37,6 +37,35 @@ export interface ProjectCaseStudy {
 
 export const projectCatalog: ProjectCaseStudy[] = [
   {
+    slug: 'localizr',
+    name: 'Localizr',
+    oneLiner: 'AI translation tuned to a place, dialect, and tone, not just a language.',
+    problem: 'A language name alone leaves a lot unspecified: where it is spoken, which expressions feel natural, and how formal the text should sound. Localizr makes those choices explicit.',
+    motivationAudience: 'Choose a language, country, dialect, and tone, then translate with your own model provider.',
+    role: 'Creator and developer',
+    constraints: ['Text passes through the Localizr server to an external model provider; this is not an offline translation engine.'],
+    approach: [
+      'Descope handles sign-in. You connect your own OpenRouter or OpenAI-compatible provider and choose a model.',
+      'The server validates the destination against a curated catalog and builds a prompt with regional vocabulary, idioms, and tone instructions while asking the model to preserve the original meaning.',
+      'Translations stream into the interface. Non-Latin output gets a second pass for phonetic transliteration; only completed results enter browser-local history.',
+    ],
+    hardestDecisions: [],
+    outcomes: ['Available as a web app with authenticated translation APIs.'],
+    technologies: ['Next.js', 'TypeScript', 'Descope', 'OpenAI-compatible APIs'],
+    technologyLine: 'Next.js + TypeScript + Descope',
+    sectionHeadings: {
+      motivation: 'Why Localizr exists',
+      mechanism: 'How it works',
+      decisions: 'Design choices',
+    },
+    liveUrl: 'https://localizr.barash.me',
+    status: 'active',
+    publicationStatus: 'published',
+    evidenceIds: ['localizr-project'],
+    limitations: 'Dialect accuracy depends on the selected model. Review translations before use; Legalese is a tone option, not a certified translation.',
+    featured: true,
+  },
+  {
     slug: 'pult',
     name: 'Pult',
     oneLiner: 'A SwiftUI iPhone remote for my Google TV, built to replace ad-heavy remote apps.',

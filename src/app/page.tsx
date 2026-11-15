@@ -4,11 +4,13 @@ import { Button, Column, Heading, Row, SmartLink, Text } from '@once-ui-system/c
 import { PortfolioLayout } from '@/components/layout/PortfolioLayout';
 import { SocialIcon } from '@/components/ui/SocialIcon';
 import { profileContent } from '@/content/profile';
+import { publishedProjects } from '@/content/projects';
 import { createTwitterMetadata, siteConfig } from '@/constants/site';
 import styles from './page.module.css';
 
 const headline = profileContent.headline;
 const socialTitle = `${profileContent.name} | ${profileContent.professionalLabel}`;
+const featuredProjects = publishedProjects.filter(({ slug }) => slug === 'localizr');
 
 export const metadata: Metadata = {
   title: { absolute: socialTitle },
@@ -63,6 +65,18 @@ export default function Home() {
             <Text as="p" onBackground="neutral-weak">{profileContent.interests}</Text>
           </Column>
         </Row>
+
+        <Column as="section" gap="24" className={styles.projects} aria-labelledby="projects-heading">
+          <Heading as="h2" id="projects-heading" variant="display-strong-xs">Projects</Heading>
+          {featuredProjects.map((project) => (
+            <Column as="article" gap="12" key={project.slug} aria-labelledby={`home-${project.slug}`}>
+              <Heading as="h3" id={`home-${project.slug}`} variant="heading-strong-l">{project.name}</Heading>
+              <Text as="p" onBackground="neutral-weak">{project.oneLiner}</Text>
+              <SmartLink href={`/projects/${project.slug}`} suffixIcon="arrowRight" className={styles.textLink}>How {project.name} works</SmartLink>
+            </Column>
+          ))}
+          <SmartLink href="/projects" suffixIcon="arrowRight" className={styles.textLink}>All projects</SmartLink>
+        </Column>
 
         <Column as="section" gap="20" className={styles.personal} aria-labelledby="about-heading" data-home-about>
           <Heading as="h2" id="about-heading" variant="display-strong-xs">Outside of work</Heading>

@@ -97,6 +97,14 @@ export const evidenceRecords: EvidenceRecord[] = [
   },
 
   {
+    id: 'localizr-project',
+    claim: 'Localizr offers language, country, dialect, and tone controls with user-configured model providers.',
+    evidenceLevel: 'first-party',
+    publicationStatus: 'approved',
+    sourceUrls: ['https://localizr.barash.me'],
+    publicContext: 'Live interface and implementation reviewed 2026-11-14. Model-generated output is not certified for dialect accuracy.',
+  },
+  {
     id: 'pult-project',
     claim: 'Pult implements Android TV Remote Service v2 with mTLS, pairing on port 6467, commands on port 6466, hand-rolled protobuf encoding, and per-TV physical-device validation documented in its public repository.',
     evidenceLevel: 'first-party',

@@ -9,6 +9,7 @@ test('home has semantic navigation and working internal destinations', async ({ 
   for (const [label, href] of [
     ['Home', '/'],
     ['Experience', '/resume'],
+    ['Projects', '/projects'],
     ['Photography', '/photos'],
     ['Contact', '/contact'],
   ]) {
@@ -24,8 +25,9 @@ test('home has semantic navigation and working internal destinations', async ({ 
 test('primary navigation identifies only the current public section', async ({ page }) => {
   const expectations = [
     ['/', 'Home'],
-    ['/projects', null],
-    ['/projects/pult', null],
+    ['/projects', 'Projects'],
+    ['/projects/localizr', 'Projects'],
+    ['/projects/pult', 'Projects'],
     ['/resume', 'Experience'],
     ['/photos', 'Photography'],
     ['/contact', 'Contact'],
@@ -45,14 +47,18 @@ test('primary navigation identifies only the current public section', async ({ p
   }
 });
 
-test('home and resume do not promote repository projects', async ({ page }) => {
-  for (const pathname of ['/', '/resume']) {
-    await page.goto(pathname);
-    const githubSelector = pathname === '/'
-      ? `main a[href^="${siteConfig.githubUrl}/"]`
-      : 'main a[href*="github.com/"]';
-    await expect(page.locator(`a[href^="/projects"], ${githubSelector}`)).toHaveCount(0);
-  }
+test('home features Localizr while the resume stays focused on experience', async ({ page }) => {
+  await page.goto('/');
+  const projects = page.getByRole('region', { name: 'Projects', exact: true });
+  await expect(projects.getByRole('heading', { name: 'Localizr', exact: true })).toBeVisible();
+  await projects.getByRole('link', { name: 'How Localizr works' }).click();
+  await expect(page).toHaveURL('/projects/localizr');
+  await expect(page.getByRole('heading', { name: 'How it works', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Open the live site' })).toHaveAttribute('href', 'https://localizr.barash.me');
+  await expect(page.getByRole('main').locator('a[href*="github.com/"]')).toHaveCount(0);
+
+  await page.goto('/resume');
+  await expect(page.getByRole('main').locator('a[href^="/projects"], a[href*="github.com/"]')).toHaveCount(0);
 });
 
 
@@ -128,7 +134,7 @@ test('home fits a 390px viewport with reachable 44px actions and navigation', as
     page.getByRole('navigation', { name: 'Social profiles' }).getByRole('link', { name: /^GitHub\b/ }),
     page.locator('[data-home-contact] a[href^="mailto:"]'),
     page.getByRole('link', { name: 'Start the Windows 95 experience', exact: true }),
-    ...['/', '/resume', '/photos', '/contact'].map((href) =>
+    ...['/', '/resume', '/projects', '/photos', '/contact'].map((href) =>
       page.getByRole('navigation', { name: 'Primary navigation' }).locator(`a[href="${href}"]`)),
   ]) {
     await expect(locator).toBeVisible();
@@ -140,7 +146,7 @@ test('home fits a 390px viewport with reachable 44px actions and navigation', as
   }
 
   const nav = page.getByRole('navigation', { name: 'Primary navigation' });
-  for (const href of ['/resume', '/photos', '/contact', '/']) {
+  for (const href of ['/resume', '/projects', '/photos', '/contact', '/']) {
     const link = nav.locator(`a[href="${href}"]`);
     await expect(link).toBeInViewport();
     await link.click();

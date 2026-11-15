@@ -12,6 +12,7 @@ interface PortfolioLayoutProps {
 // Navigation and shell adapted from Once UI's Magic Portfolio (CC BY-NC 4.0).
 const navigation = [
   { href: '/resume', label: 'Experience', mobileLabel: 'Resume', icon: 'person' },
+  { href: '/projects', label: 'Projects', mobileLabel: 'Projects', icon: 'grid' },
   { href: '/photos', label: 'Photography', mobileLabel: 'Photos', icon: 'image' },
   { href: '/contact', label: 'Contact', mobileLabel: 'Contact', icon: 'mail' },
 ] as const;

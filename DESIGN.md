@@ -129,9 +129,9 @@ The shared footer contains Steven's name and Credits only. The redundant Windows
 
 The homepage email close contains “Contact,” the email address, and a link to the full contact page.
 
-The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, the theme toggle moves to the top-right header and four destinations occupy the opaque bottom bar beside Start. Home, Resume, Photos, and Contact use visible 12px labels; accessible names derive from the visible destination text. Each control has a 44px minimum target. A subtle vertical divider separates Start from site navigation. The bar follows safe-area insets, and footer padding reserves its space. Mobile main padding is 16px at the top; route-local padding avoids repeated desktop-sized gaps.
+The public header contains Steven's name and navigation, without a location label. Desktop navigation stays centered using balanced outer grid tracks; at 1024px and below, the header uses two tracks and 24px horizontal padding. At 767px and below, the theme toggle moves to the top-right header and five destinations occupy the opaque bottom bar beside Start. Home, Resume, Projects, Photos, and Contact use visible 12px labels; accessible names derive from the visible destination text. Each control has a 44px minimum target. A subtle vertical divider separates Start from site navigation. The bar follows safe-area insets, and footer padding reserves its space. Mobile main padding is 16px at the top; route-local padding avoids repeated desktop-sized gaps.
 
-The experience page pairs a compact profile sidebar with a full career column and stacks on mobile. Photography uses one Once UI `MasonryGrid` with two columns, 24px gutters, and a single column at the framework's 768px small breakpoint. Every photograph keeps its original proportions and its caption; there is no separate featured-layout or archive-layout treatment. Retained project documents remain unpromoted in primary navigation.
+The experience page pairs a compact profile sidebar with a full career column and stacks on mobile. Photography uses one Once UI `MasonryGrid` with two columns, 24px gutters, and a single column at the framework's 768px small breakpoint. Every photograph keeps its original proportions and its caption; there is no separate featured-layout or archive-layout treatment. Projects is promoted in primary navigation and a bare homepage section featuring Localizr. Its short writeup inherits the existing project document typography, with a live-app link and no private repository link.
 
 ## Elevation & Depth
 
@@ -149,7 +149,7 @@ The favicon is a white, rounded-stroke S on a near-black rounded square, designe
 
 ### Navigation
 
-Once UI `ToggleButton` links identify Home, Experience, Photography, and Contact on desktop; mobile uses Home, Resume, Photos, and Contact. The selected destination has `aria-current="page"`. Mobile selection uses a 12px-radius rectangular fill with a stronger icon and semibold label. Pressed states increase contrast immediately, and an inset keyboard-focus outline stays within the bottom bar. All navigation controls have a 44px minimum size. The theme `IconButton` names the theme it will select and remains in the desktop navigation or mobile header, with only one visible at a time. Navigation is sticky on desktop and fixed at the bottom on mobile.
+Once UI `ToggleButton` links identify Home, Experience, Projects, Photography, and Contact on desktop; mobile uses Home, Resume, Projects, Photos, and Contact. The selected destination has `aria-current="page"`. Mobile selection uses a 12px-radius rectangular fill with a stronger icon and semibold label. Pressed states increase contrast immediately, and an inset keyboard-focus outline stays within the bottom bar. All navigation controls have a 44px minimum size. The theme `IconButton` names the theme it will select and remains in the desktop navigation or mobile header, with only one visible at a time. Navigation is sticky on desktop and fixed at the bottom on mobile.
 
 ### Actions
 
@@ -196,6 +196,6 @@ The footer uses a small, muted, underlined 12px Credits link beside Steven's nam
 
 - **Don't** restore the obsolete flat-only Quiet Studio restrictions.
 - **Don't** turn the site into a dashboard or add template demo content, a blog, or a newsletter without a content requirement.
-- **Don't** promote repository projects on the homepage or resume, or add GitHub links to the resume.
+- **Don't** add repository promotion or project showcases to the resume; homepage project links should point to public writeups rather than private repositories.
 - **Don't** invent professional claims, testimonials, customers, or outcomes.
 - **Don't** set shared root theme attributes or import unscoped Once UI element resets.

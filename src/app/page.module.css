@@ -26,8 +26,8 @@
 .home .socials a:focus-visible { outline: 2px solid var(--brand-on-background-strong); outline-offset: 4px; }
 .socials svg { flex-shrink: 0; }
 .about { padding-top: 32px; border-top: 1px solid var(--neutral-alpha-weak); }
-.home :is(.about, .personal) p { font-size: 16px; line-height: 1.7; }
-:global(.portfolio-site) .home :is(.about, .personal) h2 { font-size: 30px; line-height: 1.2; letter-spacing: -0.015em; }
+.home :is(.about, .projects, .personal) p { font-size: 16px; line-height: 1.7; }
+:global(.portfolio-site) .home :is(.about, .projects, .personal) h2 { font-size: 30px; line-height: 1.2; letter-spacing: -0.015em; }
 .textLink { width: fit-content; min-height: 44px; }
 .home .email {
   max-width: 100%;
@@ -42,7 +42,7 @@
   .hero { padding-top: 8px; }
   :global(.portfolio-site) .home .headline { font-size: clamp(32px, 8.5vw, 42px); line-height: 1.08; }
   :global(.portfolio-site) .home .introduction { font-size: 18px; line-height: 1.5; }
-  :global(.portfolio-site) .home :is(.about, .personal) h2 { font-size: 26px; }
+  :global(.portfolio-site) .home :is(.about, .projects, .personal) h2 { font-size: 26px; }
   .home .primaryActions { width: 100%; gap: 8px; }
   .home .primaryActions a { flex: 1; min-width: 0; }
   .home .contact { padding: 32px 20px; }
