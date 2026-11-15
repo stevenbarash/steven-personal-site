@@ -47,6 +47,7 @@ npm run lighthouse
 - `/resume`
 - `/projects`
 - `/projects/localizr`
+- `/projects/hisense-canvas-art-import`
 - `/projects/pult`
 - `/projects/uptick`
 - `/projects/bike-cli`

@@ -105,6 +105,14 @@ export const evidenceRecords: EvidenceRecord[] = [
     publicContext: 'Live interface and implementation reviewed 2026-11-14. Model-generated output is not certified for dialect accuracy.',
   },
   {
+    id: 'hisense-canvas-art-import-project',
+    claim: 'The public Hisense Canvas art import repository provides an agent skill and optional Python/Pillow image helper for the native local QR uploader, with one documented S7N/Android 12 import run.',
+    evidenceLevel: 'first-party',
+    publicationStatus: 'approved',
+    sourceUrls: ['https://github.com/stevenbarash/hisense-canvas-art-import'],
+    publicContext: 'Public README reviewed 2026-11-14. Physical-TV results are repository-reported historical evidence, not a fresh compatibility or sensor test.',
+  },
+  {
     id: 'pult-project',
     claim: 'Pult implements Android TV Remote Service v2 with mTLS, pairing on port 6467, commands on port 6466, hand-rolled protobuf encoding, and per-TV physical-device validation documented in its public repository.',
     evidenceLevel: 'first-party',

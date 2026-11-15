@@ -10,7 +10,7 @@ import styles from './page.module.css';
 
 const headline = profileContent.headline;
 const socialTitle = `${profileContent.name} | ${profileContent.professionalLabel}`;
-const featuredProjects = publishedProjects.filter(({ slug }) => slug === 'localizr');
+const featuredProjects = publishedProjects.filter(({ slug }) => ['localizr', 'hisense-canvas-art-import'].includes(slug));
 
 export const metadata: Metadata = {
   title: { absolute: socialTitle },

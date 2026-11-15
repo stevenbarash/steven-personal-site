@@ -112,6 +112,7 @@ test('approved evidence records satisfy the public ledger contract', () => {
 test('project catalog contains the public projects and one safely excluded draft', () => {
   expect(projectCatalog.map(({ slug }) => slug)).toEqual([
     'localizr',
+    'hisense-canvas-art-import',
     'pult',
     'uptick',
     'bike-cli',
@@ -129,6 +130,7 @@ test('published projects expose structured fields, valid statuses, and approved 
   expect(publishedProjects).not.toBe(projectCatalog);
   expect(publishedProjects.map(({ slug }) => slug)).toEqual([
     'localizr',
+    'hisense-canvas-art-import',
     'pult',
     'uptick',
     'bike-cli',

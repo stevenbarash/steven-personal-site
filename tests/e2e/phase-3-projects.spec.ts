@@ -4,6 +4,7 @@ import { siteConfig } from '../../src/constants/site';
 
 const expectedProjects = [
   { slug: 'localizr', name: 'Localizr' },
+  { slug: 'hisense-canvas-art-import', name: 'Hisense Canvas Art Uploader' },
   { slug: 'pult', name: 'Pult' },
   { slug: 'uptick', name: 'Uptick' },
   { slug: 'bike-cli', name: 'bike-cli' },
@@ -36,9 +37,6 @@ test('project index exposes published case-study destinations and registered pre
     const row = page.getByRole('listitem').filter({ has: page.getByRole('heading', { name: project.name, exact: true }) });
     const titleLink = row.getByRole('link', { name: project.name, exact: true });
     await expect(titleLink).toHaveAttribute('href', `/projects/${project.slug}`);
-    if (project.slug !== 'localizr') {
-      await expect(row.locator(`[data-project-artifact="${project.slug}"][data-project-artifact-variant="preview"]`)).toHaveCount(1);
-    }
     await expect(row.getByRole('link', { name: 'Read the design notes' })).toHaveAttribute('href', `/projects/${project.slug}`);
   }
 

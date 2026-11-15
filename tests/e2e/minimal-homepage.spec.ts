@@ -47,7 +47,7 @@ test('primary navigation identifies only the current public section', async ({ p
   }
 });
 
-test('home features Localizr while the resume stays focused on experience', async ({ page }) => {
+test('home features independent projects while the resume stays focused on experience', async ({ page }) => {
   await page.goto('/');
   const projects = page.getByRole('region', { name: 'Projects', exact: true });
   await expect(projects.getByRole('heading', { name: 'Localizr', exact: true })).toBeVisible();
@@ -56,6 +56,13 @@ test('home features Localizr while the resume stays focused on experience', asyn
   await expect(page.getByRole('heading', { name: 'How it works', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Open the live site' })).toHaveAttribute('href', 'https://localizr.barash.me');
   await expect(page.getByRole('main').locator('a[href*="github.com/"]')).toHaveCount(0);
+
+  await page.goto('/');
+  await projects.getByRole('link', { name: 'How Hisense Canvas Art Uploader works' }).click();
+  await expect(page).toHaveURL('/projects/hisense-canvas-art-import');
+  await expect(page.getByRole('heading', { name: 'How it works', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View source on GitHub' })).toHaveAttribute('href', `${siteConfig.githubUrl}/hisense-canvas-art-import`);
+  await expect(page.getByRole('main')).toContainText('Not a TV app or unattended uploader.');
 
   await page.goto('/resume');
   await expect(page.getByRole('main').locator('a[href^="/projects"], a[href*="github.com/"]')).toHaveCount(0);
