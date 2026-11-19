@@ -1,0 +1,10 @@
+{
+  "name": "barash-agent-discovery",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-19",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "barash.me/.well-known/api-catalog", "zone_name": "barash.me" },
+    { "pattern": "barash.me/discovery/*", "zone_name": "barash.me" }
+  ]
+}
